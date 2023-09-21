@@ -1,7 +1,9 @@
 <?php
     function homeReload(): void{
-        if (isset($_GET['categorie']))
-            echo '<p>', $_GET['categorie'], '</p>';
+        if (isset($_GET['categorie'])) {
+            require 'views/adminCategories.php';
+            //echo '<p>Categorie loadée</p>';
+        }
         else if (isset($_GET['utilisateurs']))
             echo '<p>', $_GET['utilisateurs'], '</p>';
         else if (isset($_GET['posts']))
@@ -9,6 +11,6 @@
         else if (isset($_GET['commentaires']))
             echo '<p>', $_GET['commentaires'], '</p>';
         else
-            echo '<p> Rien de selectionné</p>';
+            echo '<p>Rien de selectionné</p>';
     }
 ?>

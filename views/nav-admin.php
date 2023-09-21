@@ -1,6 +1,6 @@
 <nav>
     <button>Quitter mode admin.</button>
-    <form id="nav-form" action="../homeAdmin.php" method="get">
+    <form action="homeAdmin.php" method="get">
         <ul>
             <li><button name="categorie" value="Cate" onclick="submit()">Catégories</button></li>
             <li><button name="utilisateurs" value="Util" onclick="submit()">Utilisateurs</button></li>
