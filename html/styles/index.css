@@ -22,6 +22,7 @@ body {
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.5);
     padding: 20px;
+    transition: all 0.3s ease; /* ajoute une transition pour une animation fluide */
 }
 
 .article-header {
@@ -33,19 +34,37 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    width: 30px; /* Ajustez la largeur selon vos besoins */
-    height: auto; /* Ajustez la hauteur selon vos besoins */
+    width: 30px;
+    height: auto;
 }
 
 .article-image2 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 80px; /* Ajustez la largeur selon vos besoins */
-    height: auto; /* Ajustez la hauteur selon vos besoins */
+    width: 80px;
+    height: auto;
 }
 
 .article-header p {
     margin-left: 115px; /* Ajoutez une marge à gauche uniquement aux balises <p> de l'en-tête */
 }
+
+.image-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 50px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px; /* Ajoute un espacement autour des images */
+}
+
+.image-container img {
+    width: 30px;
+    height: auto;
+}
+
 
