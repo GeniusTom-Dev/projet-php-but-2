@@ -7,13 +7,15 @@
 <body>
     <header></header>
     <?php require 'nav-admin.php';?>
+    <?php require 'home-reloader.php';?>
     <section>
+        <?php homeReload(); ?>
         <h1>Categories</h1>
         <form>
             <input type="search" placeholder="Search...">
             <button type="submit">Submit</button>
         </form>
-        <form id="trieur-result" action="admin-gestion.php"
+        <form id="trieur-result" action="homeAdmin.php"
                 method="POST">
             <!--<input type="text" name="test" placeholder="Testing" onchange="submit()">-->
             <label for="trieur_select">Tri par :</label>
