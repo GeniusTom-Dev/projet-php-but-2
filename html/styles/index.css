@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.nav{
+    height: 100vh;
+    width: 250px;
+    background-color: cornflowerblue;
+    position: absolute;
+    left: 0;
+}
+
+.article {
+    width: 600px;
+    height: 400px;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.5);
+    padding: 20px;
+}
+
+.article-header {
+    position: relative; /* Permet de positionner l'image par rapport à cet élément */
+    margin-bottom: 70px;
+}
+
+.article-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px; /* Ajustez la largeur selon vos besoins */
+    height: auto; /* Ajustez la hauteur selon vos besoins */
+}
+
+.article-image2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px; /* Ajustez la largeur selon vos besoins */
+    height: auto; /* Ajustez la hauteur selon vos besoins */
+}
+
+.article-header p {
+    margin-left: 115px; /* Ajoutez une marge à gauche uniquement aux balises <p> de l'en-tête */
+}
