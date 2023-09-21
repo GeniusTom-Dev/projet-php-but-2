@@ -195,3 +195,56 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--memo
+/*belongs_to(POST_ID, TOPIC_ID)*/
+/*comment(COMMENT_ID, CONTENT, DATE_POSTED, POST_ID, USER_ID)*/
+/*favorites(POST_ID, USER_ID, DATE_FAV)*/
+/*follows(UN_FOLLOWER, UN_FOLLOWED, SINCE_WHEN)*/
+/*likes(POST_ID, USER_ID, DATE_LIKE)*/
+/*post(ID, TITLE, CONTENT, USER_ID, DATE_POSTED)*/
+/*topic(ID, NAME, INFO)*/
+/*user(USERNAME, USER_PWD, IS_ACTIVATED, IS_ADMIN, USER_CREATED, USER_BIO)*/
+
+--a recopier
+/*INSERT INTO 'belongs_to' VALUES();*/
+/*INSERT INTO 'comment' VALUES();*/
+/*INSERT INTO 'favorites' VALUES();*/
+/*INSERT INTO 'follows' VALUES();*/
+/*INSERT INTO 'likes' VALUES();*/
+/*INSERT INTO 'post' VALUES();*/
+/*INSERT INTO 'topic' VALUES();*/
+/*INSERT INTO 'user' VALUES();*/
+
+--topics
+INSERT INTO 'topic' VALUES(1, 'News', 1);
+INSERT INTO 'topic' VALUES(2, 'Politics', 1);
+INSERT INTO 'topic' VALUES(3, 'Art', 1);
+INSERT INTO 'topic' VALUES(4, 'Studies', 1);
+INSERT INTO 'topic' VALUES(5, 'Music', 1);
+INSERT INTO 'topic' VALUES(6, 'Sport', 1);
+INSERT INTO 'topic' VALUES(7, 'Trip', 1);
+INSERT INTO 'topic' VALUES(8, 'Computer science', 1);
+INSERT INTO 'topic' VALUES(9, 'Gaming', 1);
+INSERT INTO 'topic' VALUES(10, 'Memes', 1);
+INSERT INTO 'topic' VALUES(11, 'Society', 1);
+
+--profils
+INSERT INTO 'user' VALUES('FrançoisPOLITIS', 'MAFRANCE', 1, 0, 'Député');
+INSERT INTO 'user' VALUES('DidierMANU', 'MANIFSSYNDICGREVE', 1, 0, 'On en a marre');
+INSERT INTO 'user' VALUES('JulieETUDE', 'JADORELART', 1, 0, 'Dessins, aquarelles, montages');
+INSERT INTO 'user' VALUES('BFMPoubelle', 'Surinformation24hsur24', 1, 0, 'L''info en continu et à saturation, 24h sur 24, 7j sur 7');
+INSERT INTO 'user' VALUES('Fandesport', 'FOOT', 1, 0, 'Supporter inconditionnel de l''équipe
+de foot de ma ville');
+INSERT INTO 'user' VALUES('En_gelBE', 'HUITMARS', 1, 0, 'Laisse-moi te chanter');
+INSERT INTO 'user' VALUES('X', 'CREATIONOFGOD', 1, 1, 'Homme mystérieux, je déteste les critiques');
+INSERT INTO 'user' VALUES('GalerienEnHerbe', 'KHOLLES', 1, 0, 'En prépa, sous antidépresseurs');
+INSERT INTO 'user' VALUES('NicolasRazer', 'PaSdElItEcOdE', 1, 0, 'Codage, JV, réparation PC');
+INSERT INTO 'user' VALUES('TheBestOfMemes', 'RIRE', 1, 0, 'Le meilleur des réseaux')
+INSERT INTO 'user' VALUES('KarolineFEM', 'Moiaussi', 1, 0, 'Encore les hommes');
+INSERT INTO 'user' VALUES('AgenceVoyages', 'VoyagesDeReve', 1, 0, 'Compte officiel d''AgenceVoyages');
+INSERT INTO 'user' VALUES('FandeJoule', 'VOLEURDETMAX', 1, 0, 'Wsh');
+
+--posts
+INSERT INTO 'post' VALUES(1, 'Alerte guerre en Ukraine', '');
+/* pas terminé */
