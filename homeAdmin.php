@@ -1,3 +1,10 @@
+<?php
+session_start();
+$_SESSION['suid'] = session_id();
+$_SESSION['user'] = 'admin-user';
+$_SESSION['admin'] = true;
+if (isset($_SESSION['suid']) && $_SESSION['admin'] == true){
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,10 +13,14 @@
 </head>
 <body>
     <header></header>
-    <?php require 'views/nav-admin.php';?>
-    <?php require 'autoloads/autoloader.php';?>
+    <?php require_once 'views/nav-admin.php';?>
+    <?php require_once 'autoloads/autoloader.php';?>
+    <?php echo '<p>', $_SERVER['REQUEST_URI'], '</p>'; ?>
     <section>
         <?php homeReload();?>
     </section>
 </body>
 </html>
+<?php
+}
+?>
