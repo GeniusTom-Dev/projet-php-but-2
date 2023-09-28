@@ -36,6 +36,7 @@ body {
     right: 0;
     width: 30px;
     height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
 }
 
 .article-image2 {
@@ -44,6 +45,13 @@ body {
     left: 0;
     width: 80px;
     height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
+}
+
+/* Ajoute une règle pour agrandir les images au survol */
+.article-image:hover,
+.article-image2:hover {
+    transform: scale(1.2); /* Agrandit l'image de 20% (ou la valeur que tu préfères) */
 }
 
 .article-header p {
@@ -65,6 +73,12 @@ body {
 .image-container img {
     width: 30px;
     height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
+}
+
+/* Ajoute une règle pour agrandir l'image au survol */
+.image-container img:hover {
+    transform: scale(1.2); /* Agrandit l'image de 20% (ou la valeur que tu préfères) */
 }
 
 
