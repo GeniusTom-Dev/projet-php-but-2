@@ -25,6 +25,29 @@ if (isset($_POST['newCateName'])) {
     mysqli_query($conn, $sql);
     
 }
+if (isset($_POST['Change'])){
+    $id = $_POST['Change'];
+    if (isset($_POST['newName']) && $_POST['newName'] != ''){
+        $newName = $_POST['newName'];
+        $sql = "UPDATE topic SET NAME='$newName' WHERE ID='$id'";
+        mysqli_query($conn, $sql);
+    }
+    if (isset($_POST['newInfo']) && $_POST['newInfo'] != ''){
+        $newInfo = $_POST['newInfo'];
+        if ($newInfo == 'NULL'){
+            $sql = "UPDATE topic SET INFO=NULL WHERE ID='$id'";
+        }
+        else {
+            $sql = "UPDATE topic SET INFO='$newInfo' WHERE ID='$id'";
+        }
+        mysqli_query($conn, $sql);
+    }
+}
+if (isset($_POST['Delete'])){
+    $id = $_POST['Delete'];
+    $sql = "DELETE FROM topic WHERE ID='$id'";
+    mysqli_query($conn, $sql);
+}
 ?>
 
 <table border="1">
@@ -50,8 +73,16 @@ if (isset($_POST['newCateName'])) {
     <tr>
         <td> <?= $row['NAME']?></td>
         <td> <?= $row['INFO']?></td>
-        <td></td>
-        <td></td>
+        <td>
+            <form method="post" action="/projet-php-but-2/homeAdmin.php">
+                <button name="Change" value="<?=$row['ID']?>" onclick="submit()">Modif</button>
+                <label for="newName">Nouveau Nom : </label>
+                <input type="text" id="newName" name="newName"><br>
+                <label for="newInfo">Description de la catégorie : </label>
+                <input type="text" id="newInfo" name="newInfo">
+            </form>
+        </td>
+        <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
     </tr>
             <?php }
         }
