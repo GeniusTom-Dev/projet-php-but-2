@@ -14,6 +14,7 @@ class dbTopics
     public function addTopic($name, $info):void{
         $nextID = mysqli_query($this->conn, "SELECT (MAX(ID) + 1) AS NEWID FROM ". $this->dbName);
         $nextID = mysqli_fetch_assoc($nextID);
+        $nextID = $nextID['NEWID'];
         $query = "INSERT INTO " . $this->dbName;
         $query .= " VALUES ($nextID, '$name', ";
         if ($info == ''){
@@ -27,33 +28,78 @@ class dbTopics
         $this->conn->query($query);
     }
 
-    public function select($username = null) : GReturn{
+    public function select($id = null, $name = null, $limit = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
-        if(empty($username) === false){
-            $request .= " WHERE username = '" . $username . "'";
-        }
-        $result = $this->conn->query($request);
-        $row = [];
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $row);
-    }
-
-    public function getUsers(): GReturn{
-        $request = "SELECT id,username, adminLevel FROM " . $this->dbName;
-        $result = $this->conn->query($request);
-        $row = [];
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $user = new \stdClass();
-                $user->id = $row["id"];
-                $user->username = $row["username"];
-                $user->adminLevel = $row["adminLevel"];
-                $allUsers[] = $user;
+        if(empty($id) === false){
+            $request .= " WHERE ID = " . $id ;
+            if (empty($name) === false){
+                $request .= " AND NAME = '" . $name . "'";
             }
         }
-        return new GReturn("ok", content: $allUsers);
+        else if (empty($name) === false){
+            $request .= " WHERE NAME = '" . $name . "'";
+        }
+        if (empty($limit) === false){
+            $request .= " LIMIT " . $limit;
+        }
+        $result = $this->conn->query($request);
+        $rows = [];
+        if ($result->num_rows > 0) {
+            $rows = $result->fetch_assoc();
+        }
+        return new GReturn("ok", content: $rows);
+    }
+
+    public function selectLike($name = null, $info = null, $limit = null) : GReturn{
+        $request = "SELECT * FROM " . $this->dbName;
+        if(empty($name) === false){
+            $request .= " WHERE NAME LIKE '%" . $name . "%'";
+            if (empty($info) === false){
+                $request .= " AND INFO LIKE '%" . $info . "%'";
+            }
+        }
+        else if (empty($name) === false){
+            $request .= " WHERE INFO LIKE '%" . $info . "%'";
+        }
+        if (empty($limit) === false){
+            $request .= " LIMIT " . $limit;
+        }
+        $result = $this->conn->query($request);
+        $rows = [];
+        if ($result->num_rows > 0) {
+            $rows = $result->fetch_assoc();
+        }
+        return new GReturn("ok", content: $rows);
+    }
+
+    public function changeTopicName($id, $newName): void{
+        $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE ID=$id";
+        $this->conn->query($query);
+    }
+    public function changeTopicInfo($id, $newInfo): void{
+        $query = "UPDATE " . $this->dbName . " SET INFO=";
+        if ($newInfo == 'NULL'){
+            $query .= "NULL";
+        }
+        else {
+            $query .= "'$newInfo'";
+        }
+        $query .= " WHERE ID=$id";
+        $this->conn->query($query);
+    }
+
+    public function changeTopic($id, $newName = null, $newInfo = null): void{
+        if (empty($newName) === false && $newName != ''){
+            $this->changeTopicName($id, $newName);
+        }
+        if (isset($newInfo) && $newInfo != ''){
+            $this->changeTopicInfo($id, $newInfo);
+        }
+    }
+
+    public function deleteTopic($id): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE ID=$id";
+        $this->conn->query($query);
     }
 
 }

@@ -2,11 +2,8 @@
 <?php require_once 'organisersElements.php';
 require 'autoloads/adminAutoloader.php';
 require_once 'autoloads/database-connect.php';
-//require_once 'GFramework/autoloader.php';
-//$db = new /*\GFramework\database\*/db('localhost','root','','php-proj');
-//$db = $db->getConnection()->getContent();
 //echo '<p>', var_dump($dbConn), '</p>';
-//$dbTopics = new dbTopics($db);?>
+$dbTopics = new dbTopics($dbConn);?>
 <form id="newCate" method="post" action="/projet-php-but-2/homeAdmin.php">
     <label for="newCateName">Nom de la Nouvelle catégorie : </label>
     <input type="text" id="newCateName" name="newCateName"><br>
@@ -19,36 +16,19 @@ if (isset($_POST['newCateName'])) {
     $cateName = $_POST['newCateName'];
     if (isset($_POST['newCateInfo'])){
         $cateInfo = $_POST['newCateInfo'];
-//        $dbTopics->addTopic($cateName, $cateInfo);
+        $dbTopics->addTopic($cateName, $cateInfo);
     }
     else{
-//        $dbTopics->addTopic($cateName, '');
+        $dbTopics->addTopic($cateName, '');
     }
-//    mysqli_query($conn, $sql);
-    
 }
 if (isset($_POST['Change'])){
     $id = $_POST['Change'];
-    if (isset($_POST['newName']) && $_POST['newName'] != ''){
-        $newName = $_POST['newName'];
-        $sql = "UPDATE topic SET NAME='$newName' WHERE ID='$id'";
-        mysqli_query($conn, $sql);
-    }
-    if (isset($_POST['newInfo']) && $_POST['newInfo'] != ''){
-        $newInfo = $_POST['newInfo'];
-        if ($newInfo == 'NULL'){
-            $sql = "UPDATE topic SET INFO=NULL WHERE ID='$id'";
-        }
-        else {
-            $sql = "UPDATE topic SET INFO='$newInfo' WHERE ID='$id'";
-        }
-        mysqli_query($conn, $sql);
-    }
+    $dbTopics->changeTopic($id, $_POST['newName'], $_POST['newInfo']);
 }
 if (isset($_POST['Delete'])){
     $id = $_POST['Delete'];
-    $sql = "DELETE FROM topic WHERE ID='$id'";
-    mysqli_query($conn, $sql);
+    $dbTopics->deleteTopic($id);
 }
 ?>
 
