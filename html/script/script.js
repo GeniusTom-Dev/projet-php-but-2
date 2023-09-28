@@ -2,13 +2,14 @@ let growArrow = document.querySelector("#growArrow");
 let article = document.querySelector('.article');
 
 let heartRegular = document.querySelector("#heartRegular");
-//let heartSolid = document.querySelector("#heartSolid");
-
 let bookmarkRegular = document.querySelector("#bookmarkRegular");
-//let bookmarkSolid = document.querySelector("#bookmarkSolid");
 
 // Variable pour suivre l'état actuel de l'agrandissement
 let isEnlarged = false;
+
+let commentButton = document.querySelector("#comment-button");
+let commentInput = document.querySelector("#comment-input");
+let commentsContainer = document.querySelector("#comments");
 growArrow.addEventListener("click", () => {
     if (!isEnlarged) {
         article.style.width = "50%"; /* Largeur agrandie */
@@ -51,4 +52,38 @@ bookmarkRegular.addEventListener("click", () => {
 
     // Inverse l'état de l'agrandissement
     isEnlarged = !isEnlarged;
+});
+
+commentButton.addEventListener("click", () => {
+    // Récupère le contenu du commentaire
+    let commentText = commentInput.value;
+
+    if (commentText.trim() !== "") {
+        // Crée un nouvel élément de commentaire
+        let commentElement = document.createElement("div");
+        commentElement.className = "comment";
+
+        // Crée un bouton de suppression pour le commentaire
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Supprimer";
+        deleteButton.className = "delete-button";
+        deleteButton.addEventListener("click", () => {
+            // Supprime le commentaire lorsque le bouton de suppression est cliqué
+            commentsContainer.removeChild(commentElement);
+        });
+
+        // Crée un élément de texte pour le commentaire
+        let commentTextElement = document.createElement("div");
+        commentTextElement.textContent = commentText;
+
+        // Ajoute le bouton de suppression et le texte du commentaire à l'élément de commentaire
+        commentElement.appendChild(deleteButton);
+        commentElement.appendChild(commentTextElement);
+
+        // Ajoute le commentaire à la section des commentaires
+        commentsContainer.appendChild(commentElement);
+
+        // Efface le contenu de la zone de texte
+        commentInput.value = "";
+    }
 });

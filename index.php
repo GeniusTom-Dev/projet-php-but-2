@@ -23,18 +23,22 @@
         <p>Vous pouvez ajouter plus de contenu ici.</p>
     </main>
     <footer>
-        <p>Tags : <a href="#">Tag1</a>, <a href="#">Tag2</a>, <a href="#">Tag3</a></p>
+        <!--p>Tags : <a href="#">Tag1</a>, <a href="#">Tag2</a>, <a href="#">Tag3</a></p-->
+        <div id="comment-section">
+            <h2>Commentaires</h2>
+            <div id="comments">
+                <!-- Les commentaires seront affichés ici -->
+            </div>
+            <textarea id="comment-input" placeholder="Ajoutez un commentaire..."></textarea>
+            <button id="comment-button">Poster</button>
+        </div>
     </footer>
 </article>
 
 <div class="image-container">
     <img id="arrowLeft" src="/html/images/arrow-left-solid.svg" alt="arrowLeft" class="arrowLeft">
     <img id="heartRegular" src="/html/images/heart-regular.svg" alt="heart" class="heartRegular">
-    <!-- L'image qui doit apparaître au clic, initialement masquée -->
-    <!--img id="heartSolid" src="/html/images/heart-solid.svg" alt="Like" class="heartSolid"-->
     <img id="bookmarkRegular" src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmarkRegular">
-    <!-- L'image qui doit apparaître au clic, initialement masquée -->
-    <!--img id="bookmarkSolid" src="/html/images/bookmark-solid.svg" alt="Favorite" class="bookmarkSolid"-->
     <img id="arrowRight" src="/html/images/arrow-right-solid.svg" alt="arrowRight" class="arrowRight">
 </div>
 
