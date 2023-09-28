@@ -30,7 +30,11 @@
 <div class="image-container">
     <img id="arrowLeft" src="/html/images/arrow-left-solid.svg" alt="arrowLeft" class="arrowLeft">
     <img id="heartRegular" src="/html/images/heart-regular.svg" alt="heart" class="heartRegular">
+    <!-- L'image qui doit apparaître au clic, initialement masquée -->
+    <!--img id="heartSolid" src="/html/images/heart-solid.svg" alt="Like" class="heartSolid"-->
     <img id="bookmarkRegular" src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmarkRegular">
+    <!-- L'image qui doit apparaître au clic, initialement masquée -->
+    <!--img id="bookmarkSolid" src="/html/images/bookmark-solid.svg" alt="Favorite" class="bookmarkSolid"-->
     <img id="arrowRight" src="/html/images/arrow-right-solid.svg" alt="arrowRight" class="arrowRight">
 </div>
 
