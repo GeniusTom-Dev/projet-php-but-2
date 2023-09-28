@@ -9,10 +9,12 @@ let isEnlarged = false;
 
 let commentButton = document.querySelector("#comment-button");
 let commentInput = document.querySelector("#comment-input");
-let commentsContainer = document.querySelector("#comments");
+//let commentsContainer = document.querySelector("#comments");
+let commentsContainer = document.querySelector("#comment-section");
+
 growArrow.addEventListener("click", () => {
     if (!isEnlarged) {
-        article.style.width = "50%"; /* Largeur agrandie */
+        article.style.width = "60%"; /* Largeur agrandie */
         article.style.height = "70%"; /* Hauteur agrandie */
     } else {
         // Si l'article est déjà agrandi, rétrécis-le
@@ -66,7 +68,13 @@ commentButton.addEventListener("click", () => {
         // Crée un bouton de suppression pour le commentaire
         let deleteButton = document.createElement("button");
         deleteButton.textContent = "Supprimer";
-        deleteButton.className = "delete-button";
+        deleteButton.textContent = "Supprimer";
+        deleteButton.style.backgroundColor = "#ff6347"; /* Couleur de fond du bouton de suppression */
+        deleteButton.style.color = "white"; /* Couleur du texte du bouton de suppression */
+        deleteButton.style.border = "none"; /* Supprime la bordure du bouton de suppression */
+        deleteButton.style.borderRadius = "5px"; /* Coins arrondis du bouton de suppression */
+        deleteButton.style.padding = "5px 10px"; /* Espacement interne du bouton de suppression */
+        deleteButton.style.cursor = "pointer"; /* Curseur pointeur au survol du bouton de suppression */
         deleteButton.addEventListener("click", () => {
             // Supprime le commentaire lorsque le bouton de suppression est cliqué
             commentsContainer.removeChild(commentElement);
