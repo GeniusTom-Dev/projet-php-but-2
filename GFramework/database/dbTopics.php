@@ -1,5 +1,7 @@
 <?php
 
+use utilities\GReturn;
+
 class dbTopics
 {
     private string $dbName = "topic";
@@ -43,11 +45,11 @@ class dbTopics
             $request .= " LIMIT " . $limit;
         }
         $result = $this->conn->query($request);
-        $rows = [];
-        if ($result->num_rows > 0) {
-            $rows = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $rows);
+//        $rows = [];
+//        if ($result->num_rows > 0) {
+//            $rows = $result->fetch_assoc();
+//        }
+        return new GReturn("ok", content: $result);
     }
 
     public function selectLike($name = null, $info = null, $limit = null) : GReturn{

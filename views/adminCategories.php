@@ -40,17 +40,16 @@ if (isset($_POST['Delete'])){
         <td>Supprimer</td>
     </tr>
     <?php
-    $query = 'SELECT * FROM topic ORDER BY ID ASC';
-    $result = mysqli_query($conn, $query);
+    $result = $dbTopics->select()->getContent();
     if (!$result)
     {
-        echo 'Impossible d\'exécuter la requête ', $query, ' : ', mysqli_error($conn);
+        echo 'Impossible d\'exécuter la requête ', ' : ', mysqli_error($dbConn);
     }
     else
     {
-        if (mysqli_num_rows($result) != 0)
+        if ($result->num_rows != 0)
         {
-            while ($row = mysqli_fetch_assoc($result))
+            while ($row = $result->fetch_assoc())
             { ?>
     <tr>
         <td> <?= $row['NAME']?></td>
