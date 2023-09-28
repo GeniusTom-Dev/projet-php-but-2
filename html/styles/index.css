@@ -1,0 +1,128 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.nav{
+    height: 100vh;
+    width: 250px;
+    background-color: cornflowerblue;
+    position: absolute;
+    left: 0;
+}
+
+.article {
+    width: 600px;
+    height: 400px;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    transition: all 0.3s ease; /* ajoute une transition pour une animation fluide */
+}
+
+.article-header {
+    position: relative; /* Permet de positionner l'image par rapport à cet élément */
+    margin-bottom: 70px;
+}
+
+.article-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
+}
+
+.article-image2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
+}
+
+/* Ajoute une règle pour agrandir les images au survol */
+.article-image:hover,
+.article-image2:hover {
+    transform: scale(1.2); /* Agrandit l'image de 20% (ou la valeur que tu préfères) */
+}
+
+.article-header p {
+    margin-left: 115px; /* Ajoutez une marge à gauche uniquement aux balises <p> de l'en-tête */
+}
+
+.image-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 50px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px; /* Ajoute un espacement autour des images */
+}
+
+.image-container img {
+    width: 30px;
+    height: auto;
+    transition: transform 0.3s ease; /* Ajoute une transition pour une animation fluide de transformation */
+}
+
+/* Ajoute une règle pour agrandir l'image au survol */
+.image-container img:hover {
+    transform: scale(1.2); /* Agrandit l'image de 20% (ou la valeur que tu préfères) */
+}
+
+/* Styles pour la section de commentaires */
+#comment-section {
+    background-color: #f0f0f0; /* Couleur de fond */
+    border-radius: 15px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.5); /* Ombre néomorphique */
+    width: 80%; /* Largeur de la section de commentaire */
+    margin: 0 auto; /* Centrer horizontalement */
+    max-height: 100px; /* Hauteur maximale de la section de commentaire */
+    overflow-y: auto; /* Ajoute une barre de défilement vertical si nécessaire */
+}
+
+/* Style pour le bouton "Poster" */
+#comment-button {
+    margin-top: 10px; /* Espacement entre le bouton et la zone de commentaire */
+    padding: 10px 20px; /* Espacement interne du bouton */
+    background-color: cornflowerblue; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
+    border: none; /* Supprime la bordure par défaut */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur au survol */
+}
+
+/* Style pour les commentaires */
+.comment {
+    background-color: #ffffff; /* Couleur de fond des commentaires */
+    border-radius: 10px; /* Coins arrondis des commentaires */
+    padding: 10px; /* Espacement interne des commentaires */
+    margin-top: 10px; /* Espacement entre les commentaires */
+    display: flex; /* Utilisation de Flexbox pour aligner le bouton de suppression et le texte */
+    justify-content: space-between; /* Espacement entre le bouton de suppression et le texte */
+    align-items: center; /* Centre le contenu verticalement */
+}
+
+/* Style pour le bouton de suppression des commentaires */
+.delete-button {
+    background-color: #ff6347; /* Couleur de fond du bouton de suppression */
+    color: white; /* Couleur du texte du bouton de suppression */
+    border: none; /* Supprime la bordure du bouton de suppression */
+    border-radius: 5px; /* Coins arrondis du bouton de suppression */
+    padding: 5px 10px; /* Espacement interne du bouton de suppression */
+    cursor: pointer; /* Curseur pointeur au survol du bouton de suppression */
+}
+
+
