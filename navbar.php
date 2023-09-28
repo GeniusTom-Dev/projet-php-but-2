@@ -2,13 +2,13 @@
     require 'utils.inc.php'
 ?>
 <!--header -->
-<header>
+<header class ="navbarheader">
 
 <?php
 /* tab : tableau avec les différente rubrique de la navbar*/
 $tab = ["accueil","story","publication","profil","déconnexion"];
 /*lien : tableau avec les liens vers les différentes pages*/
-$lien = ["http://localhost/TpWeb/Tp1.php", "http://localhost/TpWeb/Tp2.php","http://localhost/TpWeb/calculator.php","http://localhost/TpWeb/calcul.php","http://localhost/TpWeb/data-processing.php"];
+$lien = ["http://localhost/Projet/projet-php-but-2/index.php", "http://localhost/TpWeb/Tp2.php","http://localhost/TpWeb/calcul.php","http://localhost/Projet/projet-php-but-2/pageProfil.php","http://localhost/TpWeb/data-processing.php"];
 /*name : Le nom de l'utilisateur*/ 
 $name = "Zoro_13";
 /*Follow représente le nombre de profil qui suivent l'utilisateur(lien avec la BD) */

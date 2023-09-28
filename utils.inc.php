@@ -5,15 +5,16 @@ function start_page($title): void
 <html lang="fr">
     <head>
         <title><?php echo $title; ?></title>
-        <link rel="stylesheet" href="/Projet/navbar.css"/>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>
+        <link rel="stylesheet" type="text/css" href="/Projet/projet-php-but-2/html/styles/index.css">
+        
     </head>
     <body>
         <?php
         }
         ?>
         <?php
-        start_page('Pojet');
+        start_page('Projet');
         ?>
 
         <?php
