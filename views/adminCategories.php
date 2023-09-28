@@ -1,7 +1,12 @@
 <h1>Categories</h1>
 <?php require_once 'organisersElements.php';
-require 'autoloads/database-connect.php'?>
-<!--<form id="newCate" method="post" action="../homeAdmin.php?categorie=Cate"> -->
+require 'autoloads/adminAutoloader.php';
+require_once 'autoloads/database-connect.php';
+//require_once 'GFramework/autoloader.php';
+//$db = new /*\GFramework\database\*/db('localhost','root','','php-proj');
+//$db = $db->getConnection()->getContent();
+//echo '<p>', var_dump($dbConn), '</p>';
+//$dbTopics = new dbTopics($db);?>
 <form id="newCate" method="post" action="/projet-php-but-2/homeAdmin.php">
     <label for="newCateName">Nom de la Nouvelle catégorie : </label>
     <input type="text" id="newCateName" name="newCateName"><br>
@@ -11,18 +16,15 @@ require 'autoloads/database-connect.php'?>
 </form>
 <?php
 if (isset($_POST['newCateName'])) {
-    $nextID = mysqli_query($conn, 'SELECT (MAX(ID) + 1) AS NEWID FROM topic');
-    $nextID = mysqli_fetch_assoc($nextID);
-    $newCateID = $nextID['NEWID'];
     $cateName = $_POST['newCateName'];
     if (isset($_POST['newCateInfo'])){
         $cateInfo = $_POST['newCateInfo'];
-        $sql = "INSERT INTO topic VALUES ($newCateID, '$cateName', '$cateInfo')";
+//        $dbTopics->addTopic($cateName, $cateInfo);
     }
     else{
-        $sql = "INSERT INTO topic VALUES ($newCateID, '$cateName', NULL)";
+//        $dbTopics->addTopic($cateName, '');
     }
-    mysqli_query($conn, $sql);
+//    mysqli_query($conn, $sql);
     
 }
 if (isset($_POST['Change'])){

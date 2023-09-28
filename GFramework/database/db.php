@@ -7,7 +7,7 @@
  * @desc Create connection to database and actions
  */
 
-use GFramework\utilities\GReturn;
+use utilities\GReturn;
 
 class db{
 

@@ -15,7 +15,7 @@
     function homeReload(): void{
         checkTab();
         if ($_SESSION['tab'] == 'Cate') {
-            require_once 'views/adminCategories.php';
+            require 'views/adminCategories.php';
             //echo '<p>Categorie loadée</p>';
         }
         else if ($_SESSION['tab'] == 'Util')

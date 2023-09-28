@@ -1,11 +1,8 @@
 <?php
 
-
-use utilities\GReturn;
-
-class dbUsers{
-
-    private string $dbName = "user";
+class dbTopics
+{
+    private string $dbName = "topic";
 
     private \mysqli $conn;
 
@@ -14,18 +11,20 @@ class dbUsers{
     }
 
 
-    public function addUsers($name, $password):void{
+    public function addTopic($name, $info):void{
+        $nextID = mysqli_query($this->conn, "SELECT (MAX(ID) + 1) AS NEWID FROM ". $this->dbName);
+        $nextID = mysqli_fetch_assoc($nextID);
+        $query = "INSERT INTO " . $this->dbName;
+        $query .= " VALUES ($nextID, '$name', ";
+        if ($info == ''){
+            $query .= "NULL";
+        }
+        else{
+            $query .= "'$info'";
+        }
+        $query .= ");";
 
-        $request = "INSERT INTO " . $this->dbName;
-        $request .= " (licence,username,password, adminLevel) ";
-        $request .= "VALUES (";
-
-        $request .= "'" . uniqid() . "',";
-        $request .= "'" . $name . "',";
-        $request .= "'" . $password . "',";
-        $request .= 0 . ");";
-
-        $this->conn->query($request);
+        $this->conn->query($query);
     }
 
     public function select($username = null) : GReturn{
@@ -57,20 +56,4 @@ class dbUsers{
         return new GReturn("ok", content: $allUsers);
     }
 
-    public function updateUserRank($id, $rank) : GReturn{
-        if(isset($id) === false || isset($rank) === false){
-            return new GReturn("ko", "id or rank null in updateUserRank -> DB Users");
-        }
-        $request = "UPDATE users SET adminLevel = " . $rank;
-        $request .= " WHERE id = " . $id;
-
-
-        $result = $this->conn->query($request);
-
-        if($result){
-            return new GReturn("ok");
-        }else{
-            return new GReturn("ko");
-        }
-    }
 }
