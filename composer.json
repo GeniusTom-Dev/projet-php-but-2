@@ -1,0 +1,16 @@
+{
+  "name": "vendor_name/projet-php-but-2",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "mathieu",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "10.2.4",
+    "ext-mysqli": "*"
+  }
+}

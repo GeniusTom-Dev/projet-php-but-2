@@ -1,10 +1,9 @@
 <?php
-require("database/db.php");
-require("database/dbStock.php");
-require("database/dbUsers.php");
-require ("utilities/GReturn.php");
+require_once("database/db.php");
+require_once("database/dbUsers.php");
+require_once("utilities/GReturn.php");
 
-$db = new \GFramework\database\db();
-$db = $db->getConnection()->getContent();
-
-// ** Permission ** \\
+$db = new db('mysql-echo.alwaysdata.net','echo_mathieu','130304leroux','echo_test_bd');
+$dbConn = $db->getConnection()->getContent();
+//var_dump($dbConn);
+?>

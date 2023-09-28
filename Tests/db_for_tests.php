@@ -1,16 +1,8 @@
 <?php
 
-/*
- * @author GeniusTom
- * @date = 28/09/20230
- * @title Class DataBase
- * @desc Create connection to database and actions
- */
+namespace Tests;
 
-use GFramework\utilities\GReturn;
-class db{
-
-    // Host of db server
+class db_for_tests{
     private string $host;
 
     // Username of server
@@ -32,8 +24,7 @@ class db{
         $this->db = $db;
     }
 
-    public function getConnection(): GReturn
-    {
+    public function getConnection(): GReturn {
         $connection = new \mysqli($this->host, $this->username, $this->password, $this->db);
 
         if ($connection->connect_error) {

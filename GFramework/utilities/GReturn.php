@@ -1,6 +1,6 @@
 <?php
 
-namespace utilities;
+namespace GFramework\utilities;
 
 /*
  * @author GeniusTom
