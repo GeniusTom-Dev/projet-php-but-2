@@ -1,12 +1,21 @@
 .searchBar {
-    width: 800px;
-    height: 25px;
+    width: 400px;
+    height: 40px;
     border-top-left-radius: 50px 50px;
     border-top-right-radius: 50px 50px;
     border-bottom-left-radius: 50px 50px;
     border-bottom-right-radius: 50px 50px;
     background: #ffffff;
-    border: 5px solid;
+    border: 7px solid;
     border-color: #64e3de;
+}
+input {
+    text-align: center;
+}
+::-webkit-input-placeholder {
+    text-align: center;
+}
+:-moz-placeholder {
+    text-align: center;
 }
 
