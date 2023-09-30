@@ -27,7 +27,8 @@
 //            echo '<p>', $_GET['posts'], '</p>';
         }
         else if ($_SESSION['tab'] == 'Comm') {
-            echo '<p>', $_GET['commentaires'], '</p>';
+            require 'views/adminComments.php';
+//            echo '<p>', $_GET['commentaires'], '</p>';
         }
         else {
             echo '<p>Rien de selectionné</p>';
