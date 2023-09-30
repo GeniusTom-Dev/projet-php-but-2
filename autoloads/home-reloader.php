@@ -18,14 +18,19 @@
             require 'views/adminCategories.php';
             //echo '<p>Categorie loadée</p>';
         }
-        else if ($_SESSION['tab'] == 'Util')
-            echo '<p>', $_GET['utilisateurs'], '</p>';
-        else if ($_SESSION['tab'] == 'Posts')
+        else if ($_SESSION['tab'] == 'Util') {
+            require 'views/adminUsers.php';
+//            echo '<p>', $_GET['utilisateurs'], '</p>';
+        }
+        else if ($_SESSION['tab'] == 'Posts') {
             echo '<p>', $_GET['posts'], '</p>';
-        else if ($_SESSION['tab'] == 'Comm')
+        }
+        else if ($_SESSION['tab'] == 'Comm') {
             echo '<p>', $_GET['commentaires'], '</p>';
-        else
+        }
+        else {
             echo '<p>Rien de selectionné</p>';
+        }
     }
 
 

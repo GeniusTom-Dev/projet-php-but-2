@@ -49,7 +49,7 @@ class controlAdminTopics
             <td>Supprimer</td>
         </tr>
         <?php
-        $result = $this->dbTopics->select()->getContent();
+        $result = $this->dbTopics->select_SQLResult()->getContent();
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';

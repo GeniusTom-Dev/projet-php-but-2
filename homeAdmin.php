@@ -1,7 +1,7 @@
 <?php
 session_start();
 $_SESSION['suid'] = session_id();
-$_SESSION['user'] = 'admin-user';
+$_SESSION['user'] = 'Utilisateur 1';
 $_SESSION['admin'] = true;
 if (isset($_SESSION['suid']) && $_SESSION['admin'] == true){
 ?>

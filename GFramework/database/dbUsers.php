@@ -28,10 +28,25 @@ class dbUsers{
         $this->conn->query($request);
     }
 
-    public function select($username = null) : GReturn{
+    public function select($username = null, $firstConnect = null, ?bool $isAdmin = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($username) === false){
-            $request .= " WHERE username = '" . $username . "'";
+            $request .= " WHERE USERNAME = " . $username ;
+            if (empty($firstConnect) === false){
+                $request .= " AND USER_CREATED = '$firstConnect'";
+            }
+            if (empty($isAdmin) === false){
+                $request .= " AND IS_ADMIN = $isAdmin";
+            }
+        }
+        else if (empty($firstConnect) === false){
+            $request .= " WHERE USER_CREATED = '$firstConnect'";
+            if (empty($isAdmin) === false){
+                $request .= " AND IS_ADMIN = $isAdmin";
+            }
+        }
+        else if (empty($isAdmin) === false){
+            $request .= " WHERE IS_ADMIN = $isAdmin";
         }
         $result = $this->conn->query($request);
         $row = [];
@@ -41,36 +56,48 @@ class dbUsers{
         return new GReturn("ok", content: $row);
     }
 
-    public function getUsers(): GReturn{
-        $request = "SELECT id,username, adminLevel FROM " . $this->dbName;
-        $result = $this->conn->query($request);
-        $row = [];
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $user = new \stdClass();
-                $user->id = $row["id"];
-                $user->username = $row["username"];
-                $user->adminLevel = $row["adminLevel"];
-                $allUsers[] = $user;
+    public function select_SQLResult($username = null, $firstConnect = null, ?bool $isAdmin = null) : GReturn{
+        $request = "SELECT * FROM " . $this->dbName;
+        if(empty($username) === false){
+            $request .= " WHERE USERNAME = '" . $username . "'" ;
+            if (empty($firstConnect) === false){
+                $request .= " AND USER_CREATED = '$firstConnect'";
+            }
+            if (empty($isAdmin) === false){
+                $request .= " AND IS_ADMIN = $isAdmin";
             }
         }
-        return new GReturn("ok", content: $allUsers);
-    }
-
-    public function updateUserRank($id, $rank) : GReturn{
-        if(isset($id) === false || isset($rank) === false){
-            return new GReturn("ko", "id or rank null in updateUserRank -> DB Users");
+        else if (empty($firstConnect) === false){
+            $request .= " WHERE USER_CREATED = '$firstConnect'";
+            if (empty($isAdmin) === false){
+                $request .= " AND IS_ADMIN = $isAdmin";
+            }
         }
-        $request = "UPDATE users SET adminLevel = " . $rank;
-        $request .= " WHERE id = " . $id;
-
-
+        else if (empty($isAdmin) === false){
+            $request .= " WHERE IS_ADMIN = $isAdmin";
+        }
         $result = $this->conn->query($request);
 
-        if($result){
-            return new GReturn("ok");
-        }else{
-            return new GReturn("ko");
-        }
+        return new GReturn("ok", content: $result);
+    }
+
+    public function getUsers(): GReturn{
+
+        return new GReturn("ok", content: null);
+    }
+
+    public function deleteUser($username): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
+        $this->conn->query($query);
+    }
+
+    public function deactivateUser($username): void{
+        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=0 WHERE USERNAME='$username'";
+        $this->conn->query($query);
+    }
+
+    public function activateUser($username): void{
+        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USERNAME='$username'";
+        $this->conn->query($query);
     }
 }

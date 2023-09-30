@@ -30,7 +30,7 @@ class dbTopics
         $this->conn->query($query);
     }
 
-    public function select($id = null, $name = null, $limit = null) : GReturn{
+    public function select($id = null, $name = null, ?int $limit = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
             $request .= " WHERE ID = " . $id ;
@@ -45,10 +45,28 @@ class dbTopics
             $request .= " LIMIT " . $limit;
         }
         $result = $this->conn->query($request);
-//        $rows = [];
-//        if ($result->num_rows > 0) {
-//            $rows = $result->fetch_assoc();
-//        }
+        $rows = [];
+        if ($result->num_rows > 0) {
+            $rows = $result->fetch_assoc();
+        }
+        return new GReturn("ok", content: $rows);
+    }
+
+    public function select_SQLResult($id = null, $name = null, $limit = null) : GReturn{
+        $request = "SELECT * FROM " . $this->dbName;
+        if(empty($id) === false){
+            $request .= " WHERE ID = " . $id ;
+            if (empty($name) === false){
+                $request .= " AND NAME = '" . $name . "'";
+            }
+        }
+        else if (empty($name) === false){
+            $request .= " WHERE NAME = '" . $name . "'";
+        }
+        if (empty($limit) === false){
+            $request .= " LIMIT " . $limit;
+        }
+        $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
 
