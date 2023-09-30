@@ -23,7 +23,8 @@
 //            echo '<p>', $_GET['utilisateurs'], '</p>';
         }
         else if ($_SESSION['tab'] == 'Posts') {
-            echo '<p>', $_GET['posts'], '</p>';
+            require 'views/adminPosts.php';
+//            echo '<p>', $_GET['posts'], '</p>';
         }
         else if ($_SESSION['tab'] == 'Comm') {
             echo '<p>', $_GET['commentaires'], '</p>';
