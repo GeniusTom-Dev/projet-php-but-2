@@ -65,7 +65,7 @@ class controlAdminUsers
         }
     }
 
-    public function getTableUsers(): string{
+    public function getTableStart(): string{
         ob_start(); ?>
         <table border="1">
             <tr aria-colspan="5">
@@ -76,54 +76,69 @@ class controlAdminUsers
                 <td>Désactiver / Activer</td>
                 <td>Supprimer</td>
             </tr>
-            <?php
-            $result = $this->dbUsers->select_SQLResult()->getContent();
-            if (!$result)
-            {
-                echo 'Impossible d\'exécuter la requête...';
-            }
-            else
-            {
-                if ($result->num_rows != 0)
-                {
-                    while ($row = $result->fetch_assoc())
-                    { ?>
-                        <tr>
-                            <td> <?= $row['USERNAME']?></td>
-                            <td> <?= $row['USER_BIO']?></td>
-                            <td> <?= $row['USER_CREATED']?></td>
-                            <td> <?= $row['IS_ADMIN']?></td>
-                            <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="<?php
-                                    if ($row['IS_ACTIVATED'] == 1){
-                                        echo 'deactivate';
-                                    }
-                                    else{
-                                        echo 'activate';
-                                    }
-                                    ?>" value="<?=$row['USERNAME']?>" onclick="submit()">
-                                        <?php
-                                        if ($row['IS_ACTIVATED'] == 1){
-                                            echo 'Désactiver';
-                                        }
-                                        else{
-                                            echo 'Activer';
-                                        }
-                                        ?></button></form>
-                            </td>
-                            <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['USERNAME']?>" onclick="submit()">X</button></form></td>
-                        </tr>
-                    <?php }
-                }
-            }?>
-        </table>
         <?php
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
     }
 
-    public function showTableUsers(): void{
-        echo $this->getTableUsers();
+    public function getTableEnd(): string{
+        ob_start(); ?>
+        </table>
+        <?php $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function getTableContent(): string{
+        $result = $this->dbUsers->select_SQLResult()->getContent();
+        if (!$result)
+        {
+            echo 'Impossible d\'exécuter la requête...';
+        }
+        else
+        {
+            if ($result->num_rows != 0)
+            {
+                ob_start();
+                while ($row = $result->fetch_assoc())
+                { ?>
+            <tr>
+                <td> <?= $row['USERNAME']?></td>
+                <td> <?= $row['USER_BIO']?></td>
+                <td> <?= $row['USER_CREATED']?></td>
+                <td> <?= $row['IS_ADMIN']?></td>
+                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="<?php
+                        if ($row['IS_ACTIVATED'] == 1){
+                            echo 'deactivate';
+                        }
+                        else{
+                            echo 'activate';
+                        }
+                        ?>" value="<?=$row['USERNAME']?>" onclick="submit()">
+                            <?php
+                            if ($row['IS_ACTIVATED'] == 1){
+                                echo 'Désactiver';
+                            }
+                            else{
+                                echo 'Activer';
+                            }
+                            ?></button></form>
+                </td>
+                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['USERNAME']?>" onclick="submit()">X</button></form></td>
+            </tr>
+                <?php }
+            }
+        }
+        $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function showTableFull(): void{
+        echo $this->getTableStart();
+        echo $this->getTableContent();
+        echo $this->getTableEnd();
     }
 
 }

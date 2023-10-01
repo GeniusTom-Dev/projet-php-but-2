@@ -25,7 +25,7 @@ class controlAdminPosts
         }
     }
 
-    public function getTablePosts(): string{
+    public function getTableStart(): string{
         ob_start(); ?>
         <table border="1">
             <tr aria-colspan="5">
@@ -35,39 +35,54 @@ class controlAdminPosts
                 <td>Date de création</td>
                 <td>Supprimer</td>
             </tr>
-            <?php
-            $result = $this->dbPosts->select_SQLResult()->getContent();
-            if (!$result)
-            {
-                echo 'Impossible d\'exécuter la requête...';
-            }
-            else
-            {
-                if ($result->num_rows != 0)
-                {
-                    while ($row = $result->fetch_assoc())
-                    { ?>
-                        <tr>
-                            <td rowspan="2"><?= $row['ID']?></td>
-                            <td><?= $row['TITLE']?></td>
-                            <td rowspan="2"><?= $row['USER_ID']?></td>
-                            <td rowspan="2"><?= $row['DATE_POSTED']?></td>
-                            <td rowspan="2"><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
-                        </tr>
-                        <tr>
-                            <td><?= $row['CONTENT']?></td>
-                        </tr>
-                    <?php }
-                }
-            }?>
-        </table>
         <?php
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
     }
 
-    public function showTablePosts(): void{
-        echo $this->getTablePosts();
+    public function getTableEnd(): string{
+        ob_start(); ?>
+        </table>
+        <?php $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function getTableContent(): string{
+        $result = $this->dbPosts->select_SQLResult()->getContent();
+        if (!$result)
+        {
+            echo 'Impossible d\'exécuter la requête...';
+        }
+        else
+        {
+            if ($result->num_rows != 0)
+            {
+                ob_start();
+                while ($row = $result->fetch_assoc())
+                { ?>
+            <tr>
+                <td rowspan="2"><?= $row['ID']?></td>
+                <td><?= $row['TITLE']?></td>
+                <td rowspan="2"><?= $row['USER_ID']?></td>
+                <td rowspan="2"><?= $row['DATE_POSTED']?></td>
+                <td rowspan="2"><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
+            </tr>
+            <tr>
+                <td><?= $row['CONTENT']?></td>
+            </tr>
+                <?php }
+            }
+        }
+        $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function showTableFull(): void{
+        echo $this->getTableStart();
+        echo $this->getTableContent();
+        echo $this->getTableEnd();
     }
 }

@@ -16,5 +16,5 @@ $controller->checkNewTopic();
 $controller->checkChangedTopic();
 $controller->checkDeletedTopic();
 
-$controller->showTableTopics();
+$controller->showTableFull();
 ?>

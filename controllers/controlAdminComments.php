@@ -26,7 +26,7 @@ class controlAdminComments
         }
     }
 
-    public function getTableComments(): string{
+    public function getTableStart(): string{
         ob_start(); ?>
         <table border="1">
             <tr aria-colspan="6">
@@ -37,37 +37,51 @@ class controlAdminComments
                 <td>Utilisateur</td>
                 <td>Supprimer</td>
             </tr>
-            <?php
-            $result = $this->dbComments->select_SQLResult()->getContent();
-            if (!$result)
-            {
-                echo 'Impossible d\'exécuter la requête...';
-            }
-            else
-            {
-                if ($result->num_rows != 0)
-                {
-                    while ($row = $result->fetch_assoc())
-                    { ?>
-                        <tr>
-                            <td><?= $row['COMMENT_ID']?></td>
-                            <td><?= $row['CONTENT']?></td>
-                            <td><?= $row['DATE_POSTED']?></td>
-                            <td><?= $row['POST_ID']?></td>
-                            <td><?= $row['USER_ID']?></td>
-                            <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
-                        </tr>
-                    <?php }
-                }
-            }?>
-        </table>
         <?php
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
     }
 
-    public function showTableComments(): void{
-        echo $this->getTableComments();
+    public function getTableEnd(): string{
+        ob_start(); ?>
+        </table>
+        <?php $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function getTableContent(): string{
+        $result = $this->dbComments->select_SQLResult()->getContent();
+        if (!$result)
+        {
+            echo 'Impossible d\'exécuter la requête...';
+        }
+        else
+        {
+            if ($result->num_rows != 0)
+            {
+                while ($row = $result->fetch_assoc())
+                { ?>
+            <tr>
+                <td><?= $row['COMMENT_ID']?></td>
+                <td><?= $row['CONTENT']?></td>
+                <td><?= $row['DATE_POSTED']?></td>
+                <td><?= $row['POST_ID']?></td>
+                <td><?= $row['USER_ID']?></td>
+                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
+            </tr>
+                <?php }
+            }
+        }
+        $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function showTableFull(): void{
+        echo $this->getTableStart();
+        echo $this->getTableContent();
+        echo $this->getTableEnd();
     }
 }

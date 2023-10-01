@@ -15,5 +15,5 @@ try{
     echo '<p>', $report , '</p>';
 }
 
-$controller->showTableUsers();
+$controller->showTableFull();
 ?>

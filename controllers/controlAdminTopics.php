@@ -39,9 +39,9 @@ class controlAdminTopics
         }
     }
 
-    public function getTableTopics(): string{
+    public function getTableStart(): string{
         ob_start(); ?>
-    <table border="1">
+        <table border="1">
         <tr aria-colspan="4">
             <td>Catégories</td>
             <td>Description</td>
@@ -49,6 +49,12 @@ class controlAdminTopics
             <td>Supprimer</td>
         </tr>
         <?php
+        $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function getTableContent(): string{
         $result = $this->dbTopics->select_SQLResult()->getContent();
         if (!$result)
         {
@@ -58,34 +64,43 @@ class controlAdminTopics
         {
             if ($result->num_rows != 0)
             {
+                ob_start();
                 while ($row = $result->fetch_assoc())
                 { ?>
-                    <tr>
-                        <td> <?= $row['NAME']?></td>
-                        <td> <?= $row['INFO']?></td>
-                        <td>
-                            <form method="post" action="/projet-php-but-2/homeAdmin.php">
-                                <button name="Change" value="<?=$row['ID']?>" onclick="submit()">Modif</button>
-                                <label for="newName">Nouveau Nom : </label>
-                                <input type="text" id="newName" name="newName"><br>
-                                <label for="newInfo">Description de la catégorie : </label>
-                                <input type="text" id="newInfo" name="newInfo">
-                            </form>
-                        </td>
-                        <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
-                    </tr>
+        <tr>
+            <td> <?= $row['NAME']?></td>
+            <td> <?= $row['INFO']?></td>
+            <td>
+                <form method="post" action="/projet-php-but-2/homeAdmin.php">
+                    <button name="Change" value="<?=$row['ID']?>" onclick="submit()">Modif</button>
+                    <label for="newName">Nouveau Nom : </label>
+                    <input type="text" id="newName" name="newName"><br>
+                    <label for="newInfo">Description de la catégorie : </label>
+                    <input type="text" id="newInfo" name="newInfo">
+                </form>
+            </td>
+            <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
+        </tr>
                 <?php }
             }
-        }?>
-    </table>
-<?php
+        }
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
     }
 
-    public function showTableTopics(): void{
-        echo $this->getTableTopics();
+    public function getTableEnd(): string{
+        ob_start(); ?>
+    </table>
+        <?php $table = ob_get_contents();
+        ob_end_clean();
+        return $table;
+    }
+
+    public function showTableFull(): void{
+        echo $this->getTableStart();
+        echo $this->getTableContent();
+        echo $this->getTableEnd();
     }
 
 }
