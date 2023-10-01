@@ -1,32 +1,28 @@
 <?php
-
     function checkTab(): void{
-        if (isset($_GET['categorie']) || !isset($_SESSION['tab'])) {
-            $_SESSION['tab'] = 'Cate';
+        if (!isset($_SESSION['tab'])) {
+            $_SESSION['tab'] = 'categories';
         }
-        else if (isset($_GET['utilisateurs']))
-            $_SESSION['tab'] = 'Util';
-        else if (isset($_GET['posts']))
-            $_SESSION['tab'] = 'Posts';
-        else if (isset($_GET['commentaires']))
-            $_SESSION['tab'] = 'Comm';
-        // else Un onglet est déjà selectionné et pas de nouvelle selection, pas besoin de changer
+        if (isset($_GET['tab']))
+            $_SESSION['tab'] = $_GET['tab'];
+        else
+            $_GET['tab'] = $_SESSION['tab'];
     }
+
     function homeReload(): void{
-        checkTab();
-        if ($_SESSION['tab'] == 'Cate') {
+        if ($_GET['tab'] == 'categories') {
             require 'views/adminCategories.php';
             //echo '<p>Categorie loadée</p>';
         }
-        else if ($_SESSION['tab'] == 'Util') {
+        else if ($_GET['tab'] == 'utilisateurs') {
             require 'views/adminUsers.php';
 //            echo '<p>', $_GET['utilisateurs'], '</p>';
         }
-        else if ($_SESSION['tab'] == 'Posts') {
+        else if ($_GET['tab'] == 'posts') {
             require 'views/adminPosts.php';
 //            echo '<p>', $_GET['posts'], '</p>';
         }
-        else if ($_SESSION['tab'] == 'Comm') {
+        else if ($_GET['tab'] == 'commentaires') {
             require 'views/adminComments.php';
 //            echo '<p>', $_GET['commentaires'], '</p>';
         }
