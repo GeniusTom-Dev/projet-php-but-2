@@ -6,6 +6,7 @@ $_SESSION['admin'] = true;
 if (isset($_SESSION['suid']) && $_SESSION['admin'] == true){
     require_once 'autoloads/adminAutoloader.php';
     checkTab();
+    checkSort();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

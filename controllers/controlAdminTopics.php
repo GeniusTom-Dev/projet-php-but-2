@@ -55,7 +55,7 @@ class controlAdminTopics
     }
 
     public function getTableContent(): string{
-        $result = $this->dbTopics->select_SQLResult()->getContent();
+        $result = $this->dbTopics->select_SQLResult(null, null, null, 0, $_GET['sort'])->getContent();
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';

@@ -3,10 +3,24 @@
         if (!isset($_SESSION['tab'])) {
             $_SESSION['tab'] = 'categories';
         }
-        if (isset($_GET['tab']))
+        if (isset($_GET['tab'])){
+            if ($_GET['tab'] != $_SESSION['tab']){
+                $_GET['sort'] = 'ID-asc';
+            }
             $_SESSION['tab'] = $_GET['tab'];
+        }
         else
             $_GET['tab'] = $_SESSION['tab'];
+    }
+
+    function checkSort(): void{
+        if (!isset($_SESSION['sort'])) {
+            $_SESSION['sort'] = 'ID-asc';
+        }
+        if (isset($_GET['sort']))
+            $_SESSION['sort'] = $_GET['sort'];
+        else
+            $_GET['sort'] = $_SESSION['sort'];
     }
 
     function homeReload(): void{

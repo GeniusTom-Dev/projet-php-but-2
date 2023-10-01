@@ -30,21 +30,8 @@ class dbTopics
         $this->conn->query($query);
     }
 
-    public function select($id = null, $name = null, ?int $limit = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE ID = " . $id ;
-            if (empty($name) === false){
-                $request .= " AND NAME = '" . $name . "'";
-            }
-        }
-        else if (empty($name) === false){
-            $request .= " WHERE NAME = '" . $name . "'";
-        }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
-        $result = $this->conn->query($request);
+    public function select(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+        $result = $this->select_SQLResult($id,$name,$limit,$page,$sort)->getContent();
         $rows = [];
         if ($result->num_rows > 0) {
             $rows = $result->fetch_assoc();
@@ -52,7 +39,7 @@ class dbTopics
         return new GReturn("ok", content: $rows);
     }
 
-    public function select_SQLResult($id = null, $name = null, $limit = null) : GReturn{
+    public function select_SQLResult(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
             $request .= " WHERE ID = " . $id ;
@@ -66,8 +53,22 @@ class dbTopics
         if (empty($limit) === false){
             $request .= " LIMIT " . $limit;
         }
+        $request .= " " . $this->getSortInstruction($sort);
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
+    }
+
+    public function getSortInstruction(?string $sort): string{
+        if ($sort == 'ID-asc'){
+            return 'ORDER BY ID ASC';
+        }
+        else if ($sort == 'a-z'){
+            return 'ORDER BY NAME ASC';
+        }
+        else if ($sort == 'recent'){
+            return 'ORDER BY ID DESC';
+        }
+        return '';
     }
 
     public function selectLike($name = null, $info = null, $limit = null) : GReturn{

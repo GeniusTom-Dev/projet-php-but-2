@@ -2,20 +2,19 @@
     <input type="search" placeholder="Search...">
     <button type="submit">Submit</button>
 </form>
-<form id="trieur-result" action="../homeAdmin.php"
-      method="POST">
+<form id="sorter" action="/projet-php-but-2/homeAdmin.php"
+      method="GET">
     <!--<input type="text" name="test" placeholder="Testing" onchange="submit()">-->
-    <label for="trieur_select">Tri par :</label>
-    <select name="trieur_select" onchange="submit()">
-        <option value="a-z" selected="selected">A - Z</option>
-        <option value="z-a">Z - A</option>
-        <option value="recent">Le plus récent</option>
-        <option value="ancien">Le plus ancien</option>
-        <option value="popularite">Popularité</option>
+    <label for="sort">Tri par :</label>
+    <select name="sort" id="sort" onchange="submit()">
+        <option value="ID-asc" <?php if ($_GET['sort'] == 'ID-asc') echo "selected=\"selected\"";?>>Identifiant</option>
+        <option value="a-z" <?php if ($_GET['sort'] == 'a-z') echo "selected=\"selected\"";?>>A - Z</option>
+        <option value="recent" <?php if ($_GET['sort'] == 'recent') echo "selected=\"selected\"";?>>Le plus récent</option>
+<!--        <option value="popularite">Popularité</option>-->
     </select>
 </form>
 <?php
-if(isset($_POST['trieur_select'])) {
-    echo '<strong>Trieur changé sur l\'option : ' , $_POST['trieur_select'] , '</strong>';
+if(isset($_GET['sort'])) {
+    echo '<strong>Trieur changé sur l\'option : ' , $_GET['sort'] , '</strong>';
 }
 ?>
