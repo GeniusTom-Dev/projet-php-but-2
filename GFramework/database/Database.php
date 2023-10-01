@@ -8,7 +8,7 @@
  */
 
 use GFramework\utilities\GReturn;
-class db{
+class Database {
 
     // Host of db server
     private string $host;
@@ -37,7 +37,7 @@ class db{
         $connection = new \mysqli($this->host, $this->username, $this->password, $this->db);
 
         if ($connection->connect_error) {
-            new GReturn("ko", $connection->connect_error);
+            return new GReturn("ko", reason: $connection->connect_error);
         }
         $this->conn = $connection;
         return new GReturn("ok", content: $connection);
