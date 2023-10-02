@@ -52,7 +52,7 @@ class controlAdminComments
     }
 
     public function getTableContent(): string{
-        $result = $this->dbComments->select_SQLResult()->getContent();
+        $result = $this->dbComments->select_SQLResult(null, null, null, null, null, null, 0, $_GET['sort'])->getContent();
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';
