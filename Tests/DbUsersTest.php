@@ -4,7 +4,7 @@ include '../GFramework/database/Database.php';
 include '../GFramework/database/DbUsers.php';
 require '../GFramework/autoloader.php';
 
-use PHPUnit\Framework\TestCase;
+use \PHPUnit\Framework\TestCase;
 class DbUsersTest extends TestCase {
 
     private $dbUsers = null;
@@ -35,7 +35,7 @@ class DbUsersTest extends TestCase {
     }
 
     // -------------------------
-    // FUNCTION TEST SELECTION
+    // FUNCTION TEST SELECTION UNIQUE
     // -------------------------
 
     /* by username */
@@ -58,6 +58,16 @@ class DbUsersTest extends TestCase {
         $result = $this->getConnection()->selectByEmail("dnvrvrv")->getContent()["USER_ID"];
         $this->assertEquals(null, $result);
     }
+
+//    // -------------------------
+//    // FUNCTION TEST SELECT WITH FILTER
+//    // -------------------------
+//
+//    public function test_random() {
+//        $result = mysqli_fetch_all($this->getConnection()->select_SQLResult(1)->getContent());
+//        $result2 = mysqli_fetch_all($this->getConnection()->select_SQLResult(1)->getContent());
+//        $this->assertEquals($result, $result2);
+//    }
 
     // -------------------------
     // FUNCTION TEST UPDATE - ADD - REMOVE

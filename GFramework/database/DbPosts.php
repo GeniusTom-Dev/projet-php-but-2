@@ -25,18 +25,18 @@ class DbPosts
     public function select_SQLResult($id = null, $title = null, $content = null, $username = null, $datePosted = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
-            $request .= " WHERE POST_ID=$id";
+            $request .= " WHERE POST_ID = $id";
             if (empty($title) === false){
-                $request .= " AND TITLE='$title'";
+                $request .= " AND TITLE = '$title'";
             }
             if (empty($content) === false){
-                $request .= " AND CONTENT='$content'";
+                $request .= " AND CONTENT = '$content'";
             }
             if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
+                $request .= " AND USER_ID = '$username'";
             }
             if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
+                $request .= " AND DATE_POSTED = '$datePosted'";
             }
         }
         else if (empty($title) === false){
@@ -87,8 +87,8 @@ class DbPosts
      * Use to get a posts information from his ID
      */
     public function selectByID(int $post_id) : GReturn {
-        $request = "SELECT * FROM " . $this->dbName;
-        $request .= " WHERE POST_ID = '" . $post_id . "';";
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE POST_ID = '$post_id';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
@@ -99,8 +99,8 @@ class DbPosts
      * Use to get all the posts of a user from his ID
      */
     public function selectByUserID(int $user_id) : GReturn {
-        $request = "SELECT * FROM " . $this->dbName;
-        $request .= " WHERE USER_ID = '" . $user_id . "';";
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE USER_ID = '$user_id';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }

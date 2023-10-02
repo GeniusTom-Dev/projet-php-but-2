@@ -12,7 +12,7 @@ class DbTopics
         $this->conn = $conn;
     }
 
-
+    // a changer -> plus de besoin de preciser l'ID
     public function addTopic($name, $info):void{
         $nextID = mysqli_query($this->conn, "SELECT (MAX(TOPIC_ID) + 1) AS NEWID FROM ". $this->dbName);
         $nextID = mysqli_fetch_assoc($nextID);
@@ -42,16 +42,16 @@ class DbTopics
     public function select_SQLResult(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
-            $request .= " WHERE TOPIC_ID = " . $id ;
+            $request .= " WHERE TOPIC_ID = $id" ;
             if (empty($name) === false){
-                $request .= " AND NAME = '" . $name . "'";
+                $request .= " AND NAME = '$name'";
             }
         }
         else if (empty($name) === false){
-            $request .= " WHERE NAME = '" . $name . "'";
+            $request .= " WHERE NAME = '$name'";
         }
         if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
+            $request .= " LIMIT $limit";
         }
         $request .= " " . $this->getSortInstruction($sort);
         $result = $this->conn->query($request);
@@ -74,16 +74,16 @@ class DbTopics
     public function selectLike($name = null, $info = null, $limit = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($name) === false){
-            $request .= " WHERE NAME LIKE '%" . $name . "%'";
+            $request .= " WHERE NAME LIKE '%$name%'";
             if (empty($info) === false){
-                $request .= " AND INFO LIKE '%" . $info . "%'";
+                $request .= " AND INFO LIKE '%$info%'";
             }
         }
         else if (empty($name) === false){
-            $request .= " WHERE INFO LIKE '%" . $info . "%'";
+            $request .= " WHERE INFO LIKE '%$info%'";
         }
         if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
+            $request .= " LIMIT $limit";
         }
         $result = $this->conn->query($request);
         $rows = [];
@@ -94,11 +94,11 @@ class DbTopics
     }
 
     public function changeTopicName($id, $newName): void{
-        $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE TOPIC_ID=$id";
+        $query = "UPDATE $this->dbName SET NAME='$newName' WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
     public function changeTopicInfo($id, $newInfo): void{
-        $query = "UPDATE " . $this->dbName . " SET DESCRIPTION=";
+        $query = "UPDATE $this->dbName SET DESCRIPTION=";
         if ($newInfo == 'NULL'){
             $query .= "NULL";
         }
@@ -119,7 +119,7 @@ class DbTopics
     }
 
     public function deleteTopic($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE TOPIC_ID=$id";
+        $query = "DELETE FROM $this->dbName WHERE TOPIC_ID = $id";
         $this->conn->query($query);
     }
 

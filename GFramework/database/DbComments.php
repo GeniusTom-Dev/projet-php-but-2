@@ -78,7 +78,7 @@ class DbComments
     }
 
     public function deleteComment($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE COMMENT_ID=$id";
+        $query = "DELETE FROM $this->dbName WHERE COMMENT_ID = $id";
         $this->conn->query($query);
     }
 }

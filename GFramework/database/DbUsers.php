@@ -80,6 +80,32 @@ class DbUsers{
         return new GReturn("ok", content: $result);
     }
 
+    public function select_SQLResult2(?int $id = null, ?string $username = null, ?string $firstConnect = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+        $request = "SELECT * FROM  $this->dbName ";
+        $conditions = [];
+        if (!is_null($id)) {
+            $conditions[] = "USER_ID = $id";
+        }
+        if (!is_null($username)) {
+            $conditions[] = "USERNAME = $username";
+        }
+        if (!is_null($firstConnect)) {
+            $conditions[] = "USER_CREATED = $firstConnect";
+        }
+        if (!is_null($isAdmin)) {
+            $conditions[] = "IS_ADMIN = $isAdmin";
+        }
+        if (!is_null($isActivated)) {
+            $conditions[] = "IS_ACTIVATED = $isActivated";
+        }
+        if (!empty($conditions)) {
+            $request .= "WHERE " . implode(" AND ", $conditions);
+        }
+        $request .= " " . $this->getSortInstruction($sort);
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: $result);
+    }
+
     public function getSortInstruction(?string $sort): string{
         if ($sort == 'ID-asc'){
             return 'ORDER BY USER_ID ASC';
@@ -97,17 +123,17 @@ class DbUsers{
     }
 
     public function deleteUserByID(int $id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE USER_ID=$id";
+        $query = "DELETE FROM $this->dbName WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
     public function deactivateUser(int $id): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=0 WHERE USER_ID=$id";
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=0 WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
     public function activateUser(int $id): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USER_ID=$id";
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=1 WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
@@ -117,22 +143,22 @@ class DbUsers{
 
     public function selectById(int $id) : GReturn
     {
-        $request = "SELECT * FROM " . $this->dbName;
-        $request .= " WHERE USER_ID = '" . $id . "';";
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE USER_ID = '$id';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
     public function selectByUsername(string $username) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        $request .= " WHERE USERNAME = '" . $username . "';";
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE USERNAME = '$username';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
     public function selectByEmail(string $email) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        $request .= " WHERE USER_EMAIL = '" . $email . "';";
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE USER_EMAIL = '$email';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
@@ -141,11 +167,12 @@ class DbUsers{
 
     public function getUsers(array | string $attributes = []): GReturn{
         $request = $this->createSelectStringWithAttributes($attributes);
-        $request .= " FROM " . $this->dbName;
+        $request .= " FROM $this->dbName";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
+    // a enlever plus tard
     private function createSelectStringWithAttributes(array | string $attributes = []): string {
         $select = "SELECT ";
         if (empty($attributes)) return $select . '*';
@@ -172,11 +199,9 @@ class DbUsers{
         }
         $resetIdMinValue = "ALTER TABLE " . $this->dbName . " AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
-        $request = "INSERT INTO " . $this->dbName . " (";
+        $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
-        $request .= "'" . $username . "', ";
-        $request .= "'" . $email . "', ";
-        $request .= "'" . $pwd . "', ";
+        $request .= "'$username', '$email', '$pwd', ";
         $request .= "1, 0, '" . date("Y-m-d") . "', '" . date("Y-m-d") . "'";
         $request .= ", null, null);";
         var_dump($request);
@@ -190,8 +215,8 @@ class DbUsers{
         if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
             return false; // the username is already used, the update was not made
         }
-        $request = "UPDATE " . $this->dbName . " SET USERNAME = '" . $newUsername. "'";
-        $request .= " WHERE USERNAME = '" . $oldUsername . "';";
+        $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
+        $request .= " WHERE USERNAME = '$oldUsername';";
         $this->conn->query($request);
         return true;
     }
