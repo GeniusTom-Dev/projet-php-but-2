@@ -11,6 +11,17 @@
         <option value="a-z" <?php if ($_GET['sort'] == 'a-z') echo "selected=\"selected\"";?>>A - Z</option>
         <option value="recent" <?php if ($_GET['sort'] == 'recent') echo "selected=\"selected\"";?>>Le plus récent</option>
 <!--        <option value="popularite">Popularité</option>-->
+        <?php
+        if ($_GET['tab'] == 'posts'){ ?>
+        <option value="id-user" <?php if ($_GET['sort'] == 'id-user') echo "selected=\"selected\"";?>>Utilisateur</option>
+        <?php
+        }
+        if ($_GET['tab'] == 'commentaires'){ ?>
+        <option value="id-user" <?php if ($_GET['sort'] == 'id-user') echo "selected=\"selected\"";?>>Utilisateur</option>
+        <option value="id-post" <?php if ($_GET['sort'] == 'id-post') echo "selected=\"selected\"";?>>Post</option>
+        <?php
+        }
+        ?>
     </select>
 </form>
 <?php
