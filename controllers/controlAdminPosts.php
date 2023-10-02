@@ -1,7 +1,7 @@
 <?php
 
 namespace controllers;
-use \utilities\GReturn;
+use GFramework\utilities\GReturn;
 use \utilities\CannotDoException;
 use dbPosts;
 
@@ -63,11 +63,11 @@ class controlAdminPosts
                 while ($row = $result->fetch_assoc())
                 { ?>
             <tr>
-                <td rowspan="2"><?= $row['ID']?></td>
+                <td rowspan="2"><?= $row['POST_ID']?></td>
                 <td><?= $row['TITLE']?></td>
                 <td rowspan="2"><?= $row['USER_ID']?></td>
                 <td rowspan="2"><?= $row['DATE_POSTED']?></td>
-                <td rowspan="2"><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
+                <td rowspan="2"><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
             <tr>
                 <td><?= $row['CONTENT']?></td>

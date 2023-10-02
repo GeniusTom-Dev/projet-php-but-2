@@ -69,17 +69,17 @@ class controlAdminTopics
                 { ?>
         <tr>
             <td> <?= $row['NAME']?></td>
-            <td> <?= $row['INFO']?></td>
+            <td> <?= $row['DESCRIPTION']?></td>
             <td>
-                <form method="post" action="/projet-php-but-2/homeAdmin.php">
-                    <button name="Change" value="<?=$row['ID']?>" onclick="submit()">Modif</button>
+                <form method="post" action="/projet-php-but-2/View/homeAdmin.php">
+                    <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button>
                     <label for="newName">Nouveau Nom : </label>
                     <input type="text" id="newName" name="newName"><br>
                     <label for="newInfo">Description de la catégorie : </label>
                     <input type="text" id="newInfo" name="newInfo">
                 </form>
             </td>
-            <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['ID']?>" onclick="submit()">X</button></form></td>
+            <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
         </tr>
                 <?php }
             }

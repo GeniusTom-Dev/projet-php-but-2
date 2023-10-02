@@ -7,10 +7,10 @@ use dbUsers;
 
 class controlAdminUsers
 {
-    private dbUsers $dbUsers;
+    private DbUsers $dbUsers;
 
     public function __construct($conn){
-        $this->dbUsers = new dbUsers($conn);
+        $this->dbUsers = new DbUsers($conn);
     }
 
     /**
@@ -21,7 +21,7 @@ class controlAdminUsers
     public function checkActivationDeactivationUser() : void {
         if (isset($_POST['deactivate'])){
             $id = $_POST['deactivate'];
-            if ($id == $_SESSION['user']) {
+            if ($id == $_SESSION['userid']) {
                 $target = 'User -> ' . $id;
                 $action = 'Deactivation';
                 $explain = 'User cannot deactivate their own account here';
@@ -31,7 +31,7 @@ class controlAdminUsers
         }
         else if (isset($_POST['activate'])){
             $id = $_POST['activate'];
-            if ($id == $_SESSION['user']) {
+            if ($id == $_SESSION['userid']) {
                 $target = 'User -> ' . $id;
                 $action = 'Activation';
                 $explain = 'User cannot reactivate their own account here';
@@ -49,7 +49,7 @@ class controlAdminUsers
     public function checkDeletedUser(): void{
         if (isset($_POST['Delete'])){
             $id = $_POST['Delete'];
-            if ($id == $_SESSION['user']) {
+            if ($id == $_SESSION['userid']) {
                 $target = 'User -> ' . $id;
                 $action = 'Deletion';
                 $explain = 'User cannot delete themselves';
@@ -61,17 +61,20 @@ class controlAdminUsers
                 $explain = 'Admin User cannot delete other admins';
                 throw new CannotDoException($target, $action, $explain);
             }
-            $this->dbUsers->deleteUser($id);
+            $this->dbUsers->deleteUserByID($id);
         }
     }
 
     public function getTableStart(): string{
         ob_start(); ?>
         <table border="1">
-            <tr aria-colspan="5">
+            <tr aria-colspan="9">
+                <td>Identifiant</td>
                 <td>Username</td>
+                <td>Email</td>
                 <td>Biographie</td>
                 <td>Première connection</td>
+                <td>Dernière connection</td>
                 <td>Admin</td>
                 <td>Désactiver / Activer</td>
                 <td>Supprimer</td>
@@ -104,18 +107,21 @@ class controlAdminUsers
                 while ($row = $result->fetch_assoc())
                 { ?>
             <tr>
+                <td> <?= $row['USER_ID']?></td>
                 <td> <?= $row['USERNAME']?></td>
+                <td> <?= $row['USER_EMAIL']?></td>
                 <td> <?= $row['USER_BIO']?></td>
                 <td> <?= $row['USER_CREATED']?></td>
+                <td> <?= $row['USER_LAST_CONNECTION']?></td>
                 <td> <?= $row['IS_ADMIN']?></td>
-                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="<?php
+                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="<?php
                         if ($row['IS_ACTIVATED'] == 1){
                             echo 'deactivate';
                         }
                         else{
                             echo 'activate';
                         }
-                        ?>" value="<?=$row['USERNAME']?>" onclick="submit()">
+                        ?>" value="<?=$row['USER_ID']?>" onclick="submit()">
                             <?php
                             if ($row['IS_ACTIVATED'] == 1){
                                 echo 'Désactiver';
@@ -125,7 +131,7 @@ class controlAdminUsers
                             }
                             ?></button></form>
                 </td>
-                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['USERNAME']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }

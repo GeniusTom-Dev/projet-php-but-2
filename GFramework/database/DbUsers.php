@@ -1,7 +1,5 @@
 <?php
-
-
-use GFramework\utilities\GReturn;
+use \GFramework\utilities\GReturn;
 
 class DbUsers{
 
@@ -9,7 +7,7 @@ class DbUsers{
 
     private \mysqli $conn;
 
-    private array | string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
+    private array | string $dbColumns = ["USER_ID", "USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
 
 
     public function __construct($conn){
@@ -29,9 +27,9 @@ class DbUsers{
 
     public function select_SQLResult(?int $id = null, ?string $username = null, ?string $firstConnect = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
-        if(empty($username) === false){
-            $request .= " WHERE ID = $id" ;
-            if (empty($firstConnect) === false){
+        if(empty($id) === false){
+            $request .= " WHERE USER_ID = $id" ;
+            if (empty($username) === false){
                 $request .= " AND USERNAME = '$username'";
             }
             if (empty($firstConnect) === false){
@@ -84,7 +82,7 @@ class DbUsers{
 
     public function getSortInstruction(?string $sort): string{
         if ($sort == 'ID-asc'){
-            return 'ORDER BY ID ASC';
+            return 'ORDER BY USER_ID ASC';
         }
         else if ($sort == 'a-z'){
             return 'ORDER BY USERNAME ASC';
@@ -92,21 +90,29 @@ class DbUsers{
         else if ($sort == 'recent'){
             return 'ORDER BY USER_CREATED DESC';
         }
+        else if ($sort == 'recent-connect'){
+            return 'ORDER BY USER_LAST_CONNECTION DESC';
+        }
         return '';
     }
 
-    public function deleteUser(string $username): void{
+    public function deleteUserByUsername(string $username): void{
         $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
         $this->conn->query($query);
     }
 
-    public function deactivateUser(string $username): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=0 WHERE USERNAME='$username'";
+    public function deleteUserByID(int $id): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
-    public function activateUser(string $username): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USERNAME='$username'";
+    public function deactivateUser(int $id): void{
+        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=0 WHERE USER_ID=$id";
+        $this->conn->query($query);
+    }
+
+    public function activateUser(int $id): void{
+        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
