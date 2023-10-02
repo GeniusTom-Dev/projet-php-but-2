@@ -16,20 +16,6 @@ class dbUsers{
         $this->conn = $conn;
     }
 
-//    public function addUsers($name, $password):void{
-//
-//        $request = "INSERT INTO " . $this->dbName;
-//        $request .= " (licence,username,password, adminLevel) ";
-//        $request .= "VALUES (";
-//
-//        $request .= "'" . uniqid() . "',";
-//        $request .= "'" . $name . "',";
-//        $request .= "'" . $password . "',";
-//        $request .= 0 . ");";
-//
-//        $this->conn->query($request);
-//    }
-
     /* Select by primary key */
 
     public function select_by_username(string $username) : GReturn{
