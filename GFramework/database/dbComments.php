@@ -12,12 +12,8 @@ class dbComments
     }
 
 
-    public function addComment():void{
-
-    }
-
-    public function select($id = null, $content = null, $datePosted = null, $post = null, $username = null) : GReturn{
-        $result = $this->select_SQLResult($id, $content, $username, $datePosted)->getContent();
+    public function select($id = null, $content = null, $datePosted = null, $idPost = null, $idUser = null) : GReturn{
+        $result = $this->select_SQLResult($id, $content, $datePosted, $idPost, $idUser)->getContent();
         $row = [];
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -25,7 +21,7 @@ class dbComments
         return new GReturn("ok", content: $row);
     }
 
-    public function select_SQLResult($id = null, $content = null, $datePosted = null, $post = null, $username = null) : GReturn{
+    public function select_SQLResult($id = null, $content = null, $datePosted = null, $idPost = null, $iduser = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
             $request .= " WHERE COMMENT_ID=$id";
@@ -35,8 +31,8 @@ class dbComments
             if (empty($datePosted) === false){
                 $request .= " AND DATE_POSTED='$datePosted'";
             }
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
+            if (empty($idPost) === false){
+                $request .= " AND POST_ID=$idPost";
             }
             if (empty($username) === false){
                 $request .= " AND USER_ID='$username'";
@@ -47,8 +43,8 @@ class dbComments
             if (empty($datePosted) === false){
                 $request .= " AND DATE_POSTED='$datePosted'";
             }
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
+            if (empty($idPost) === false){
+                $request .= " AND POST_ID=$idPost";
             }
             if (empty($username) === false){
                 $request .= " AND USER_ID='$username'";
@@ -56,15 +52,15 @@ class dbComments
         }
         else if (empty($datePosted) === false){
             $request .= " WHERE DATE_POSTED='$datePosted'";
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
+            if (empty($idPost) === false){
+                $request .= " AND POST_ID=$idPost";
             }
             if (empty($username) === false){
                 $request .= " AND USER_ID='$username'";
             }
         }
-        else if (empty($post) === false){
-            $request .= " WHERE POST_ID=$post";
+        else if (empty($idPost) === false){
+            $request .= " WHERE POST_ID=$idPost";
             if (empty($username) === false){
                 $request .= " AND USER_ID='$username'";
             }
