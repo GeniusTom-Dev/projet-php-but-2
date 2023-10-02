@@ -6,7 +6,7 @@
   left: 0;
   height: 99%;
   border: 3px solid #555;
-  background-color: #93afb8;
+  background-color: #b2a5ff;
 }
 nav
 {
@@ -94,7 +94,7 @@ nav
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #93afb8;
+  background-color: #b2a5ff;
   min-width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -110,4 +110,12 @@ nav
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

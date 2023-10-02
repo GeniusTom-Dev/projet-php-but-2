@@ -56,13 +56,14 @@ $Follow = "320";
                 <a href="http://localhost/dashboard">Link 3</a>
               </div>
             </li>
+            
             <?php
             }
           }
           ?>
       </ul>
   </nav>
-  </header>
+</header>
 
 
 
