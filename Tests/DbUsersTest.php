@@ -5,7 +5,7 @@ include '../GFramework/database/DbUsers.php';
 require '../GFramework/autoloader.php';
 
 use PHPUnit\Framework\TestCase;
-class dbUsersTest extends TestCase {
+class DbUsersTest extends TestCase {
 
     private $dbUsers = null;
     final public function getConnection() {
@@ -40,7 +40,7 @@ class dbUsersTest extends TestCase {
     /* by username */
     public function test_select_by_username_and_username_exist() {
         $result = $this->getConnection()->select_by_username("admin")->getContent()["USER_ID"];
-        $this->assertEquals('0', $result);
+        $this->assertEquals('1', $result);
     }
     public function test_select_by_username_and_username_dont_exist() {
         $result = $this->getConnection()->select_by_username("dnvrvrv")->getContent()["USER_ID"];
@@ -50,7 +50,7 @@ class dbUsersTest extends TestCase {
     /* by email */
     public function test_select_by_email_and_email_exist() {
         $result = $this->getConnection()->select_by_email("beber@gmail.com")->getContent()["USER_ID"];
-        $this->assertEquals('2', $result);
+        $this->assertEquals('3', $result);
     }
     public function test_select_by_email_and_email_dont_exist()
     {

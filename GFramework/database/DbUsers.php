@@ -1,7 +1,7 @@
 <?php
 
 
-use utilities\GReturn;
+use GFramework\utilities\GReturn;
 
 class DbUsers{
 
@@ -114,10 +114,18 @@ class DbUsers{
 
     /* Select by primary key */
 
+    public function select_by_id(int $id) : GReturn {
+        $request = "SELECT * FROM " . $this->dbName;
+        $request .= " WHERE USER_ID = '" . $id . "';";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
     public function select_by_username(string $username) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $request .= " WHERE USERNAME = '" . $username . "';";
         $result = $this->conn->query($request);
+        var_dump(mysqli_fetch_assoc($result)["USER_ID"]);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
