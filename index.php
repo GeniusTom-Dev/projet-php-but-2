@@ -23,7 +23,15 @@
         <h1>Titre poste</h1>
         <p>Ceci est un exemple de post Twitter-like.</p>
         <p>Vous pouvez ajouter plus de contenu ici.</p>
-        <img id="plusSolid" src="/html/images/plus-solid.svg" alt="plus" class="w-4 h-auto transition-transform duration-300 hover:scale-125">
+        <!-- Ajoutez un conteneur pour l'image "plus" -->
+        <div id="imageContainer" class="mt-4">
+            <button id="plusButton" class="w-4 h-auto transform transition-transform duration-300 hover:scale-125">
+                <img src="/html/images/plus-solid.svg" alt="plus">
+            </button>
+            <!-- Input de type "file" caché -->
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+        <div id="galleryContainer" class="mt-4"></div>
     </main>
     <footer>
         <div id="comment-section" class="p-4 max-h-40 overflow-y-auto">
