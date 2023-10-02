@@ -18,7 +18,7 @@
         <input type="password" placeholder="Password" class="w-full rounded-md text-lg outline-none border-2 p-1">
         <div class="w-full flex justify-between">
             <button class="border-none bg-transparent text-[#b2a5ff]">Mot de passe oublié ?</button>
-            <button class="border-none bg-transparent">Inscription</button>
+            <button class="border-none bg-transparent"><a href="register.php">Inscription</a></button>
         </div>
         <button class="bg-[#b2a5ff] p-2 w-full rounded-md">Connection</button>
         <div class="h-px w-full bg-[#e8eaed]"></div>
