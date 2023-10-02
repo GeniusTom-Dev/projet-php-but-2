@@ -2,7 +2,7 @@
 require_once("database/Database.php");
 require_once("database/DbUsers.php");
 require_once("database/dbTopics.php");
-require_once("database/dbUsers.php");
+require_once("database/DbUsers.php");
 require_once("database/dbPosts.php");
 require_once("database/dbComments.php");
 require_once("utilities/GReturn.php");
