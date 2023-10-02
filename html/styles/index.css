@@ -1,13 +1,13 @@
 .searchBar {
-    width: 400px;
+    width: 600px;
     height: 40px;
-    border-top-left-radius: 50px 50px;
-    border-top-right-radius: 50px 50px;
-    border-bottom-left-radius: 50px 50px;
-    border-bottom-right-radius: 50px 50px;
+    border-radius: 50px;
     background: #ffffff;
     border: 7px solid;
     border-color: #64e3de;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 input {
     text-align: center;
@@ -19,3 +19,15 @@ input {
     text-align: center;
 }
 
+.trendsWindow {
+    width: 400px;
+    height: 800px;
+    background: #ffffff;
+    border: 7px solid;
+    border-color: #eb4034;
+    display: block;
+    margin-left: auto;
+    text-align: center;
+    padding: 7px;
+    line-break: auto;
+}
