@@ -228,23 +228,36 @@ INSERT INTO 'topic' VALUES(8, 'Computer science', 1);
 INSERT INTO 'topic' VALUES(9, 'Gaming', 1);
 INSERT INTO 'topic' VALUES(10, 'Memes', 1);
 INSERT INTO 'topic' VALUES(11, 'Society', 1);
+INSERT INTO 'topic' VALUES(12, 'Nature', 1);
 
 --profils
-INSERT INTO 'user' VALUES('FrançoisPOLITIS', 'MAFRANCE', 1, 0, 'Député');
-INSERT INTO 'user' VALUES('DidierMANU', 'MANIFSSYNDICGREVE', 1, 0, 'On en a marre');
-INSERT INTO 'user' VALUES('JulieETUDE', 'JADORELART', 1, 0, 'Dessins, aquarelles, montages');
-INSERT INTO 'user' VALUES('BFMPoubelle', 'Surinformation24hsur24', 1, 0, 'L''info en continu et à saturation, 24h sur 24, 7j sur 7');
-INSERT INTO 'user' VALUES('Fandesport', 'FOOT', 1, 0, 'Supporter inconditionnel de l''équipe
+INSERT INTO 'user' VALUES('FrançoisPOLITIS', 'MAFRANCE', 1, 0, '10/02/2020', 'Député');
+INSERT INTO 'user' VALUES('DidierMANU', 'MANIFSSYNDICGREVE', 1, 0, '03/12/2018', 'On en a marre');
+INSERT INTO 'user' VALUES('JulieETUDE', 'JADORELART', 1, 0, '03/05/2022','Dessins, aquarelles, montages');
+INSERT INTO 'user' VALUES('BFMPoubelle', 'Surinformation24hsur24', 1, 0, '01/03/2016', 'L''info en continu et à saturation, 24h sur 24, 7j sur 7');
+INSERT INTO 'user' VALUES('Fandesport', 'FOOT', 1, 0, '09/06/2018', 'Supporter inconditionnel de l''équipe
 de foot de ma ville');
-INSERT INTO 'user' VALUES('En_gelBE', 'HUITMARS', 1, 0, 'Laisse-moi te chanter');
-INSERT INTO 'user' VALUES('X', 'CREATIONOFGOD', 1, 1, 'Homme mystérieux, je déteste les critiques');
-INSERT INTO 'user' VALUES('GalerienEnHerbe', 'KHOLLES', 1, 0, 'En prépa, sous antidépresseurs');
-INSERT INTO 'user' VALUES('NicolasRazer', 'PaSdElItEcOdE', 1, 0, 'Codage, JV, réparation PC');
-INSERT INTO 'user' VALUES('TheBestOfMemes', 'RIRE', 1, 0, 'Le meilleur des réseaux')
-INSERT INTO 'user' VALUES('KarolineFEM', 'Moiaussi', 1, 0, 'Encore les hommes');
-INSERT INTO 'user' VALUES('AgenceVoyages', 'VoyagesDeReve', 1, 0, 'Compte officiel d''AgenceVoyages');
-INSERT INTO 'user' VALUES('FandeJoule', 'VOLEURDETMAX', 1, 0, 'Wsh');
+INSERT INTO 'user' VALUES('En_gelBE', 'HUITMARS', 1, 0, '08/03/2015', 'Laisse-moi te chanter');
+INSERT INTO 'user' VALUES('X', 'CREATIONOFGOD', 1, 1, '01/01/2014', 'Homme mystérieux, je déteste les critiques');
+INSERT INTO 'user' VALUES('GalerienEnHerbe', 'KHOLLES', 1, 0, '01/09/2023', 'En prépa, sous antidépresseurs');
+INSERT INTO 'user' VALUES('NicolasRazer', 'PaSdElItEcOdE', 1, 0, '05/04/2015','Codage, JV, réparation PC');
+INSERT INTO 'user' VALUES('TheBestOfMemes', 'RIRE', 1, 0, '06/06/2016', 'Le meilleur des réseaux')
+INSERT INTO 'user' VALUES('KarolineFEM', 'Moiaussi', 1, 0, '09/10/2017', 'Encore les hommes');
+INSERT INTO 'user' VALUES('AgenceVoyages', 'VoyagesDeReve', 1, 0, '23/04/2023', 'Compte officiel d''AgenceVoyages');
+INSERT INTO 'user' VALUES('WrldXPlore', 'FRUSJPMXATCA', 1, 0, '25/05/2021', 'Passionnée de voyages, toujours en quête de nouvelles destinations');
+INSERT INTO 'user' VALUES('DrNazeman', 'EinsteinFan', 1, 0, '03/02/2020', 'Détenteur d''un master en satisfaction');
+INSERT INTO 'user' VALUES('PhotographePro', 'CaptureLeMonde', 1, 0, 'Photographe professionnel, chaque image raconte une histoire');
+INSERT INTO 'user' VALUES('JeanMusique', 'KONTRKULTUR', 1, 0, 'Ma vie est une playlist infinie');
+INSERT INTO 'user' VALUES('EricCAMRON', 'EcoWarrior', 1, 0, 'Le vert ou rien');
+INSERT INTO 'user' VALUES('', 'VieSaineBonheur', 1, 0, 'À la recherche du bien-être et de la simplicité');
+INSERT INTO 'user' VALUES('GamerPro', 'ProGamerMaster', 1, 0, 'Niveau maximum atteint dans tous les jeux');
+INSERT INTO 'user' VALUES('ArtisteEnHerbe', 'PeinturePassion', 1, 0, 'Créativité débordante sur toile et papier');
+INSERT INTO 'user' VALUES('', 'CinemaCinephile', 1, 0, '');
 
 --posts
-INSERT INTO 'post' VALUES(1, 'Alerte guerre en Ukraine', '');
+INSERT INTO 'post' VALUES(1, 'Alerte guerre en Ukraine', '', );
+INSERT INTO 'post' VALUES(1, 'Conflit au Haut-Karabakh', '');
+INSERT INTO 'post' VALUES(8, 'Dernières sorties tech', '');
+INSERT INTO 'post' VALUES(2, 'Indignation et soutien', '');
+INSERT INTO 'post' VALUES(8, 'Dernières sorties tech', '');
 /* pas terminé */
