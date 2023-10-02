@@ -1,6 +1,6 @@
 <?php
 
-namespace utilities;
+namespace GFramework\utilities;
 
 /*
  * @author GeniusTom
@@ -11,11 +11,13 @@ namespace utilities;
 
 class GReturn{
 
-    private $state;
+    private string $state;
 
-    private $reason;
+    private mixed $reason;
 
-    private $content;
+    private mixed $content;
+
+    private $columnNames;
 
     private $levelDump;
 
@@ -45,5 +47,12 @@ class GReturn{
      */
     public function getContent(): mixed{
         return $this->content;
+    }
+
+    /**
+     * @return array|string
+     */
+    public function getColumNames(): array|string {
+        return $this->columnNames;
     }
 }
