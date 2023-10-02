@@ -9,5 +9,4 @@ require_once("utilities/CannotDoException.php");
 
 $db = new Database('mysql-echo.alwaysdata.net','echo_mathieu','130304leroux','echo_bd_test');
 $dbConn = $db->getConnection()->getContent();
-//echo '<p>', var_dump($dbConn), '</p>';
 ?>
