@@ -1,9 +1,9 @@
 <?php
-use utilities\GReturn;
+use \GFramework\utilities\GReturn;
 
 class dbComments
 {
-    private string $dbName = "comment";
+    private string $dbName = "comments";
 
     private \mysqli $conn;
 

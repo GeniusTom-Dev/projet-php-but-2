@@ -25,19 +25,19 @@
 
     function homeReload(): void{
         if ($_GET['tab'] == 'categories') {
-            require 'admin_views/adminCategories.php';
+            require '../View/admin_views/adminCategories.php';
             //echo '<p>Categorie loadée</p>';
         }
         else if ($_GET['tab'] == 'utilisateurs') {
-            require 'admin_views/adminUsers.php';
+            require '../View/admin_views/adminUsers.php';
 //            echo '<p>', $_GET['utilisateurs'], '</p>';
         }
         else if ($_GET['tab'] == 'posts') {
-            require 'admin_views/adminPosts.php';
+            require '../View/admin_views/adminPosts.php';
 //            echo '<p>', $_GET['posts'], '</p>';
         }
         else if ($_GET['tab'] == 'commentaires') {
-            require 'admin_views/adminComments.php';
+            require '../View/admin_views/adminComments.php';
 //            echo '<p>', $_GET['commentaires'], '</p>';
         }
         else {

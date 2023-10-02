@@ -1,9 +1,10 @@
 <?php
 
-use utilities\GReturn;
+use \GFramework\utilities\GReturn;
+
 class dbPosts
 {
-    private string $dbName = "post";
+    private string $dbName = "posts";
 
     private \mysqli $conn;
 
@@ -11,10 +12,6 @@ class dbPosts
         $this->conn = $conn;
     }
 
-
-    public function addPost():void{
-
-    }
 
     public function select($id = null, $title = null, $content = null, $username = null, $datePosted = null) : GReturn{
         $result = $this->select_SQLResult($id, $title, $content, $username, $datePosted)->getContent();
@@ -28,7 +25,7 @@ class dbPosts
     public function select_SQLResult($id = null, $title = null, $content = null, $username = null, $datePosted = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
-            $request .= " WHERE ID=$id";
+            $request .= " WHERE POST_ID=$id";
             if (empty($title) === false){
                 $request .= " AND TITLE='$title'";
             }
@@ -78,7 +75,7 @@ class dbPosts
     }
 
     public function deletePost($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE ID=$id";
+        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
         $this->conn->query($query);
     }
 

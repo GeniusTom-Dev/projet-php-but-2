@@ -69,7 +69,7 @@ class controlAdminComments
                 <td><?= $row['DATE_POSTED']?></td>
                 <td><?= $row['POST_ID']?></td>
                 <td><?= $row['USER_ID']?></td>
-                <td><form method="post" action="/projet-php-but-2/homeAdmin.php"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }

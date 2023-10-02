@@ -1,10 +1,10 @@
 <?php
 
-use utilities\GReturn;
+use \GFramework\utilities\GReturn;
 
 class dbTopics
 {
-    private string $dbName = "topic";
+    private string $dbName = "topics";
 
     private \mysqli $conn;
 
@@ -14,7 +14,7 @@ class dbTopics
 
 
     public function addTopic($name, $info):void{
-        $nextID = mysqli_query($this->conn, "SELECT (MAX(ID) + 1) AS NEWID FROM ". $this->dbName);
+        $nextID = mysqli_query($this->conn, "SELECT (MAX(TOPIC_ID) + 1) AS NEWID FROM ". $this->dbName);
         $nextID = mysqli_fetch_assoc($nextID);
         $nextID = $nextID['NEWID'];
         $query = "INSERT INTO " . $this->dbName;
@@ -42,7 +42,7 @@ class dbTopics
     public function select_SQLResult(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         if(empty($id) === false){
-            $request .= " WHERE ID = " . $id ;
+            $request .= " WHERE TOPIC_ID = " . $id ;
             if (empty($name) === false){
                 $request .= " AND NAME = '" . $name . "'";
             }
@@ -60,13 +60,13 @@ class dbTopics
 
     public function getSortInstruction(?string $sort): string{
         if ($sort == 'ID-asc'){
-            return 'ORDER BY ID ASC';
+            return 'ORDER BY TOPIC_ID ASC';
         }
         else if ($sort == 'a-z'){
             return 'ORDER BY NAME ASC';
         }
         else if ($sort == 'recent'){
-            return 'ORDER BY ID DESC';
+            return 'ORDER BY TOPIC_ID DESC';
         }
         return '';
     }
@@ -94,18 +94,18 @@ class dbTopics
     }
 
     public function changeTopicName($id, $newName): void{
-        $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE ID=$id";
+        $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
     public function changeTopicInfo($id, $newInfo): void{
-        $query = "UPDATE " . $this->dbName . " SET INFO=";
+        $query = "UPDATE " . $this->dbName . " SET DESCRIPTION=";
         if ($newInfo == 'NULL'){
             $query .= "NULL";
         }
         else {
             $query .= "'$newInfo'";
         }
-        $query .= " WHERE ID=$id";
+        $query .= " WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
 
@@ -119,7 +119,7 @@ class dbTopics
     }
 
     public function deleteTopic($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE ID=$id";
+        $query = "DELETE FROM " . $this->dbName . " WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
 
