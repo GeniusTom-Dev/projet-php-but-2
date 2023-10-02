@@ -95,11 +95,6 @@ class DbUsers{
         return '';
     }
 
-    public function getUsers(): GReturn{
-
-        return new GReturn("ok", content: null);
-    }
-
     public function deleteUser(string $username): void{
         $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
         $this->conn->query($query);
@@ -166,7 +161,7 @@ class DbUsers{
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
             return false; // the username or/and the email are already used
         }
-        $request = "INSERT INTO `" . $this->dbName . "` (";
+        $request = "INSERT INTO " . $this->dbName . " (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
         $request .= "'" . $username . "', ";
         $request .= "'" . $email . "', ";

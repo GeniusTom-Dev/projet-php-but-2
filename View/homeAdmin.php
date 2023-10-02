@@ -30,7 +30,7 @@ if (isset($_SESSION['suid']) && $_SESSION['admin'] == true){
 </head>
 <body>
     <header></header>
-    <?php require 'views/nav-admin.php';?>
+    <?php require 'admin_views/nav-admin.php';?>
     <?php echo '<p>', $_SERVER['REQUEST_URI'], '</p>'; ?>
     <?php echo '<p>', http_build_query($_GET), '</p>'; ?>
 <!--    --><?php //$_SERVER['REQUEST_URI'] = '/projet-php-but-2/homeAdmin.php?' . http_build_query($_GET); ?>
