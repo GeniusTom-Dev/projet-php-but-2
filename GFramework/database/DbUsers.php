@@ -7,7 +7,7 @@ class DbUsers{
 
     private \mysqli $conn;
 
-    private array | string $dbColumns = ["USER_ID", "USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
+    private array | string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
 
 
     public function __construct($conn){
@@ -96,11 +96,6 @@ class DbUsers{
         return '';
     }
 
-    public function deleteUserByUsername(string $username): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
-        $this->conn->query($query);
-    }
-
     public function deleteUserByID(int $id): void{
         $query = "DELETE FROM " . $this->dbName . " WHERE USER_ID=$id";
         $this->conn->query($query);
@@ -120,22 +115,22 @@ class DbUsers{
 
     /* Select by primary key */
 
-    public function select_by_id(int $id) : GReturn {
+    public function selectById(int $id) : GReturn
+    {
         $request = "SELECT * FROM " . $this->dbName;
         $request .= " WHERE USER_ID = '" . $id . "';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function select_by_username(string $username) : GReturn{
+    public function selectByUsername(string $username) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $request .= " WHERE USERNAME = '" . $username . "';";
         $result = $this->conn->query($request);
-        var_dump(mysqli_fetch_assoc($result)["USER_ID"]);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function select_by_email(string $email) : GReturn{
+    public function selectByEmail(string $email) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $request .= " WHERE USER_EMAIL = '" . $email . "';";
         $result = $this->conn->query($request);
