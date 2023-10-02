@@ -10,7 +10,7 @@
 
 <div class="bg-blue-500 h-screen w-64 fixed left-0"></div>
 
-<article class="w-1/2 h-1/3 bg-gray-100 rounded-lg shadow-md p-6 transition-transform duration-300 hover:scale-105 article">
+<article class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 transition-transform duration-300 hover:scale-105 article">
     <header class="flex justify-between items-center mb-16">
         <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125">
         <div class="flex flex-col">
