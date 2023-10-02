@@ -23,12 +23,11 @@
         <h1>Titre poste</h1>
         <p>Ceci est un exemple de post Twitter-like.</p>
         <p>Vous pouvez ajouter plus de contenu ici.</p>
+        <img id="plusSolid" src="/html/images/plus-solid.svg" alt="plus" class="w-4 h-auto transition-transform duration-300 hover:scale-125">
     </main>
     <footer>
-        <!--class="prose bg-gray-100 rounded-lg shadow-md p-4 max-h-40 overflow-y-auto"-->
         <div id="comment-section" class="p-4 max-h-40 overflow-y-auto">
             <h2 class="mb-4">Commentaires</h2>
-            <!-- Les commentaires seront affichés ici -->
             <div id="comments-container" class="max-h-40 overflow-y-auto"></div>
             <div class="flex items-center mb-2"> <!-- Conteneur pour les boutons -->
                 <textarea id="comment-input" placeholder="Ajoutez un commentaire..." class="w-full p-2 border border-gray-300 rounded-md"></textarea>
@@ -45,7 +44,6 @@
     <img id="arrowRight" src="/html/images/arrow-right-solid.svg" alt="arrowRight" class="w-8 h-auto transition-transform duration-300 hover:scale-125">
 </div>
 
-<!-- Incluez le script JavaScript après les éléments HTML qu'il utilise -->
 <script src="/html/script/script.js"></script>
 </body>
 </html>

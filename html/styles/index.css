@@ -1,3 +1,12 @@
+/* Applique l'effet de transition à toutes les images */
+img {
+    transition: transform 0.3s; /* Durée de l'effet de transition */
+}
+
+/* Agrandit légèrement toutes les images lorsqu'elles sont survolées */
+img:hover {
+    transform: scale(1.25); /* Augmente légèrement la taille lors du survol */
+}
 
 
 
