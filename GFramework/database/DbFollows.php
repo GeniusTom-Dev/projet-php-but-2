@@ -18,7 +18,7 @@ class DbFollows
     public function countFollowedUser(int $idUser) : int {
         $request = "SELECT COUNT(*) FROM $this->dbName ";
         $request .= "WHERE ID_FOLLOWER= $idUser;";
-        // a finir
+        // a finir et voir si on s'en sert
         return 0;
     }
 

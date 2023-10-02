@@ -1,6 +1,6 @@
 <?php
 include '../GFramework/database/Database.php';
-include '../GFramework/database/dbPosts.php';
+include '../GFramework/database/DbPosts.php';
 require '../GFramework/autoloader.php';
 
 use PHPUnit\Framework\TestCase;

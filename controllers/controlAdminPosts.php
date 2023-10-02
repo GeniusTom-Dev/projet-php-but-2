@@ -3,14 +3,14 @@
 namespace controllers;
 use GFramework\utilities\GReturn;
 use \utilities\CannotDoException;
-use dbPosts;
+use DbPosts;
 
 class controlAdminPosts
 {
-    private dbPosts $dbPosts;
+    private DbPosts $dbPosts;
 
     public function __construct($conn){
-        $this->dbPosts = new dbPosts($conn);
+        $this->dbPosts = new DbPosts($conn);
     }
 
     /**

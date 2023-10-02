@@ -1,7 +1,7 @@
 <?php
 use \GFramework\utilities\GReturn;
 
-class dbComments
+class DbComments
 {
     private string $dbName = "comments";
 
