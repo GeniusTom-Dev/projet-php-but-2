@@ -1,11 +1,11 @@
 <?php
-use \GFramework\utilities\GReturn;
+use GFramework\utilities\GReturn;
 
 class DbUsers{
 
     private string $dbName = "users";
 
-    private \mysqli $conn;
+    private mysqli $conn;
 
     private array | string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
 
@@ -198,11 +198,11 @@ class DbUsers{
 
     /* check if already exists functions */
 
-    private function isUsernameAlreadyUsed(string $username) {
+    private function isUsernameAlreadyUsed(string $username) : bool {
         return in_array(['USERNAME'=>$username], $this->getUsers(["USERNAME"])->getContent());
     }
 
-    private function isEmailAlreadyUsed(string $email) {
+    private function isEmailAlreadyUsed(string $email) : bool {
         return in_array(['USER_EMAIL'=>$email], $this->getUsers(["USER_EMAIL"])->getContent());
     }
 

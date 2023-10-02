@@ -79,4 +79,39 @@ class dbPosts
         $this->conn->query($query);
     }
 
+    // ----- Temporaire
+
+    /**
+     * @param int $post_id
+     * @return GReturn
+     * Use to get a posts information from his ID
+     */
+    public function selectByID(int $post_id) : GReturn {
+        $request = "SELECT * FROM " . $this->dbName;
+        $request .= " WHERE POST_ID = '" . $post_id . "';";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
+    /**
+     * @param int $user_id
+     * @return GReturn
+     * Use to get all the posts of a user from his ID
+     */
+    public function selectByUserID(int $user_id) : GReturn {
+        $request = "SELECT * FROM " . $this->dbName;
+        $request .= " WHERE USER_ID = '" . $user_id . "';";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+    }
+
+    public function selectByLikeTitleOrContent(string $text, bool $searchOnlyInTitle = false) : GReturn {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE TITLE LIKE '%$text%'";
+        if (!$searchOnlyInTitle) {
+            $request .= " OR CONTENT LIKE '%$text%';";
+        }
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+    }
 }
