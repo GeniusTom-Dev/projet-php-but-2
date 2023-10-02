@@ -10,7 +10,7 @@
         <p><?php  echo "Follow | 320 followers"."\r"; ?></p>
         <p><?php  echo "Dernière connexion ; ...";?></p>
         <p><?php  echo "Bio : testetest";?></p>
-            
+        <img id="growArrow" src="/Projet/projet-php-but-2/html/images/fleches.svg" alt="growArrow" class="article-image">
         <img src="/zoro.png" alt="PP" class="article-image">
 
     </header>
