@@ -68,7 +68,6 @@ growArrow.addEventListener("click", () => {
     // Inverse l'état de l'agrandissement
     isEnlarged = !isEnlarged;
 });
-
 heartRegular.addEventListener("click", () => {
     if (!isEnlarged) {
         // Remplace l'image initiale par la nouvelle image

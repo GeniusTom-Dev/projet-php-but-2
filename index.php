@@ -19,11 +19,10 @@
         </div>
         <img id="growArrow" src="/html/images/fleches.svg" alt="growArrow" class="w-8 h-auto transition-transform duration-300 hover:scale-125">
     </header>
-    <main>
+    <main class="max-h-60 overflow-y-auto">
         <h1>Titre poste</h1>
         <p>Ceci est un exemple de post Twitter-like.</p>
         <p>Vous pouvez ajouter plus de contenu ici.</p>
-        <!-- Ajoutez un conteneur pour l'image "plus" -->
         <div id="imageContainer" class="mt-4">
             <button id="plusButton" class="w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                 <img src="/html/images/plus-solid.svg" alt="plus">
