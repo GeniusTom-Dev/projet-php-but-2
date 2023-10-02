@@ -169,6 +169,8 @@ class DbUsers{
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
             return false; // the username or/and the email are already used
         }
+        $resetIdMinValue = "ALTER TABLE " . $this->dbName . " AUTO_INCREMENT = 1;";
+        $this->conn->query($resetIdMinValue);
         $request = "INSERT INTO " . $this->dbName . " (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
         $request .= "'" . $username . "', ";
