@@ -5,7 +5,7 @@ function start_page($title): void
 <html lang="fr">
     <head>
         <title><?php echo $title; ?></title>
-<link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>
+        <link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>
         <link rel="stylesheet" type="text/css" href="/Projet/projet-php-but-2/html/styles/index.css">
         
     </head>

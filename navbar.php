@@ -62,6 +62,10 @@ $Follow = "320";
           }
           ?>
       </ul>
+      <label class="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
   </nav>
 </header>
 

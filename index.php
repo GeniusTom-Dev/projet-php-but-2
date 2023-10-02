@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Ma Page</title>
-    <link rel="stylesheet" type="text/css" href="/Projet/projet-php-but-2/html/styles/index.css">
    <?php require 'navbar.php'; ?>
 </head>
 <body>
