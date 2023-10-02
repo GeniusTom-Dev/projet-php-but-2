@@ -25,11 +25,15 @@
         <p>Vous pouvez ajouter plus de contenu ici.</p>
     </main>
     <footer>
-        <div id="comment-section" class="prose bg-gray-100 rounded-lg shadow-md p-4 max-h-40 overflow-y-auto">
+        <!--class="prose bg-gray-100 rounded-lg shadow-md p-4 max-h-40 overflow-y-auto"-->
+        <div id="comment-section" class="p-4 max-h-40 overflow-y-auto">
             <h2 class="mb-4">Commentaires</h2>
             <!-- Les commentaires seront affichés ici -->
-            <textarea id="comment-input" placeholder="Ajoutez un commentaire..." class="w-full p-2 border border-gray-300 rounded-md"></textarea>
-            <button id="comment-button" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer">Poster</button>
+            <div id="comments-container" class="max-h-40 overflow-y-auto"></div>
+            <div class="flex items-center mb-2"> <!-- Conteneur pour les boutons -->
+                <textarea id="comment-input" placeholder="Ajoutez un commentaire..." class="w-full p-2 border border-gray-300 rounded-md"></textarea>
+                <button id="comment-button" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer">Poster</button>
+            </div>
         </div>
     </footer>
 </article>

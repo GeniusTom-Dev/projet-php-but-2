@@ -63,7 +63,13 @@ commentButton.addEventListener("click", () => {
     if (commentText.trim() !== "") {
         // Crée un nouvel élément de commentaire
         let commentElement = document.createElement("div");
-        commentElement.className = "comment";
+        commentElement.className = "comment flex justify-between items-center mb-2";
+
+        // Crée un élément de texte pour le commentaire
+        let commentTextElement = document.createElement("div");
+        commentTextElement.className = "mr-2"; // Ajoute un peu d'espace entre le texte du commentaire et le bouton
+        commentTextElement.textContent = commentText;
+        commentTextElement.style.wordWrap = "break-word"; // Ajoute la propriété CSS pour le débordement de texte
 
         // Crée un bouton de suppression pour le commentaire
         let deleteButton = document.createElement("button");
@@ -80,13 +86,9 @@ commentButton.addEventListener("click", () => {
             commentsContainer.removeChild(commentElement);
         });
 
-        // Crée un élément de texte pour le commentaire
-        let commentTextElement = document.createElement("div");
-        commentTextElement.textContent = commentText;
-
         // Ajoute le bouton de suppression et le texte du commentaire à l'élément de commentaire
-        commentElement.appendChild(deleteButton);
         commentElement.appendChild(commentTextElement);
+        commentElement.appendChild(deleteButton);
 
         // Ajoute le commentaire à la section des commentaires
         commentsContainer.appendChild(commentElement);
