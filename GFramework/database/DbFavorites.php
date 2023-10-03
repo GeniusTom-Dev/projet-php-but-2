@@ -19,7 +19,9 @@ class DbFavorites
         return !empty(mysqli_fetch_assoc($result));
     }
 
-    public function addFavorites(int $user_id, int $post_id) : bool {
+    /* Add Favorite */
+
+    public function addFavorite(int $user_id, int $post_id) : bool {
         if ($this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
             return false; // Modification was not made
         }
@@ -30,7 +32,9 @@ class DbFavorites
         return true;
     }
 
-    public function removeFavorite(int $user_id, int $post_id) {
+    /* Remove Favorite */
+
+    public function removeFavorite(int $user_id, int $post_id) : bool {
         if (!$this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
             return false; // This entry doesn't exists in the table
         }

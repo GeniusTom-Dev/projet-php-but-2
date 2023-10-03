@@ -62,12 +62,9 @@ class DbFollows
         return true;
     }
 
-    /**
-     * @param int $connectedUser
-     * @param int $otherUser
-     * @return bool
-     */
-    public function deleteFollow(int $connectedUser, int $otherUser) : bool {
+    /* Remove follow */
+
+    public function removeFollow(int $connectedUser, int $otherUser) : bool {
         if (!$this->doesUserFollowAnotherUser($connectedUser, $otherUser)) {
             return false; // This entry doesn't exist in the table
         }

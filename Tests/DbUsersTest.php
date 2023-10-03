@@ -64,8 +64,8 @@ class DbUsersTest extends TestCase {
 //    // -------------------------
 //
 //    public function test_random() {
-//        $result = mysqli_fetch_all($this->getConnection()->select_SQLResult(1)->getContent());
-//        $result2 = mysqli_fetch_all($this->getConnection()->select_SQLResult(1)->getContent());
+//        $result = mysqli_fetch_all($this->getConnection()->select_SQLResult(null,"admin",null,null,1)->getContent());
+//        $result2 = mysqli_fetch_all($this->getConnection()->select_SQLResult(null,"admin",null,null,1)->getContent());
 //        $this->assertEquals($result, $result2);
 //    }
 

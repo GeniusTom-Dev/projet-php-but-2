@@ -21,7 +21,6 @@ class DbLikes
     public function doesUserHasLikedThisPost(int $user_id, int $post_id) : bool {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_ID = $user_id AND POST_ID = $post_id;";
-        $request .= " WHERE USER_ID = $user_id AND POST_ID = $post_id;";
         $result = $this->conn->query($request);
         return !empty(mysqli_fetch_assoc($result));
     }
@@ -32,6 +31,8 @@ class DbLikes
 
         return 0;
     }
+
+    /* Add Like */
 
     public function addLike(int $user_id, int $post_id) : bool {
         if ($this->doesUserHasLikedThisPost($user_id, $post_id)) {
@@ -44,7 +45,7 @@ class DbLikes
         $this->conn->query($request);
         return true;
     }
-
+     /* Remove Like */
     public function removeLike(int $user_id, int $post_id) : bool {
         if (!$this->doesUserHasLikedThisPost($user_id, $post_id)) {
             return false; // This entry doesn't exist

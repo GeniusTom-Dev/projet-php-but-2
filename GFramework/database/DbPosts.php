@@ -1,91 +1,46 @@
 <?php
 
-use \GFramework\utilities\GReturn;
+use GFramework\utilities\GReturn;
 
 class DbPosts
 {
     private string $dbName = "posts";
     private array | string $dbColumns = ["USER_ID", "TITLE", "CONTENT", "DATE_POSTED"];
-    private \mysqli $conn;
+    private mysqli $conn;
 
     public function __construct($conn){
         $this->conn = $conn;
     }
 
-
-    public function select($id = null, $title = null, $content = null, $username = null, $datePosted = null) : GReturn{
-        $result = $this->select_SQLResult($id, $title, $content, $username, $datePosted)->getContent();
-        $row = [];
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $row);
+    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
+        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult($id = null, $title = null, $content = null, $username = null, $datePosted = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE POST_ID = $id";
-            if (empty($title) === false){
-                $request .= " AND TITLE = '$title'";
-            }
-            if (empty($content) === false){
-                $request .= " AND CONTENT = '$content'";
-            }
-            if (empty($username) === false){
-                $request .= " AND USER_ID = '$username'";
-            }
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED = '$datePosted'";
-            }
+    public function select_SQLResult($titleLike = null, $contentLike = null, $user_id = null, $dateMin = null, $dateMax = null) : GReturn{
+        $request = "SELECT * FROM  $this->dbName ";
+        $conditions = [];
+        if (!is_null($titleLike)) {
+            $conditions[] = "TITLE LIKE %$titleLike%";
         }
-        else if (empty($title) === false){
-            $request .= " WHERE TITLE='$title'";
-            if (empty($content) === false){
-                $request .= " AND CONTENT='$content'";
-            }
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
-            }
+        if (!is_null($contentLike)) {
+            $conditions[] = "CONTENT LIKE %$contentLike%";
         }
-        else if (empty($content) === false){
-            $request .= " WHERE CONTENT='$content'";
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
-            }
+        if (!is_null($user_id)) {
+            $conditions[] = "USER_ID = $user_id";
         }
-        else if (empty($username) === false){
-            $request .= " WHERE USER_ID='$username'";
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
-            }
+        if (!is_null($dateMin)) {
+            $conditions[] = "DATE_POSTED >= $dateMin";
         }
-        else if (empty($datePosted) === false){
-            $request .= " WHERE DATE_POSTED='$datePosted'";
+        if (!is_null($dateMax)) {
+            $conditions[] = "DATE_POSTED <= $dateMax";
+        }
+        if (!empty($conditions)) {
+            $request .= "WHERE " . implode(" AND ", $conditions);
         }
         $result = $this->conn->query($request);
-
         return new GReturn("ok", content: $result);
     }
 
-    public function deletePost($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
-        $this->conn->query($query);
-    }
-
-    // ----- Temporaire
-
-    /**
-     * @param int $post_id
-     * @return GReturn
-     * Use to get a posts information from his ID
-     */
     public function selectByID(int $post_id) : GReturn {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE POST_ID = '$post_id';";
@@ -93,38 +48,22 @@ class DbPosts
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    /**
-     * @param int $user_id
-     * @return GReturn
-     * Use to get all the posts of a user from his ID
-     */
-    public function selectByUserID(int $user_id) : GReturn {
-        $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USER_ID = '$user_id';";
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
-    }
-
-    // temporaire
-    public function selectByLikeTitleOrContent(string $text, bool $searchOnlyInTitle = false) : GReturn {
-        $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE TITLE LIKE '%$text%'";
-        if (!$searchOnlyInTitle) {
-            $request .= " OR CONTENT LIKE '%$text%';";
-        }
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
-    }
+    /* Add Post */
 
     public function addPost(int $user_id, string $title, string $content, string $date_posted) : bool {
-        $resetIdMinValue = "ALTER TABLE " . $this->dbName . " AUTO_INCREMENT = 1;";
+        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
         $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
         $request .= "$user_id, '$title', '$content', '$date_posted');";
-        var_dump($request);
         $this->conn->query($request);
         return true;
     }
 
+    /* Delete Post */
+
+    public function deletePost($id): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
+        $this->conn->query($query);
+    }
 }

@@ -1,57 +1,32 @@
 <?php
 
-use \GFramework\utilities\GReturn;
+use GFramework\utilities\GReturn;
 
 class DbTopics
 {
     private string $dbName = "topics";
 
-    private \mysqli $conn;
+    private mysqli $conn;
 
     public function __construct($conn){
         $this->conn = $conn;
     }
 
-    // a changer -> plus de besoin de preciser l'ID
-    public function addTopic($name, $info):void{
-        $nextID = mysqli_query($this->conn, "SELECT (MAX(TOPIC_ID) + 1) AS NEWID FROM ". $this->dbName);
-        $nextID = mysqli_fetch_assoc($nextID);
-        $nextID = $nextID['NEWID'];
-        $query = "INSERT INTO " . $this->dbName;
-        $query .= " VALUES ($nextID, '$name', ";
-        if ($info == ''){
-            $query .= "NULL";
-        }
-        else{
-            $query .= "'$info'";
-        }
-        $query .= ");";
-
-        $this->conn->query($query);
+    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
+        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $result = $this->select_SQLResult($id,$name,$limit,$page,$sort)->getContent();
-        $rows = [];
-        if ($result->num_rows > 0) {
-            $rows = $result->fetch_assoc();
+    public function select_SQLResult(string $nameLike = null, string $descriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+        $request = "SELECT * FROM  $this->dbName ";
+        $conditions = [];
+        if (!is_null($nameLike)) {
+            $conditions[] = "NAME LIKE %$nameLike%";
         }
-        return new GReturn("ok", content: $rows);
-    }
-
-    public function select_SQLResult(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE TOPIC_ID = $id" ;
-            if (empty($name) === false){
-                $request .= " AND NAME = '$name'";
-            }
+        if (!is_null($descriptionLike)) {
+            $conditions[] = "DESCRITPION LIKE %$descriptionLike%";
         }
-        else if (empty($name) === false){
-            $request .= " WHERE NAME = '$name'";
-        }
-        if (empty($limit) === false){
-            $request .= " LIMIT $limit";
+        if (!empty($conditions)) {
+            $request .= "WHERE " . implode(" AND ", $conditions);
         }
         $request .= " " . $this->getSortInstruction($sort);
         $result = $this->conn->query($request);
@@ -71,52 +46,51 @@ class DbTopics
         return '';
     }
 
-    public function selectLike($name = null, $info = null, $limit = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($name) === false){
-            $request .= " WHERE NAME LIKE '%$name%'";
-            if (empty($info) === false){
-                $request .= " AND INFO LIKE '%$info%'";
-            }
-        }
-        else if (empty($name) === false){
-            $request .= " WHERE INFO LIKE '%$info%'";
-        }
-        if (empty($limit) === false){
-            $request .= " LIMIT $limit";
-        }
-        $result = $this->conn->query($request);
-        $rows = [];
-        if ($result->num_rows > 0) {
-            $rows = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $rows);
-    }
+    /* Update Topic */
 
     public function changeTopicName($id, $newName): void{
         $query = "UPDATE $this->dbName SET NAME='$newName' WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
-    public function changeTopicInfo($id, $newInfo): void{
+    public function changeTopicDescription($id, $newDescription): void{
         $query = "UPDATE $this->dbName SET DESCRIPTION=";
-        if ($newInfo == 'NULL'){
+        if ($newDescription == 'NULL'){
             $query .= "NULL";
         }
         else {
-            $query .= "'$newInfo'";
+            $query .= "'$newDescription'";
         }
         $query .= " WHERE TOPIC_ID=$id";
         $this->conn->query($query);
     }
 
-    public function changeTopic($id, $newName = null, $newInfo = null): void{
+    public function changeTopic($id, $newName = null, $newDescription = null): void{
         if (empty($newName) === false && $newName != ''){
             $this->changeTopicName($id, $newName);
         }
-        if (isset($newInfo) && $newInfo != ''){
-            $this->changeTopicInfo($id, $newInfo);
+        if (isset($newDescription) && $newDescription != ''){
+            $this->changeTopicDescription($id, $newDescription);
         }
     }
+
+    /* Add Topic */
+
+    public function addTopic($name, $Description):void{
+        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
+        $this->conn->query($resetIdMinValue);
+        $query = "INSERT INTO " . $this->dbName;
+        $query .= " VALUES ('$name', ";
+        if ($Description == ''){
+            $query .= "NULL";
+        }
+        else{
+            $query .= "'$Description'";
+        }
+        $query .= ");";
+        $this->conn->query($query);
+    }
+
+    /* Delete Topic */
 
     public function deleteTopic($id): void{
         $query = "DELETE FROM $this->dbName WHERE TOPIC_ID = $id";

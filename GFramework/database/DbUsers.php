@@ -14,83 +14,27 @@ class DbUsers{
         $this->conn = $conn;
     }
 
-    // -------------------------- CODE CAMILLE --------------------------
 
-    public function select(?int $id = null, ?string $username = null, ?string $firstConnect = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $result = $this->select_SQLResult($id,$username,$firstConnect,$isAdmin,$isActivated,$limit,$page,$sort)->getContent();
-        $row = [];
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $row);
+    // UTILISER DE PREFERENCE LE ASSOC ARRAY PLUTOT QUE LE RESULT SQL
+    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
+        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(?int $id = null, ?string $username = null, ?string $firstConnect = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE USER_ID = $id" ;
-            if (empty($username) === false){
-                $request .= " AND USERNAME = '$username'";
-            }
-            if (empty($firstConnect) === false){
-                $request .= " AND USER_CREATED = '$firstConnect'";
-            }
-            if (empty($isAdmin) === false){
-                $request .= " AND IS_ADMIN = $isAdmin";
-            }
-            if (empty($isActivated) === false){
-                $request .= " AND IS_ACTIVATED = $isActivated";
-            }
-        }
-        if(empty($username) === false){
-            $request .= " WHERE USERNAME = '$username'" ;
-            if (empty($firstConnect) === false){
-                $request .= " AND USER_CREATED = '$firstConnect'";
-            }
-            if (empty($isAdmin) === false){
-                $request .= " AND IS_ADMIN = $isAdmin";
-            }
-            if (empty($isActivated) === false){
-                $request .= " AND IS_ACTIVATED = $isActivated";
-            }
-        }
-        else if (empty($firstConnect) === false){
-            $request .= " WHERE USER_CREATED = '$firstConnect'";
-            if (empty($isAdmin) === false){
-                $request .= " AND IS_ADMIN = $isAdmin";
-            }
-            if (empty($isActivated) === false){
-                $request .= " AND IS_ACTIVATED = $isActivated";
-            }
-        }
-        else if (empty($isAdmin) === false){
-            $request .= " WHERE IS_ADMIN = $isAdmin";
-            if (empty($isActivated) === false){
-                $request .= " AND IS_ACTIVATED = $isActivated";
-            }
-        }
-        else if (empty($isActivated) === false){
-            $request .= " WHERE IS_ACTIVATED = $isActivated";
-        }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
-        $request .= " " . $this->getSortInstruction($sort);
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: $result);
-    }
-
-    public function select_SQLResult2(?int $id = null, ?string $username = null, ?string $firstConnect = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+    /**
+     * @param string|null $usernameLike
+     * @param bool|null $isAdmin
+     * @param bool|null $isActivated
+     * @param int|null $limit
+     * @param int $page
+     * @param string|null $sort
+     * @return GReturn
+     * Used when you need to filter the table according to several non-unique key attributes
+     */
+    public function select_SQLResult(string $usernameLike = null, bool $isAdmin = null, bool $isActivated = null, int $limit = null, int $page = 0, string $sort = null) : GReturn{
         $request = "SELECT * FROM  $this->dbName ";
         $conditions = [];
-        if (!is_null($id)) {
-            $conditions[] = "USER_ID = $id";
-        }
-        if (!is_null($username)) {
-            $conditions[] = "USERNAME = $username";
-        }
-        if (!is_null($firstConnect)) {
-            $conditions[] = "USER_CREATED = $firstConnect";
+        if (!is_null($usernameLike)) {
+            $conditions[] = "USERNAME LIKE %$usernameLike%";
         }
         if (!is_null($isAdmin)) {
             $conditions[] = "IS_ADMIN = $isAdmin";
@@ -122,23 +66,6 @@ class DbUsers{
         return '';
     }
 
-    public function deleteUserByID(int $id): void{
-        $query = "DELETE FROM $this->dbName WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
-    public function deactivateUser(int $id): void{
-        $query = "UPDATE $this->dbName SET IS_ACTIVATED=0 WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
-    public function activateUser(int $id): void{
-        $query = "UPDATE $this->dbName SET IS_ACTIVATED=1 WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
-    // -------------------------- CODE MATHIEU --------------------------
-
     /* Select by primary key */
 
     public function selectById(int $id) : GReturn
@@ -163,41 +90,35 @@ class DbUsers{
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    /* Get all the values and select the columns */
+    /* Update User */
 
-    public function getUsers(array | string $attributes = []): GReturn{
-        $request = $this->createSelectStringWithAttributes($attributes);
-        $request .= " FROM $this->dbName";
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
-    }
-
-    // a enlever plus tard
-    private function createSelectStringWithAttributes(array | string $attributes = []): string {
-        $select = "SELECT ";
-        if (empty($attributes)) return $select . '*';
-        if ($this->isAttributeInTable($attributes[0])) {
-            $select .= $attributes[0];
-            for ($i=1; $i<sizeof($attributes); $i++) {
-                if ($this->isAttributeInTable($attributes[$i])) {
-                    $select .= ", " . $attributes[$i];
-                }
-            }
+    public function updateUsername(string $oldUsername, string $newUsername) : bool {
+        if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
+            return false; // the username is already used, the update was not made
         }
-        return $select;
+        $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
+        $request .= " WHERE USERNAME = '$oldUsername';";
+        $this->conn->query($request);
+        return true;
     }
 
-    private function isAttributeInTable(string $attribute) : bool {
-        return in_array($attribute, $this->dbColumns);
+    public function activateUser(int $id): void{
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=1 WHERE USER_ID=$id";
+        $this->conn->query($query);
     }
 
-    /* add a user */
+    public function deactivateUser(int $id): void{
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=0 WHERE USER_ID=$id";
+        $this->conn->query($query);
+    }
+
+    /* Add User */
 
     public function addUser(string $username, string $email, string $pwd) : bool {
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
             return false; // the username or/and the email are already used
         }
-        $resetIdMinValue = "ALTER TABLE " . $this->dbName . " AUTO_INCREMENT = 1;";
+        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
         $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
@@ -209,16 +130,11 @@ class DbUsers{
         return true;
     }
 
-    /* update a user */
+    /* Delete User */
 
-    public function updateUsername(string $oldUsername, string $newUsername) : bool {
-        if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
-            return false; // the username is already used, the update was not made
-        }
-        $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
-        $request .= " WHERE USERNAME = '$oldUsername';";
-        $this->conn->query($request);
-        return true;
+    public function deleteUserByID(int $id): void{
+        $query = "DELETE FROM $this->dbName WHERE USER_ID=$id";
+        $this->conn->query($query);
     }
 
     /* check if already exists functions */

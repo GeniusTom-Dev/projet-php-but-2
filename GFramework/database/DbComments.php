@@ -11,69 +11,36 @@ class DbComments
         $this->conn = $conn;
     }
 
-
     public function addComment():void{
 
     }
 
-    public function select($id = null, $content = null, $datePosted = null, $post = null, $username = null) : GReturn{
-        $result = $this->select_SQLResult($id, $content, $username, $datePosted)->getContent();
-        $row = [];
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $row);
+    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
+        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult($id = null, $content = null, $datePosted = null, $post = null, $username = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE COMMENT_ID=$id";
-            if (empty($content) === false){
-                $request .= " AND CONTENT='$content'";
-            }
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
-            }
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
-            }
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
+    public function select_SQLResult($user_id = null, $contentLike = null, $post_id = null, $dateMin = null, $dateMax = null) : GReturn{
+        $request = "SELECT * FROM  $this->dbName ";
+        $conditions = [];
+        if (!is_null($user_id)) {
+            $conditions[] = "USER_ID = $user_id";
         }
-        else if (empty($content) === false){
-            $request .= " WHERE CONTENT='$content'";
-            if (empty($datePosted) === false){
-                $request .= " AND DATE_POSTED='$datePosted'";
-            }
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
-            }
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
+        if (!is_null($contentLike)) {
+            $conditions[] = "CONTENT LIKE %$contentLike%";
         }
-        else if (empty($datePosted) === false){
-            $request .= " WHERE DATE_POSTED='$datePosted'";
-            if (empty($post) === false){
-                $request .= " AND POST_ID=$post";
-            }
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
+        if (!is_null($post_id)) {
+            $conditions[] = "POST_ID = $post_id";
         }
-        else if (empty($post) === false){
-            $request .= " WHERE POST_ID=$post";
-            if (empty($username) === false){
-                $request .= " AND USER_ID='$username'";
-            }
+        if (!is_null($dateMin)) {
+            $conditions[] = "DATE_POSTED >= $dateMin";
         }
-        else if (empty($username) === false){
-            $request .= " WHERE USER_ID='$username'";
+        if (!is_null($dateMax)) {
+            $conditions[] = "DATE_POSTED <= $dateMax";
+        }
+        if (!empty($conditions)) {
+            $request .= "WHERE " . implode(" AND ", $conditions);
         }
         $result = $this->conn->query($request);
-
         return new GReturn("ok", content: $result);
     }
 
