@@ -5,7 +5,7 @@ use \GFramework\utilities\GReturn;
 class DbPosts
 {
     private string $dbName = "posts";
-
+    private array | string $dbColumns = ["USER_ID", "TITLE", "CONTENT", "DATE_POSTED"];
     private \mysqli $conn;
 
     public function __construct($conn){
@@ -105,6 +105,7 @@ class DbPosts
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
+    // temporaire
     public function selectByLikeTitleOrContent(string $text, bool $searchOnlyInTitle = false) : GReturn {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE TITLE LIKE '%$text%'";
@@ -114,4 +115,16 @@ class DbPosts
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
+
+    public function addPost(int $user_id, string $title, string $content, string $date_posted) : bool {
+        $resetIdMinValue = "ALTER TABLE " . $this->dbName . " AUTO_INCREMENT = 1;";
+        $this->conn->query($resetIdMinValue);
+        $request = "INSERT INTO $this->dbName (";
+        $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
+        $request .= "$user_id, '$title', '$content', '$date_posted');";
+        var_dump($request);
+        $this->conn->query($request);
+        return true;
+    }
+
 }
