@@ -6,6 +6,7 @@
         if (isset($_GET['tab'])){
             if ($_GET['tab'] != $_SESSION['tab']){
                 $_GET['sort'] = 'ID-asc';
+                $_GET['page'] = 1;
             }
             $_SESSION['tab'] = $_GET['tab'];
         }
@@ -17,10 +18,26 @@
         if (!isset($_SESSION['sort'])) {
             $_SESSION['sort'] = 'ID-asc';
         }
-        if (isset($_GET['sort']))
+        if (isset($_GET['sort'])) {
+            if ($_GET['sort'] != $_SESSION['sort']) {
+                $_GET['page'] = 1;
+            }
             $_SESSION['sort'] = $_GET['sort'];
+        }
         else
             $_GET['sort'] = $_SESSION['sort'];
+    }
+
+    function checkPage(): void{
+        if (!isset($_SESSION['page'])){
+            $_SESSION['page'] = 1;
+        }
+        if (isset($_GET['page'])){
+            $_SESSION['page'] = $_GET['page'];
+        }
+        else {
+            $_GET['page'] = $_SESSION['page'];
+        }
     }
 
     function homeReload(): void{

@@ -12,6 +12,10 @@ class dbTopics
         $this->conn = $conn;
     }
 
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
+    }
 
     public function addTopic($name, $info):void{
         $nextID = mysqli_query($this->conn, "SELECT (MAX(TOPIC_ID) + 1) AS NEWID FROM ". $this->dbName);
@@ -50,10 +54,10 @@ class dbTopics
         else if (empty($name) === false){
             $request .= " WHERE NAME = '" . $name . "'";
         }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
         $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }

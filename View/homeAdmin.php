@@ -7,6 +7,7 @@ if (isset($_SESSION['suid']) && $_SESSION['admin'] == true){
     require_once '../autoloads/adminAutoloader.php';
     checkTab();
     checkSort();
+    checkPage();
 
     // Système de conservation d'élément de GET précédents qui n'ont pas été envoyés via la nouvelle requête mais sont présents et doivent être mentionnés.
 //    if(http_build_query($_GET) == ''){
