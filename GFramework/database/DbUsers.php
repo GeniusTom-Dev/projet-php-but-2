@@ -1,7 +1,7 @@
 <?php
 use GFramework\utilities\GReturn;
 
-class dbUsers{
+class DbUsers{
 
     private string $dbName = "users";
 

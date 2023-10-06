@@ -1,7 +1,7 @@
 <?php
 
 include '../GFramework/database/Database.php';
-include '../GFramework/database/dbUsers.php';
+include '../GFramework/database/DbUsers.php';
 require '../GFramework/autoloader.php';
 
 use \PHPUnit\Framework\TestCase;

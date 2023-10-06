@@ -3,14 +3,14 @@
 namespace controllers;
 use \utilities\GReturn;
 use \utilities\CannotDoException;
-use dbUsers;
+use DbUsers;
 
 class controlAdminUsers
 {
     private dbUsers $dbUsers;
 
     public function __construct($conn){
-        $this->dbUsers = new dbUsers($conn);
+        $this->dbUsers = new DbUsers($conn);
     }
 
     /**
