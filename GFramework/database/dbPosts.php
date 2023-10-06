@@ -12,6 +12,11 @@ class dbPosts
         $this->conn = $conn;
     }
 
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
+    }
+
 
     public function select(?int $id = null, ?string $title = null, ?string $content = null, ?int $idUser = null, ?string $datePosted = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $result = $this->select_SQLResult($id, $title, $content, $idUser, $datePosted, $limit, $page, $sort)->getContent();
@@ -69,10 +74,10 @@ class dbPosts
         else if (empty($datePosted) === false){
             $request .= " WHERE DATE_POSTED='$datePosted'";
         }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
         $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
