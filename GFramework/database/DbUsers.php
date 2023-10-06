@@ -31,7 +31,7 @@ class DbUsers{
      * @return GReturn
      * Used when you need to filter the table according to several non-unique key attributes
      */
-    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit = null, ?int $page, ?string $sort) : GReturn{
+    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit, ?int $page, ?string $sort) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $conditions = [];
         if (!is_null($usernameLike)) {
@@ -44,7 +44,7 @@ class DbUsers{
             $conditions[] = "IS_ACTIVATED = $isActivated";
         }
         if (!empty($conditions)) {
-            $request .= "WHERE " . implode(" AND ", $conditions);
+            $request .= " WHERE " . implode(" AND ", $conditions);
         }
         // Sorting result and limiting size for pagination
         $request .= " " . $this->getSortInstruction($sort);
