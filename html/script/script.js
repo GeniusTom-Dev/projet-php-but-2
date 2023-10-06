@@ -14,6 +14,54 @@ let commentsContainer = document.querySelector("#comment-section");
 let plusButton = document.querySelector("#plusButton");
 let fileInput = document.querySelector("#fileInput");
 
+let suscribeButton = document.querySelector("#suscribe-button");
+
+// Variable pour suivre l'état actuel de l'abonnement
+let isSubscribed = false;
+
+let trashCan = document.querySelector("#trashCan");
+let deleteConfirmation = document.querySelector("#deleteConfirmation");
+let confirmDeleteButton = document.querySelector("#confirmDeleteButton");
+let cancelDeleteButton = document.querySelector("#cancelDeleteButton");
+
+trashCan.addEventListener("click", () => {
+    // Affiche la boîte de confirmation
+    deleteConfirmation.style.display = "block";
+});
+
+confirmDeleteButton.addEventListener("click", () => {
+    // Supprime l'élément lorsque le bouton de confirmation est cliqué
+    // Vous pouvez ajouter le code de suppression ici
+    // Par exemple, supprimez l'article ou masquez-le
+
+    // Après la suppression, cache la boîte de confirmation
+    deleteConfirmation.style.display = "none";
+});
+
+cancelDeleteButton.addEventListener("click", () => {
+    // Annule la suppression lorsque le bouton d'annulation est cliqué
+    // Vous pouvez ajouter le code nécessaire pour annuler l'opération ici
+
+    // Cache la boîte de confirmation
+    deleteConfirmation.style.display = "none";
+});
+
+
+//S'abonner ou se désabonner
+suscribeButton.addEventListener("click", () => {
+    if (!isSubscribed) {
+        // Si l'utilisateur n'est pas encore abonné
+        suscribeButton.textContent = "Se désabonner"; // Change le texte du bouton
+    } else {
+        // Si l'utilisateur est déjà abonné et clique pour se désabonner
+        suscribeButton.textContent = "S'abonner"; // Rétablit le texte d'origine
+    }
+
+    // Inverse l'état de l'abonnement
+    isSubscribed = !isSubscribed;
+});
+
+
 plusButton.addEventListener("click", () => {
     fileInput.click();
 });
@@ -115,7 +163,6 @@ commentButton.addEventListener("click", () => {
 
         // Crée un bouton de suppression pour le commentaire
         let deleteButton = document.createElement("button");
-        deleteButton.textContent = "Supprimer";
         deleteButton.textContent = "Supprimer";
         deleteButton.style.backgroundColor = "#ff6347"; /* Couleur de fond du bouton de suppression */
         deleteButton.style.color = "white"; /* Couleur du texte du bouton de suppression */
