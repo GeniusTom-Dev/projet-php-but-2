@@ -121,12 +121,11 @@ nav
   --font-color:#ffffff;
 }
 .theme-dark {
-  --color-primary: white;
+  --color-primary: ;
   --color-secondary: #b2a5ff;
   --color-accent: #12cdea;
   --font-color: black;
 }
-
 
 .switch {
   position: relative;
