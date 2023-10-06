@@ -3,15 +3,15 @@
 namespace controllers;
 use \utilities\GReturn;
 use \utilities\CannotDoException;
-use DbComments;
+use dbComments;
 
 class controlAdminComments
 {
 
-    private DbComments $dbComments;
+    private dbComments $dbComments;
 
     public function __construct($conn){
-        $this->dbComments = new DbComments($conn);
+        $this->dbComments = new dbComments($conn);
     }
 
     /**

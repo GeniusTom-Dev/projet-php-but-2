@@ -2,14 +2,14 @@
 
 namespace controllers;
 use \utilities\GReturn;
-use DbTopics;
+use dbTopics;
 
 class controlAdminTopics
 {
-    private DbTopics $dbTopics;
+    private dbTopics $dbTopics;
 
     public function __construct($conn){
-        $this->dbTopics = new DbTopics($conn);
+        $this->dbTopics = new dbTopics($conn);
     }
 
     public function checkNewTopic(){

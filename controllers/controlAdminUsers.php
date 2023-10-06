@@ -7,10 +7,10 @@ use dbUsers;
 
 class controlAdminUsers
 {
-    private DbUsers $dbUsers;
+    private dbUsers $dbUsers;
 
     public function __construct($conn){
-        $this->dbUsers = new DbUsers($conn);
+        $this->dbUsers = new dbUsers($conn);
     }
 
     /**

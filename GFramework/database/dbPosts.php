@@ -2,7 +2,7 @@
 
 use GFramework\utilities\GReturn;
 
-class DbPosts
+class dbPosts
 {
     private string $dbName = "posts";
     private array | string $dbColumns = ["USER_ID", "TITLE", "CONTENT", "DATE_POSTED"];

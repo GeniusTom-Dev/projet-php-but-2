@@ -1,19 +1,19 @@
 <?php
 
 include '../GFramework/database/Database.php';
-include '../GFramework/database/DbUsers.php';
+include '../GFramework/database/dbUsers.php';
 require '../GFramework/autoloader.php';
 
 use \PHPUnit\Framework\TestCase;
 class DbUsersTest extends TestCase {
 
     private $dbUsers = null;
-    final public function getConnection(): DbUsers
+    final public function getConnection(): dbUsers
     {
         if ($this->dbUsers == null) {
             $db = new Database('mysql-echo.alwaysdata.net','echo_mathieu','130304leroux','echo_bd_test');
             $dbConn = $db->getConnection()->getContent();
-            $this->dbUsers = new DbUsers($dbConn);
+            $this->dbUsers = new dbUsers($dbConn);
         }
         return $this->dbUsers;
     }

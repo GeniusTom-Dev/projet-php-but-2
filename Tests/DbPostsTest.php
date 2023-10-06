@@ -1,6 +1,6 @@
 <?php
 include '../GFramework/database/Database.php';
-include '../GFramework/database/DbPosts.php';
+include '../GFramework/database/dbPosts.php';
 require '../GFramework/autoloader.php';
 
 use PHPUnit\Framework\TestCase;
@@ -8,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 class DbPostsTest extends TestCase
 {
     private $dbPosts = null;
-    final public function getConnection(): DbPosts
+    final public function getConnection(): dbPosts
     {
         if ($this->dbPosts == null) {
             $db = new Database('mysql-echo.alwaysdata.net','echo_mathieu','130304leroux','echo_bd_test');
             $dbConn = $db->getConnection()->getContent();
-            $this->dbPosts = new DbPosts($dbConn);
+            $this->dbPosts = new dbPosts($dbConn);
         }
         return $this->dbPosts;
     }
