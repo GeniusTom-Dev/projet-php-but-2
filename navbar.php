@@ -28,8 +28,11 @@ $Follow = "320";
     </div>
   </div>
     <!--Affiche le nom et le nombre de followers -->
+    <div class = "info">
       <?php echo $name ;?><br>
       <?php echo $Follow." Followers" ;?>
+
+      </div>
       <!-- La liste menu affiche les différente rubrique -->
       <ul class = "menu"> 
           <!--Un boucle  permettant d'afficher les différentes rubrique du tableau tab et de lien -->
@@ -62,12 +65,39 @@ $Follow = "320";
           }
           ?>
       </ul>
-      <label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span>
-</label>
+      <div class="contenu">
+      <label id="switch" class="switch">
+        <input type="checkbox" onchange="toggleTheme()" id="slider">
+        <span class="slider round"></span>
+    </label>
+        </div>
   </nav>
 </header>
+<script>
+      // function to set a given theme/color-scheme
+      function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.documentElement.className = themeName;
+        }
+
+        // function to toggle between light and dark theme
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-light');
+            } else {
+                setTheme('theme-dark');
+            }
+        }
+
+        // Immediately invoked function to set the theme on initial load
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        })();
+</script>
 
 
 

@@ -23,4 +23,5 @@
         <p>Tags : <a href="#">Tag1</a>, <a href="#">Tag2</a>, <a href="#">Tag3</a></p>
     </footer>
 </article>
-
+</body>
+</html>
