@@ -72,10 +72,10 @@ class DbUsers{
         else if (empty($isActivated) === false){
             $request .= " WHERE IS_ACTIVATED = $isActivated";
         }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
         $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
@@ -114,6 +114,11 @@ class DbUsers{
     public function activateUser(int $id): void{
         $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USER_ID=$id";
         $this->conn->query($query);
+    }
+
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
     // -------------------------- CODE MATHIEU --------------------------
