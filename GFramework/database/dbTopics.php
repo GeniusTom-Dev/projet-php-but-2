@@ -11,7 +11,6 @@ class dbTopics
     public function __construct($conn){
         $this->conn = $conn;
     }
-
     public function getTotal(){
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
@@ -34,30 +33,28 @@ class dbTopics
         $this->conn->query($query);
     }
 
-    public function select(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $result = $this->select_SQLResult($id,$name,$limit,$page,$sort)->getContent();
-        $rows = [];
-        if ($result->num_rows > 0) {
-            $rows = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $rows);
+    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
+        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(?int $id = null, ?string $name = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+    public function select_SQLResult(string $nameLike = null, string $descriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
-        if(empty($id) === false){
-            $request .= " WHERE TOPIC_ID = " . $id ;
-            if (empty($name) === false){
-                $request .= " AND NAME = '" . $name . "'";
-            }
+        $conditions = [];
+        if (!is_null($nameLike)) {
+            $conditions[] = "NAME LIKE %$nameLike%";
         }
-        else if (empty($name) === false){
-            $request .= " WHERE NAME = '" . $name . "'";
+        if (!is_null($descriptionLike)) {
+            $conditions[] = "DESCRITPION LIKE %$descriptionLike%";
         }
+        if (!empty($conditions)) {
+            $request .= " WHERE " . implode(" AND ", $conditions);
+        }
+        // Sorting result and limiting size for pagination
         $request .= " " . $this->getSortInstruction($sort);
         if (empty($limit) === false){
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
+
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
@@ -75,27 +72,7 @@ class dbTopics
         return '';
     }
 
-    public function selectLike($name = null, $info = null, $limit = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        if(empty($name) === false){
-            $request .= " WHERE NAME LIKE '%" . $name . "%'";
-            if (empty($info) === false){
-                $request .= " AND INFO LIKE '%" . $info . "%'";
-            }
-        }
-        else if (empty($name) === false){
-            $request .= " WHERE INFO LIKE '%" . $info . "%'";
-        }
-        if (empty($limit) === false){
-            $request .= " LIMIT " . $limit;
-        }
-        $result = $this->conn->query($request);
-        $rows = [];
-        if ($result->num_rows > 0) {
-            $rows = $result->fetch_assoc();
-        }
-        return new GReturn("ok", content: $rows);
-    }
+    /* Update Topic */
 
     public function changeTopicName($id, $newName): void{
         $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE TOPIC_ID=$id";

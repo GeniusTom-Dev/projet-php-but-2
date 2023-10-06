@@ -3,7 +3,7 @@
 namespace controllers;
 use \utilities\GReturn;
 use \utilities\CannotDoException;
-use dbUsers;
+use DbUsers;
 
 class controlAdminUsers
 {
