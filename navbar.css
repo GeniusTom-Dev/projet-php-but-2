@@ -121,7 +121,7 @@ nav
   --font-color:#ffffff;
 }
 .theme-dark {
-  --color-primary: ;
+  --color-primary:white ;
   --color-secondary: #b2a5ff;
   --color-accent: #12cdea;
   --font-color: black;
