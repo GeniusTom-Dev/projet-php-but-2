@@ -2,7 +2,7 @@
 
 use \GFramework\utilities\GReturn;
 
-class dbTopics
+class DbTopics
 {
     private string $dbName = "topics";
 
