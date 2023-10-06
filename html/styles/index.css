@@ -1,13 +1,14 @@
 .searchBar {
-    width: 600px;
+    width: 25vw;
     height: 40px;
     border-radius: 50px;
     background: #ffffff;
     border: 7px solid;
-    border-color: #64e3de;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    border-color: #7d85db;
+    position: fixed;
+    top: 0%;
+    left: 37.5%;
+    right: 62.5%;
 }
 input {
     text-align: center;
@@ -18,16 +19,32 @@ input {
 :-moz-placeholder {
     text-align: center;
 }
+.placeholder::before {
+    content: "\A";
+}
 
-.trendsWindow {
-    width: 400px;
-    height: 800px;
+.categWindow {
+    width: 25vw;
+    height: 100vh;
     background: #ffffff;
     border: 7px solid;
-    border-color: #eb4034;
-    display: block;
-    margin-left: auto;
+    border-color: #7d85db;
+    position: fixed;
+    top: 0%;
+    left: 75%;
     text-align: center;
     padding: 7px;
     line-break: auto;
 }
+
+.categRect {
+    display: flex;
+    flex-direction: column;
+}
+
+.categRect:nth-child(n) {
+    background: gainsboro;
+    border: 7px solid;
+    border-color: bisque;
+}
+
