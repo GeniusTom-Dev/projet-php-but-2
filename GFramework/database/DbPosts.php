@@ -16,23 +16,20 @@ class DbPosts
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult($titleLike = null, $contentLike = null, $user_id = null, $dateMin = null, $dateMax = null) : GReturn{
+    public function select_SQLResult($contentOrTitleLike = null, $user_id = null, $dateMin = null, $dateMax = null) : GReturn{
         $request = "SELECT * FROM  $this->dbName ";
         $conditions = [];
-        if (!is_null($titleLike)) {
-            $conditions[] = "TITLE LIKE %$titleLike%";
-        }
-        if (!is_null($contentLike)) {
-            $conditions[] = "CONTENT LIKE %$contentLike%";
+        if (!is_null($contentOrTitleLike)) {
+            $conditions[] = "(TITLE LIKE '%$contentOrTitleLike%' OR CONTENT LIKE '%$contentOrTitleLike%')";
         }
         if (!is_null($user_id)) {
             $conditions[] = "USER_ID = $user_id";
         }
         if (!is_null($dateMin)) {
-            $conditions[] = "DATE_POSTED >= $dateMin";
+            $conditions[] = "DATE_POSTED >= '$dateMin'";
         }
         if (!is_null($dateMax)) {
-            $conditions[] = "DATE_POSTED <= $dateMax";
+            $conditions[] = "DATE_POSTED <= '$dateMax'";
         }
         if (!empty($conditions)) {
             $request .= "WHERE " . implode(" AND ", $conditions);
@@ -51,6 +48,7 @@ class DbPosts
     /* Add Post */
 
     public function addPost(int $user_id, string $title, string $content, string $date_posted) : bool {
+        // check if the user exist ?
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
         $request = "INSERT INTO $this->dbName (";
@@ -60,9 +58,31 @@ class DbPosts
         return true;
     }
 
+    /* Update Post */
+
+    public function updateTitleAndContent(int $post_id, string $title, string $content) {
+        $request = "UPDATE $this->dbName";
+        if (empty($title)) {
+            $request .= " SET TITLE = NULL";
+        } else {
+            $request .= " SET TITLE = '$title'";
+        }
+        if (empty($content)) {
+            // The content of a post can not be empty
+            return false;
+        } else {
+            $request .= ", CONTENT = '$content'";
+        }
+        $request .= " WHERE POST_ID = '$post_id';";
+        var_dump($request);
+        $this->conn->query($request);
+        return true;
+    }
+
     /* Delete Post */
 
     public function deletePost($id): void{
+        // check if the post exist
         $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
         $this->conn->query($query);
     }

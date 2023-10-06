@@ -31,21 +31,23 @@ class DbUsers{
      * Used when you need to filter the table according to several non-unique key attributes
      */
     public function select_SQLResult(string $usernameLike = null, bool $isAdmin = null, bool $isActivated = null, int $limit = null, int $page = 0, string $sort = null) : GReturn{
-        $request = "SELECT * FROM  $this->dbName ";
+        $request = "SELECT * FROM  $this->dbName";
         $conditions = [];
         if (!is_null($usernameLike)) {
-            $conditions[] = "USERNAME LIKE %$usernameLike%";
+            $conditions[] = "USERNAME LIKE '$usernameLike%'";
         }
         if (!is_null($isAdmin)) {
-            $conditions[] = "IS_ADMIN = $isAdmin";
+            $conditions[] = "IS_ADMIN = " . ($isAdmin ? 'true' : 'false');
         }
         if (!is_null($isActivated)) {
-            $conditions[] = "IS_ACTIVATED = $isActivated";
+            $conditions[] = "IS_ACTIVATED = " . ($isActivated ? 'true' : 'false');
         }
         if (!empty($conditions)) {
-            $request .= "WHERE " . implode(" AND ", $conditions);
+            $request .= " WHERE " . implode(" AND ", $conditions);
         }
-        $request .= " " . $this->getSortInstruction($sort);
+        if (!is_null($sort)) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
@@ -71,7 +73,7 @@ class DbUsers{
     public function selectById(int $id) : GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USER_ID = '$id';";
+        $request .= " WHERE USER_ID = $id;";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
@@ -94,10 +96,11 @@ class DbUsers{
 
     public function updateUsername(string $oldUsername, string $newUsername) : bool {
         if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
-            return false; // the username is already used, the update was not made
+            return false; // the new username is already used, the update was not made
         }
         $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
         $request .= " WHERE USERNAME = '$oldUsername';";
+        var_dump($request);
         $this->conn->query($request);
         return true;
     }
@@ -116,7 +119,7 @@ class DbUsers{
 
     public function addUser(string $username, string $email, string $pwd) : bool {
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
-            return false; // the username or/and the email are already used
+            return false; // the username or/and the email are already used -> a voir si la vérification est déjà fait avant
         }
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
@@ -125,7 +128,6 @@ class DbUsers{
         $request .= "'$username', '$email', '$pwd', ";
         $request .= "1, 0, '" . date("Y-m-d") . "', '" . date("Y-m-d") . "'";
         $request .= ", null, null);";
-        var_dump($request);
         $this->conn->query($request);
         return true;
     }
@@ -139,12 +141,14 @@ class DbUsers{
 
     /* check if already exists functions */
 
+   // A CHANGER - A RAJOUTER SUR LES CONFLITS
     private function isUsernameAlreadyUsed(string $username) : bool {
-        return in_array(['USERNAME'=>$username], $this->getUsers(["USERNAME"])->getContent());
+        $request = "SELECT * FROM $this->dbName WHERE USERNAME = '$username'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
     private function isEmailAlreadyUsed(string $email) : bool {
-        return in_array(['USER_EMAIL'=>$email], $this->getUsers(["USER_EMAIL"])->getContent());
+        $request = "SELECT * FROM $this->dbName WHERE USER_EMAIL = '$email'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
-
 }
