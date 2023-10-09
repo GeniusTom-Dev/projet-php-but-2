@@ -26,7 +26,7 @@ input {
 .categWindow {
     width: 25vw;
     height: 100vh;
-    background: #ffffff;
+    background: linear-gradient(#ffffff,#d1d0f5);
     border: 7px solid;
     border-color: #7d85db;
     position: fixed;
@@ -35,16 +35,19 @@ input {
     text-align: center;
     padding: 7px;
     line-break: auto;
+    overflow-y: scroll;
+    overflow-color: blue white;
+    overflow-size: thin;
 }
 
 .categRect {
     display: flex;
     flex-direction: column;
-}
-
-.categRect:nth-child(n) {
-    background: gainsboro;
+    background: #ffffff;
     border: 7px solid;
-    border-color: bisque;
+    border-color: #7d85db;
+    border-radius: 7px;
+    margin-bottom: 7px;
+    padding: 7px;
+    font-family: "Playfair Display";
 }
-
