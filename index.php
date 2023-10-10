@@ -30,6 +30,10 @@
                 Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
                 add_post('@Huit','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                 Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Neuf','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Dix','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
             ?>
         <div/>
     </body>
