@@ -6,28 +6,31 @@
     </head>
     <body>
         <input id="searchBar" class="searchBar" placeholder="Search someone or something..."/>
+        <?php
+            function add_post($name,$post_content) {
+                echo '<div class="categRect">' . $name . ' : ' . $post_content . '</div>';
+            }
+        ?>
         <div class="categWindow">
             <p><span> CATEGORIES </span></p>
-            <div class="categRect">
-                <span> @Un : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sem diam, molestie a convallis non, 
-                ullamcorper vitae velit. Aliquam interdum rhoncus nunc, in malesuada libero semper a. Pellentesque habitant 
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
-            </div>
-            <div class="categRect">
-                <span> @Deux : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sem diam, molestie a convallis non, 
-                ullamcorper vitae velit. Aliquam interdum rhoncus nunc, in malesuada libero semper a. Pellentesque habitant 
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
-            </div>
-            <div class="categRect">
-                <span> @Trois : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sem diam, molestie a convallis non, 
-                ullamcorper vitae velit. Aliquam interdum rhoncus nunc, in malesuada libero semper a. Pellentesque habitant 
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
-            </div>
-            <div class="categRect">
-                <span> @Quatre : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sem diam, molestie a convallis non, 
-                ullamcorper vitae velit. Aliquam interdum rhoncus nunc, in malesuada libero semper a. Pellentesque habitant 
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas.</span>
-            </div>
+            <?php
+                add_post('@Un','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Deux','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Trois','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Quatre','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Cinq','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Six','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Sept','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+                add_post('@Huit','Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Morbi sem diam, molestie a convallis non, ullamcorper vitae velit.');
+            ?>
         <div/>
     </body>
 </html>
