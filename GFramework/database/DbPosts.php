@@ -12,12 +12,17 @@ class DbPosts
         $this->conn = $conn;
     }
 
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
+    }
+
     public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult($contentOrTitleLike = null, $user_id = null, $dateMin = null, $dateMax = null) : GReturn{
-        $request = "SELECT * FROM  $this->dbName ";
+    public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit, ?int $page, ?string $sort) : GReturn{
+        $request = "SELECT * FROM " . $this->dbName;
         $conditions = [];
         if (!is_null($contentOrTitleLike)) {
             $conditions[] = "(TITLE LIKE '%$contentOrTitleLike%' OR CONTENT LIKE '%$contentOrTitleLike%')";
@@ -32,10 +37,32 @@ class DbPosts
             $conditions[] = "DATE_POSTED <= '$dateMax'";
         }
         if (!empty($conditions)) {
-            $request .= "WHERE " . implode(" AND ", $conditions);
+            $request .= " WHERE " . implode(" AND ", $conditions);
         }
+        // Sorting result and limiting size for pagination
+        $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
+
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
+    }
+
+    public function getSortInstruction(?string $sort): string{
+        if ($sort == 'ID-asc'){
+            return 'ORDER BY POST_ID ASC';
+        }
+        else if ($sort == 'a-z'){
+            return 'ORDER BY TITLE ASC';
+        }
+        else if ($sort == 'recent'){
+            return 'ORDER BY DATE_POSTED DESC';
+        }
+        else if ($sort == 'id-user'){
+            return 'ORDER BY USER_ID ASC';
+        }
+        return '';
     }
 
     public function selectByID(int $post_id) : GReturn {
@@ -43,6 +70,13 @@ class DbPosts
         $request .= " WHERE POST_ID = '$post_id';";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
+    /* Delete Post */
+
+    public function deletePost($id): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
+        $this->conn->query($query);
     }
 
     /* Add Post */
@@ -77,13 +111,5 @@ class DbPosts
         var_dump($request);
         $this->conn->query($request);
         return true;
-    }
-
-    /* Delete Post */
-
-    public function deletePost($id): void{
-        // check if the post exist
-        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
-        $this->conn->query($query);
     }
 }

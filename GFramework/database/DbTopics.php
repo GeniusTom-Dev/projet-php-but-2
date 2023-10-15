@@ -1,22 +1,26 @@
 <?php
 
-use GFramework\utilities\GReturn;
+use \GFramework\utilities\GReturn;
 
 class DbTopics
 {
     private string $dbName = "topics";
 
-    private mysqli $conn;
+    private \mysqli $conn;
 
     public function __construct($conn){
         $this->conn = $conn;
+    }
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
     public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(string $nameOrDescriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+    public function select_SQLResult(?string $nameOrDescriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
         $request = "SELECT * FROM  $this->dbName";
         $conditions = [];
         if (!is_null($nameOrDescriptionLike)) {
@@ -25,7 +29,12 @@ class DbTopics
         if (!empty($conditions)) {
             $request .= " WHERE " . implode(" AND ", $conditions);
         }
+        // Sorting result and limiting size for pagination
         $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
+
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
@@ -69,7 +78,7 @@ class DbTopics
     }
     public function changeTopicDescription($id, $newDescription): void{
         $query = "UPDATE $this->dbName SET DESCRIPTION=";
-        if (empty($newDescription)){
+        if ($newDescription == 'NULL'){
             $query .= "NULL";
         }
         else {

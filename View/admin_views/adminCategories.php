@@ -17,4 +17,8 @@ $controller->checkChangedTopic();
 $controller->checkDeletedTopic();
 
 $controller->showTableFull();
+
+$controller->showPageInterface();
+//echo $controller->getMaxNumPage();
+
 ?>

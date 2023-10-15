@@ -1,11 +1,11 @@
 <?php
-use GFramework\utilities\GReturn;
+use \GFramework\utilities\GReturn;
 
 class DbUsers{
 
     private string $dbName = "users";
 
-    private mysqli $conn;
+    private \mysqli $conn;
 
     private array | string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
 
@@ -30,8 +30,8 @@ class DbUsers{
      * @return GReturn
      * Used when you need to filter the table according to several non-unique key attributes
      */
-    public function select_SQLResult(string $usernameLike = null, bool $isAdmin = null, bool $isActivated = null, int $limit = null, int $page = 0, string $sort = null) : GReturn{
-        $request = "SELECT * FROM  $this->dbName";
+    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit, ?int $page, ?string $sort) : GReturn{
+        $request = "SELECT * FROM " . $this->dbName;
         $conditions = [];
         if (!is_null($usernameLike)) {
             $conditions[] = "USERNAME LIKE '$usernameLike%'";
@@ -45,9 +45,12 @@ class DbUsers{
         if (!empty($conditions)) {
             $request .= " WHERE " . implode(" AND ", $conditions);
         }
-        if (!is_null($sort)) {
-            $request .= " " . $this->getSortInstruction($sort);
+        // Sorting result and limiting size for pagination
+        $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false){
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
+
         $result = $this->conn->query($request);
         return new GReturn("ok", content: $result);
     }
@@ -67,6 +70,13 @@ class DbUsers{
         }
         return '';
     }
+
+    public function getTotal(){
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
+    }
+
+    // -------------------------- CODE MATHIEU --------------------------
 
     /* Select by primary key */
 
@@ -100,7 +110,6 @@ class DbUsers{
         }
         $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
         $request .= " WHERE USERNAME = '$oldUsername';";
-        var_dump($request);
         $this->conn->query($request);
         return true;
     }
@@ -119,7 +128,7 @@ class DbUsers{
 
     public function addUser(string $username, string $email, string $pwd) : bool {
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
-            return false; // the username or/and the email are already used -> a voir si la vérification est déjà fait avant
+            return false; // the username or/and the email are already used
         }
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
@@ -139,9 +148,13 @@ class DbUsers{
         $this->conn->query($query);
     }
 
+    public function deleteUserByUsername(string $username): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
+        $this->conn->query($query);
+    }
+
     /* check if already exists functions */
 
-   // A CHANGER - A RAJOUTER SUR LES CONFLITS
     private function isUsernameAlreadyUsed(string $username) : bool {
         $request = "SELECT * FROM $this->dbName WHERE USERNAME = '$username'";
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));

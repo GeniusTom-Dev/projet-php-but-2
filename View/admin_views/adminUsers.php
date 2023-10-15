@@ -15,4 +15,6 @@ try{
 }
 
 $controller->showTableFull();
+
+$controller->showPageInterface();
 ?>
