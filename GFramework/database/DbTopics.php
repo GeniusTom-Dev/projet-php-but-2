@@ -16,17 +16,14 @@ class DbTopics
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(string $nameLike = null, string $descriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $request = "SELECT * FROM  $this->dbName ";
+    public function select_SQLResult(string $nameOrDescriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+        $request = "SELECT * FROM  $this->dbName";
         $conditions = [];
-        if (!is_null($nameLike)) {
-            $conditions[] = "NAME LIKE %$nameLike%";
-        }
-        if (!is_null($descriptionLike)) {
-            $conditions[] = "DESCRITPION LIKE %$descriptionLike%";
+        if (!is_null($nameOrDescriptionLike)) {
+            $conditions[] = "(NAME LIKE %$nameOrDescriptionLike% OR DESCRIPTION LIKE %$nameOrDescriptionLike%)";
         }
         if (!empty($conditions)) {
-            $request .= "WHERE " . implode(" AND ", $conditions);
+            $request .= " WHERE " . implode(" AND ", $conditions);
         }
         $request .= " " . $this->getSortInstruction($sort);
         $result = $this->conn->query($request);
@@ -46,15 +43,33 @@ class DbTopics
         return '';
     }
 
+    public function selectById(int $topic_id) : GReturn {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE TOPIC_ID = $topic_id;";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
+    public function selectByName(string $topic_name) : GReturn {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE NAME = '$topic_name';";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
     /* Update Topic */
 
-    public function changeTopicName($id, $newName): void{
-        $query = "UPDATE $this->dbName SET NAME='$newName' WHERE TOPIC_ID=$id";
+    public function changeTopicName($topic_id, $newName): bool {
+        if (empty($newName)) {
+            return false; // Topic's name can not be empty
+        }
+        $query = "UPDATE $this->dbName SET NAME='$newName' WHERE TOPIC_ID='$topic_id'";
         $this->conn->query($query);
+        return true;
     }
     public function changeTopicDescription($id, $newDescription): void{
         $query = "UPDATE $this->dbName SET DESCRIPTION=";
-        if ($newDescription == 'NULL'){
+        if (empty($newDescription)){
             $query .= "NULL";
         }
         else {

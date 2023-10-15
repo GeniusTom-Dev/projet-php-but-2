@@ -5,8 +5,7 @@ require '../GFramework/autoloader.php';
 
 use PHPUnit\Framework\TestCase;
 
-class DbPostsTest extends TestCase
-{
+class DbPostsTest extends TestCase { // Completed
     private DbPosts|null $dbPosts = null;
     final public function getConnection(): DbPosts
     {
