@@ -21,21 +21,20 @@ class DbTopics
     }
 
     public function select_SQLResult(?string $nameOrDescriptionLike, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
-        $request = "SELECT * FROM  $this->dbName";
-        $conditions = [];
+        $request = "SELECT * FROM $this->dbName ";
         if (!is_null($nameOrDescriptionLike)) {
-            $conditions[] = "(NAME LIKE %$nameOrDescriptionLike% OR DESCRIPTION LIKE %$nameOrDescriptionLike%)";
-        }
-        if (!empty($conditions)) {
-            $request .= " WHERE " . implode(" AND ", $conditions);
+            $request .= "WHERE (NAME LIKE '%$nameOrDescriptionLike%' OR DESCRIPTION LIKE '%$nameOrDescriptionLike%')";
         }
         // Sorting result and limiting size for pagination
-        $request .= " " . $this->getSortInstruction($sort);
+        if ($sort != null) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
         if (empty($limit) === false){
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
-
+        $request .= ";";
         $result = $this->conn->query($request);
+        var_dump("REQUETE : $request");
         return new GReturn("ok", content: $result);
     }
 
@@ -68,50 +67,26 @@ class DbTopics
 
     /* Update Topic */
 
-    public function changeTopicName($topic_id, $newName): bool {
-        if (empty($newName)) {
-            return false; // Topic's name can not be empty
+    public function changeTopic($topic_id, $newName = null, $newDescription = null): bool {
+        if (empty($newName) || $this->doesTopicAlreadyExist($newName)){
+            return False; // the modification was not made
         }
-        $query = "UPDATE $this->dbName SET NAME='$newName' WHERE TOPIC_ID='$topic_id'";
+        $query = "UPDATE $this->dbName SET NAME='$newName', DESCRIPTION='$newDescription' WHERE TOPIC_ID='$topic_id'";
         $this->conn->query($query);
-        return true;
-    }
-    public function changeTopicDescription($id, $newDescription): void{
-        $query = "UPDATE $this->dbName SET DESCRIPTION=";
-        if ($newDescription == 'NULL'){
-            $query .= "NULL";
-        }
-        else {
-            $query .= "'$newDescription'";
-        }
-        $query .= " WHERE TOPIC_ID=$id";
-        $this->conn->query($query);
-    }
-
-    public function changeTopic($id, $newName = null, $newDescription = null): void{
-        if (empty($newName) === false && $newName != ''){
-            $this->changeTopicName($id, $newName);
-        }
-        if (isset($newDescription) && $newDescription != ''){
-            $this->changeTopicDescription($id, $newDescription);
-        }
+        return True; // the modification was made
     }
 
     /* Add Topic */
 
-    public function addTopic($name, $Description):void{
+    public function addTopic($name, $Description): bool {
+        if (empty($name) || $this->doesTopicAlreadyExist($name)) {
+            return false;
+        }
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
-        $query = "INSERT INTO " . $this->dbName;
-        $query .= " VALUES ('$name', ";
-        if ($Description == ''){
-            $query .= "NULL";
-        }
-        else{
-            $query .= "'$Description'";
-        }
-        $query .= ");";
+        $query = "INSERT INTO $this->dbName (`NAME`, `DESCRIPTION`) VALUES ('$name', '$Description');";
         $this->conn->query($query);
+        return true;
     }
 
     /* Delete Topic */
@@ -119,6 +94,13 @@ class DbTopics
     public function deleteTopic($id): void{
         $query = "DELETE FROM $this->dbName WHERE TOPIC_ID = $id";
         $this->conn->query($query);
+    }
+
+    /* check if already exists functions */
+
+    private function doesTopicAlreadyExist(string $name) : bool {
+        $request = "SELECT * FROM $this->dbName WHERE NAME = '$name'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
 }

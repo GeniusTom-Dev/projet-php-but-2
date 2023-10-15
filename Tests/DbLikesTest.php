@@ -9,8 +9,7 @@ use Database;
 use Dblikes;
 use PHPUnit\Framework\TestCase;
 
-class DbLikesTest extends TestCase
-{
+class DbLikesTest extends TestCase { // Completed
     private DbLikes|null $dbLikes = null;
 
     final public function getConnection(): DbLikes
@@ -23,9 +22,20 @@ class DbLikesTest extends TestCase
         return $this->dbLikes;
     }
 
-    public function test_select_by_post_id()
-    {
-        $this->getConnection()->addLike(1, 1);
-//        $this->assertEquals("Important", $result);
+    public function test_nb_likes_per_post() {
+        $this->assertEquals(3, $this->getConnection()->countPostLike(1));
+        $this->assertEquals(0, $this->getConnection()->countPostLike(3));
+    }
+
+    public function test_add_like() {
+        $this->assertEquals(2, $this->getConnection()->countPostLike(2));
+        $this->getConnection()->addLike(4,2);
+        $this->assertEquals(3, $this->getConnection()->countPostLike(2));
+    }
+
+    public function test_remove_like() {
+        $this->assertEquals(3, $this->getConnection()->countPostLike(2));
+        $this->getConnection()->removeLike(4,2);
+        $this->assertEquals(2, $this->getConnection()->countPostLike(2));
     }
 }

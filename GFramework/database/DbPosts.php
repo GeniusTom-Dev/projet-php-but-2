@@ -108,7 +108,6 @@ class DbPosts
             $request .= ", CONTENT = '$content'";
         }
         $request .= " WHERE POST_ID = '$post_id';";
-        var_dump($request);
         $this->conn->query($request);
         return true;
     }

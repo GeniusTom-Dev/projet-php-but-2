@@ -1,9 +1,7 @@
 <?php
 use GFramework\utilities\GReturn;
-class DbFollows
-{
-    private string $dbName = "comments";
-    private array | string $dbColumns = ["ID_FOLLOWER", "ID_FOLLOWED", "SINCE_WHEN"];
+class DbFollows {
+    private string $dbName = "follows";
 
     private mysqli $conn;
 
@@ -16,11 +14,9 @@ class DbFollows
      * @return int
      * Give the number of person that the user follow
      */
-    public function countFollowedUser(int $idUser) : int {
-        $request = "SELECT COUNT(*) FROM $this->dbName";
-        $request .= " WHERE ID_FOLLOWER= $idUser;";
-        // a finir et voir si on s'en sert
-        return 0;
+    public function countFollowed(int $idUser) : int {
+        $request = "SELECT COUNT(*) nbFollowed FROM $this->dbName WHERE ID_FOLLOWER= $idUser;";
+        return intval(mysqli_fetch_assoc($this->conn->query($request))["nbFollowed"]);
     }
 
     /**
@@ -29,10 +25,8 @@ class DbFollows
      * Give the number of persons who follow the user
      */
     public function countFollower(int $idUser) : int {
-        $request = "SELECT COUNT(*) FROM $this->dbName";
-        $request .= " WHERE ID_FOLLOWED= $idUser;";
-        // a finir
-        return 0;
+        $request = "SELECT COUNT(*) nbFollower FROM $this->dbName WHERE ID_FOLLOWED= $idUser;";
+        return intval(mysqli_fetch_assoc($this->conn->query($request))["nbFollower"]);
     }
 
     /**
@@ -49,15 +43,12 @@ class DbFollows
         return !empty(mysqli_fetch_assoc($result));
     }
 
-    // DATE A CHANGER A VOIR PLUS TARD
     public function addFollow(int $follower, int $followed) : bool {
-        // CHECK IF USERNAME EXIST ???
-        if ($this->doesUserFollowAnotherUser($follower, $followed)); {
+        if ($this->doesUserFollowAnotherUser($follower, $followed)) {
             return false; // the modification was not made
         }
-        $request = "INSERT INTO $this->dbName (";
-        $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
-        $request .= "$follower, $followed, '2023-10-02');";
+        $request = "INSERT INTO $this->dbName (`ID_FOLLOWER`, `ID_FOLLOWED`) VALUES ";
+        $request .= "($follower, $followed);";
 +       $this->conn->query($request);
         return true;
     }

@@ -26,10 +26,9 @@ class DbLikes
     }
 
     public function countPostLike(int $post_id) : int {
-
-        // A VOIR SI BESOINS OU SI AJOUT ATTRIBUT DANS TABLE
-
-        return 0;
+        $request ="SELECT COUNT(*) nbLikes FROM $this->dbName";
+        $request .= " WHERE POST_ID=$post_id;";
+        return intval(mysqli_fetch_assoc($this->conn->query($request))["nbLikes"]);
     }
 
     /* Add Like */
@@ -45,7 +44,9 @@ class DbLikes
         $this->conn->query($request);
         return true;
     }
+
      /* Remove Like */
+
     public function removeLike(int $user_id, int $post_id) : bool {
         if (!$this->doesUserHasLikedThisPost($user_id, $post_id)) {
             return false; // This entry doesn't exist

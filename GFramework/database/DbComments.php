@@ -12,7 +12,7 @@ class DbComments
     }
 
     public function getTotal(){
-        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        $query = "SELECT COUNT(*) AS TOTAL FROM $this->dbName";
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
@@ -20,26 +20,26 @@ class DbComments
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(?int $user_id, ?string $contentLike, ?int $post_id, ?string $dateMin, ?string $dateMax, ?int $limit, ?int $page, ?string $sort) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName . " ";
+    public function select_SQLResult(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
+        $request = "SELECT * FROM $this->dbName";
         $conditions = [];
+        if (!is_null($post_id)) {
+            $conditions[] = "POST_ID = $post_id";
+        }
         if (!is_null($user_id)) {
             $conditions[] = "USER_ID = $user_id";
         }
         if (!is_null($contentLike)) {
-            $conditions[] = "CONTENT LIKE %$contentLike%";
-        }
-        if (!is_null($post_id)) {
-            $conditions[] = "POST_ID = $post_id";
+            $conditions[] = "CONTENT LIKE '%$contentLike%'";
         }
         if (!is_null($dateMin)) {
-            $conditions[] = "DATE_POSTED >= $dateMin";
+            $conditions[] = "DATE_POSTED >= '$dateMin'";
         }
         if (!is_null($dateMax)) {
-            $conditions[] = "DATE_POSTED <= $dateMax";
+            $conditions[] = "DATE_POSTED <= '$dateMax'";
         }
         if (!empty($conditions)) {
-            $request .= "WHERE " . implode(" AND ", $conditions);
+            $request .= " WHERE " . implode(" AND ", $conditions);
         }
         // Sorting result and limiting result size for pagination
         $request .= " " . $this->getSortInstruction($sort);
@@ -70,8 +70,26 @@ class DbComments
         return '';
     }
 
+    public function addComment(int $post_id, int $user_id, string $content, string $date_posted): void{
+        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
+        $this->conn->query($resetIdMinValue);
+        $request = "INSERT INTO $this->dbName (`POST_ID`, `USER_ID`, `CONTENT`, `DATE_POSTED`) VALUES ";
+        $request .= "($post_id, $user_id, '$content', '$date_posted');";
+        $this->conn->query($request);
+    }
+
+    public function updateComments(int $comment_id, string $newContent): bool {
+        $request = "UPDATE $this->dbName";
+        if (empty($newContent)) { // The content of a post can not be empty
+            return false;
+        }
+        $request .= " SET CONTENT = '$newContent' WHERE COMMENT_ID = $comment_id;";
+        $this->conn->query($request);
+        return true;
+    }
+
     public function deleteComment($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE COMMENT_ID=$id";
+        $query = "DELETE FROM $this->dbName WHERE COMMENT_ID=$id";
         $this->conn->query($query);
     }
 }
