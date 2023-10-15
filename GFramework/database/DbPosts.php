@@ -21,7 +21,7 @@ class DbPosts
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit, ?int $page, ?string $sort) : GReturn{
+    public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $conditions = [];
         if (!is_null($contentOrTitleLike)) {

@@ -27,7 +27,7 @@ class DbPostsTest extends TestCase { // Completed
     }
 
     public function test_select_by_user_id() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null,  2))->getContent();
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null,  2,null,null))->getContent();
         $this->assertCount(3, $result);
         $this->assertEquals("Important", $result[0]["TITLE"]);
         $this->assertEquals("", $result[1]["TITLE"]);
@@ -35,7 +35,7 @@ class DbPostsTest extends TestCase { // Completed
     }
 
     public function test_select_by_like_title_or_content() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("mot"))->getContent();
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("mot",null,null,null))->getContent();
         $this->assertCount(2, $result);
         $this->assertEquals(1, $result[0]["POST_ID"]);
         $this->assertEquals(3, $result[1]["POST_ID"]);

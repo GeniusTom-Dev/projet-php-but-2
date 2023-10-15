@@ -23,17 +23,17 @@ class DbUsersTest extends TestCase { // Completed
     // -------------------------
 
     public function test_no_filter() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult())->getContent();
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null,null,null))->getContent();
         $this->assertEquals(5, sizeof($result));
     }
 
     public function test_one_filter() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("be"))->getContent();
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("be",null,null))->getContent();
         $this->assertEquals(2, sizeof($result));
     }
 
     public function test_one_filter_2() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 0))->getContent();
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 0,null))->getContent();
         $this->assertEquals(4, sizeof($result));
     }
 

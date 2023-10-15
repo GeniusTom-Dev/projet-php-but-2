@@ -20,7 +20,7 @@ class DbTopics
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(?string $nameOrDescriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
+    public function select_SQLResult(?string $nameOrDescriptionLike, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
         $request = "SELECT * FROM  $this->dbName";
         $conditions = [];
         if (!is_null($nameOrDescriptionLike)) {
