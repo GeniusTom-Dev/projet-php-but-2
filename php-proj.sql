@@ -216,6 +216,7 @@ COMMIT;
 /*INSERT INTO 'topic' VALUES();*/
 /*INSERT INTO 'user' VALUES();*/
 
+/*
 --topics
 INSERT INTO 'topic' VALUES(1, 'News', 1);
 INSERT INTO 'topic' VALUES(2, 'Politics', 1);
@@ -265,6 +266,6 @@ INSERT INTO 'post' VALUES(11, 'Octobre rose', '');
 INSERT INTO 'post' VALUES(2, 'Élu persécuté', '');
 INSERT INTO 'post' VALUES(1, 'Alerte disparition', '');
 INSERT INTO 'post' VALUES(8, 'Digital Services Act', '');
-
+*/
 
 /* pas terminé */
