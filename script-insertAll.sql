@@ -8,20 +8,20 @@ INSERT INTO `topics` (`TOPIC_ID`, `NAME`, `DESCRIPTION`) VALUES
 (1, 'Cuisine', 'De l''art tout simplement.'),
 (2, 'Abeilles', NULL),
 (3, 'Porte', 'Une porte, c''est toujours bien dans la vie.'),
-(4, 'Test', 'Hello world !'),
+(4, 'Programmation', 'Hello world !'),
 (5, 'Testing', 'Bonjour'),
 (6, 'Test2', 'moup'),
-(7, 'AAAA', 'a aa aaa aaaa'),
-(8, 'BBBB', 'b bb bbb bbbb'),
-(9, 'CCCC', 'c cc ccc cccc'),
-(10, 'DDDD', 'd dd ddd dddd'),
-(11, 'EEEE', 'e ee eee eeee'),
-(12, 'FFFF', 'f ff fff ffff'),
-(13, 'GGGG', 'g gg ggg gggg'),
-(14, 'HHHH', 'h hh hhh hhhh'),
-(15, 'IIII', 'i ii iii iiii'),
-(16, 'JJJJ', 'j jj jjj jjjj'),
-(17, 'KKKK', 'k kk kkk kkkk');
+(7, 'Politique', 'C''est du sérieux'),
+(8, 'Infos', 'Pour saturer'),
+(9, 'Études', 'Aide et partage'),
+(10, 'Musique', 'd dd ddd dddd'),
+(11, 'Sport', 'On se bouge'),
+(12, 'Société', 'Social'),
+(13, 'Nature', 'La nature c''est beau'),
+(14, 'Pro', 'Monde professionnel'),
+(15, 'Montage', 'Montages de photos et vidéos'),
+(16, 'Art', 'Admirez et créez'),
+(17, 'Voyages', 'Destinations de rêves (ou pas)');
 
 -- --------------------------------------------------------
 
