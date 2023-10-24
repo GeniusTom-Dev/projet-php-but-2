@@ -2,7 +2,7 @@
     <input type="search" placeholder="Search...">
     <button type="submit">Submit</button>
 </form>
-<form id="sorter" action="/projet-php-but-2/homeAdmin.php"
+<form id="sorter" action="/projet-php-but-2/View/homeAdmin.php"
       method="GET">
     <!--<input type="text" name="test" placeholder="Testing" onchange="submit()">-->
     <label for="sort">Tri par :</label>
