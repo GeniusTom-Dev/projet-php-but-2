@@ -22,13 +22,14 @@ class DbUsers{
     }
 
     /**
-     * @param string|null $usernameLike
-     * @param bool|null $isAdmin
-     * @param bool|null $isActivated
-     * @param int|null $limit
-     * @param int $page
-     * @param string|null $sort
-     * @return GReturn
+     * A function to execute a SELECT query with more than one parameter as well as sort and limit the result returned.
+     * @param string|null $usernameLike A part of the username you want to find. If is null then parameter is not used in the search.
+     * @param bool|null $isAdmin Determines if an admin (1) or a regular user (0) is searched. If is null then parameter is not used in the search.
+     * @param bool|null $isActivated Determines if a user account is searched as activated (1) or deactivated (0). If is null then parameter is not used in the search.
+     * @param int|null $limit Is the max number of rows to return. If is null then return all rows.
+     * @param int|null $page Is the page associated with the request. Is used to calculate the offset for the limit. If is null then return all rows.
+     * @param string|null $sort A string that indicates which sort by to used for the request. If is null then result is not sorted.
+     * @return GReturn Returns the result of a SELECT query with the possibility to sort and limit the number of rows returned.
      * Used when you need to filter the table according to several non-unique key attributes
      */
     public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit, ?int $page, ?string $sort) : GReturn{
@@ -48,7 +49,7 @@ class DbUsers{
         }
         // Sorting result and limiting size for pagination
         $request .= " " . $this->getSortInstruction($sort);
-        if (empty($limit) === false){
+        if (empty($limit) === false && empty($page) === false){
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
 

@@ -15,6 +15,10 @@ class controlAdminComments
         $this->dbComments = new DbComments($conn);
     }
 
+    /* *********************************************************** *
+     * ************************* CHECKS ************************** *
+     * *********************************************************** */
+
     /**
      * Verifies if a deletion form was sent through the method "POST" and realize the necessary
      * SQL request to delete the post by using the id stored in the associated $_POST field.
@@ -26,6 +30,10 @@ class controlAdminComments
             $this->dbComments->deleteComment($id);
         }
     }
+
+    /* *********************************************************** *
+     * ******************* TABLE INTERFACE *********************** *
+     * *********************************************************** */
 
     public function getTableStart(): string{
         ob_start(); ?>
@@ -85,6 +93,10 @@ class controlAdminComments
         echo $this->getTableContent();
         echo $this->getTableEnd();
     }
+
+    /* *********************************************************** *
+     * ******************** PAGE SELECT INTERFACE **************** *
+     * *********************************************************** */
 
     public function getMaxNumPage(): int{
         $total = $this->dbComments->getTotal();

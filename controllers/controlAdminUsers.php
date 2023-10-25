@@ -103,7 +103,7 @@ class controlAdminUsers
     }
 
     public function getTableContent(): string{
-        $result = $this->dbUsers->select_SQLResult(null, null, null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        $result = $this->dbUsers->select_SQLResult(null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';

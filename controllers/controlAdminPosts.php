@@ -14,6 +14,10 @@ class controlAdminPosts
         $this->dbPosts = new DbPosts($conn);
     }
 
+    /* *********************************************************** *
+     * ************************* CHECKS ************************** *
+     * *********************************************************** */
+
     /**
      * Verifies if a deletion form was sent through the method "POST" and realize the necessary
      * SQL request to delete the post by using the id stored in the associated $_POST field.
@@ -25,6 +29,10 @@ class controlAdminPosts
             $this->dbPosts->deletePost($id);
         }
     }
+
+    /* *********************************************************** *
+     * ******************* TABLE INTERFACE *********************** *
+     * *********************************************************** */
 
     public function getTableStart(): string{
         ob_start(); ?>
@@ -95,6 +103,10 @@ class controlAdminPosts
         }
         return $max;
     }
+
+    /* *********************************************************** *
+     * ******************** PAGE SELECT INTERFACE **************** *
+     * *********************************************************** */
 
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
