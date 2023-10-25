@@ -16,46 +16,25 @@ class DbTopics
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
-    public function addTopic($name, $info):void{
-        $nextID = mysqli_query($this->conn, "SELECT (MAX(TOPIC_ID) + 1) AS NEWID FROM ". $this->dbName);
-        $nextID = mysqli_fetch_assoc($nextID);
-        $nextID = $nextID['NEWID'];
-        $query = "INSERT INTO " . $this->dbName;
-        $query .= " VALUES ($nextID, '$name', ";
-        if ($info == ''){
-            $query .= "NULL";
-        }
-        else{
-            $query .= "'$info'";
-        }
-        $query .= ");";
-
-        $this->conn->query($query);
-    }
-
     public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
         return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
     }
 
-    public function select_SQLResult(string $nameLike = null, string $descriptionLike = null, ?int $limit = null, int $page = 0, ?string $sort = null) : GReturn{
-        $request = "SELECT * FROM " . $this->dbName;
-        $conditions = [];
-        if (!is_null($nameLike)) {
-            $conditions[] = "NAME LIKE %$nameLike%";
-        }
-        if (!is_null($descriptionLike)) {
-            $conditions[] = "DESCRITPION LIKE %$descriptionLike%";
-        }
-        if (!empty($conditions)) {
-            $request .= " WHERE " . implode(" AND ", $conditions);
+    public function select_SQLResult(?string $nameOrDescriptionLike, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
+        $request = "SELECT * FROM $this->dbName ";
+        if (!is_null($nameOrDescriptionLike)) {
+            $request .= "WHERE (NAME LIKE '%$nameOrDescriptionLike%' OR DESCRIPTION LIKE '%$nameOrDescriptionLike%')";
         }
         // Sorting result and limiting size for pagination
-        $request .= " " . $this->getSortInstruction($sort);
+        if ($sort != null) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
         if (empty($limit) === false){
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
-
+        $request .= ";";
         $result = $this->conn->query($request);
+        var_dump("REQUETE : $request");
         return new GReturn("ok", content: $result);
     }
 
@@ -72,36 +51,56 @@ class DbTopics
         return '';
     }
 
+    public function selectById(int $topic_id) : GReturn {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE TOPIC_ID = $topic_id;";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
+    public function selectByName(string $topic_name) : GReturn {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE NAME = '$topic_name';";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
     /* Update Topic */
 
-    public function changeTopicName($id, $newName): void{
-        $query = "UPDATE " . $this->dbName . " SET NAME='$newName' WHERE TOPIC_ID=$id";
-        $this->conn->query($query);
-    }
-    public function changeTopicInfo($id, $newInfo): void{
-        $query = "UPDATE " . $this->dbName . " SET DESCRIPTION=";
-        if ($newInfo == 'NULL'){
-            $query .= "NULL";
+    public function changeTopic($topic_id, $newName = null, $newDescription = null): bool {
+        if (empty($newName) || $this->doesTopicAlreadyExist($newName)){
+            return False; // the modification was not made
         }
-        else {
-            $query .= "'$newInfo'";
-        }
-        $query .= " WHERE TOPIC_ID=$id";
+        $query = "UPDATE $this->dbName SET NAME='$newName', DESCRIPTION='$newDescription' WHERE TOPIC_ID='$topic_id'";
         $this->conn->query($query);
+        return True; // the modification was made
     }
 
-    public function changeTopic($id, $newName = null, $newInfo = null): void{
-        if (empty($newName) === false && $newName != ''){
-            $this->changeTopicName($id, $newName);
+    /* Add Topic */
+
+    public function addTopic($name, $Description): bool {
+        if (empty($name) || $this->doesTopicAlreadyExist($name)) {
+            return false;
         }
-        if (isset($newInfo) && $newInfo != ''){
-            $this->changeTopicInfo($id, $newInfo);
-        }
+        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
+        $this->conn->query($resetIdMinValue);
+        $query = "INSERT INTO $this->dbName (`NAME`, `DESCRIPTION`) VALUES ('$name', '$Description');";
+        $this->conn->query($query);
+        return true;
     }
+
+    /* Delete Topic */
 
     public function deleteTopic($id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE TOPIC_ID=$id";
+        $query = "DELETE FROM $this->dbName WHERE TOPIC_ID = $id";
         $this->conn->query($query);
+    }
+
+    /* check if already exists functions */
+
+    private function doesTopicAlreadyExist(string $name) : bool {
+        $request = "SELECT * FROM $this->dbName WHERE NAME = '$name'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
 }

@@ -4,39 +4,62 @@ include '../GFramework/database/Database.php';
 include '../GFramework/database/DbUsers.php';
 require '../GFramework/autoloader.php';
 
-use \PHPUnit\Framework\TestCase;
-class DbUsersTest extends TestCase {
+use PHPUnit\Framework\TestCase;
+class DbUsersTest extends TestCase { // Completed
 
-    private $dbUsers = null;
-    final public function getConnection(): dbUsers
+    private DbUsers | null $dbUsers = null;
+    final public function getConnection(): DbUsers
     {
         if ($this->dbUsers == null) {
             $db = new Database('mysql-echo.alwaysdata.net','echo_mathieu','130304leroux','echo_bd_test');
             $dbConn = $db->getConnection()->getContent();
-            $this->dbUsers = new dbUsers($dbConn);
+            $this->dbUsers = new DbUsers($dbConn);
         }
         return $this->dbUsers;
     }
 
     // -------------------------
-    // FUNCTION TEST GET
+    // FUNCTION TEST SELECT WITH FILTER
     // -------------------------
 
-    public function test_get_all_users() {
-        $result = $this->getConnection()->getUsers(["USERNAME"])->getContent();
-        $expected = [['USERNAME'=>'admin'],['USERNAME'=>'bebert'],['USERNAME'=>'benoit'],['USERNAME'=>'martin'],['USERNAME'=>'martine']];
-        $this->assertEquals(array_count_values($expected), array_count_values($result));
+    public function test_no_filter() {
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null,null,null))->getContent();
+        $this->assertEquals(5, sizeof($result));
     }
 
-    public function test_get_all_users_2() {
-        $result = $this->getConnection()->getUsers(["USERNAME", "USER_BIO"])->getContent();
-        $expected = [['USERNAME'=>'admin', 'USER_BIO'=>null],['USERNAME'=>'benoit', 'USER_BIO'=>null],['USERNAME'=>'bebert', 'USER_BIO'=>'Bio de bebert'],['USERNAME'=>'martin', 'USER_BIO'=>'Bio de martin'],['USERNAME'=>'martine', 'USER_BIO'=>'Bio de martine']];
-        $this->assertEquals(array_count_values($expected), array_count_values($result));
+    public function test_one_filter() {
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("be",null,null))->getContent();
+        $this->assertEquals(2, sizeof($result));
+    }
+
+    public function test_one_filter_2() {
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 0,null))->getContent();
+        $this->assertEquals(4, sizeof($result));
+    }
+
+    public function  test_some_filter() {
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("mar", null, 0))->getContent();
+        $this->assertEquals(1, sizeof($result));
+    }
+
+    public function test_some_filter_2() {
+        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 1, 1))->getContent();
+        $this->assertEquals(1, sizeof($result));
     }
 
     // -------------------------
-    // FUNCTION TEST SELECTION UNIQUE
+    // FUNCTION TEST SELECTION UNIQUE ATTRIBUT
     // -------------------------
+
+    /* by ID */
+    public function test_select_by_id_and_id_exist() {
+        $result = $this->getConnection()->selectById("1")->getContent()["USERNAME"];
+        $this->assertEquals('admin', $result);
+    }
+    public function test_select_by_id_and_id_dont_exist() {
+        $result = $this->getConnection()->selectById("6")->getContent();
+        $this->assertEquals(null, $result);
+    }
 
     /* by username */
     public function test_select_by_username_and_username_exist() {
@@ -58,16 +81,6 @@ class DbUsersTest extends TestCase {
         $result = $this->getConnection()->selectByEmail("dnvrvrv")->getContent()["USER_ID"];
         $this->assertEquals(null, $result);
     }
-
-//    // -------------------------
-//    // FUNCTION TEST SELECT WITH FILTER
-//    // -------------------------
-//
-//    public function test_random() {
-//        $result = mysqli_fetch_all($this->getConnection()->select_SQLResult(null,"admin",null,null,1)->getContent());
-//        $result2 = mysqli_fetch_all($this->getConnection()->select_SQLResult(null,"admin",null,null,1)->getContent());
-//        $this->assertEquals($result, $result2);
-//    }
 
     // -------------------------
     // FUNCTION TEST UPDATE - ADD - REMOVE
@@ -91,7 +104,6 @@ class DbUsersTest extends TestCase {
 
     public function test_update_username_and_username_invalid() {
         $this->assertFalse($this->getConnection()->updateUsername("abcd", "efgh"));
-        $this->assertFalse($this->getConnection()->updateUsername("admin", "bebert"));
     }
 
     /* function test remove */

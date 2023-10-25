@@ -4,8 +4,6 @@ use GFramework\utilities\GReturn;
 class DbFavorites
 {
     private string $dbName = "favorites";
-    private array | string $dbColumns = ["USER_ID", "POST_ID"];
-
     private mysqli $conn;
 
     public function __construct($conn){
@@ -25,9 +23,8 @@ class DbFavorites
         if ($this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
             return false; // Modification was not made
         }
-        $request = "INSERT INTO $this->dbName (''";
-        $request .= implode("', '",$this->dbColumns) . "')";
-        $request .= " VALUES ($user_id, $post_id);";
+        $request = "INSERT INTO $this->dbName (`POST_ID`, `USER_ID`) VALUES ";
+        $request .= "($post_id, $user_id);";
         $this->conn->query($request);
         return true;
     }

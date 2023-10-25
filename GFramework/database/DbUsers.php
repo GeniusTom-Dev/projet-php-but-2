@@ -14,7 +14,6 @@ class DbUsers{
         $this->conn = $conn;
     }
 
-    // -------------------------- CODE CAMILLE --------------------------
 
     // UTILISER DE PREFERENCE LE ASSOC ARRAY PLUTOT QUE LE RESULT SQL
     public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
@@ -32,17 +31,17 @@ class DbUsers{
      * @return GReturn Returns the result of a SELECT query with the possibility to sort and limit the number of rows returned.
      * Used when you need to filter the table according to several non-unique key attributes
      */
-    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit, ?int $page, ?string $sort) : GReturn{
+    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
         $request = "SELECT * FROM " . $this->dbName;
         $conditions = [];
         if (!is_null($usernameLike)) {
-            $conditions[] = "USERNAME LIKE %$usernameLike%";
+            $conditions[] = "USERNAME LIKE '$usernameLike%'";
         }
         if (!is_null($isAdmin)) {
-            $conditions[] = "IS_ADMIN = $isAdmin";
+            $conditions[] = "IS_ADMIN = " . ($isAdmin ? 'true' : 'false');
         }
         if (!is_null($isActivated)) {
-            $conditions[] = "IS_ACTIVATED = $isActivated";
+            $conditions[] = "IS_ACTIVATED = " . ($isActivated ? 'true' : 'false');
         }
         if (!empty($conditions)) {
             $request .= " WHERE " . implode(" AND ", $conditions);
@@ -73,26 +72,6 @@ class DbUsers{
         return '';
     }
 
-    public function deleteUserByUsername(string $username): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
-        $this->conn->query($query);
-    }
-
-    public function deleteUserByID(int $id): void{
-        $query = "DELETE FROM " . $this->dbName . " WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
-    public function deactivateUser(int $id): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=0 WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
-    public function activateUser(int $id): void{
-        $query = "UPDATE " . $this->dbName . " SET IS_ACTIVATED=1 WHERE USER_ID=$id";
-        $this->conn->query($query);
-    }
-
     public function getTotal(){
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
@@ -105,7 +84,7 @@ class DbUsers{
     public function selectById(int $id) : GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USER_ID = '$id';";
+        $request .= " WHERE USER_ID = $id;";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
@@ -128,7 +107,7 @@ class DbUsers{
 
     public function updateUsername(string $oldUsername, string $newUsername) : bool {
         if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
-            return false; // the username is already used, the update was not made
+            return false; // the new username is already used, the update was not made
         }
         $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
         $request .= " WHERE USERNAME = '$oldUsername';";
@@ -136,8 +115,14 @@ class DbUsers{
         return true;
     }
 
-    private function isAttributeInTable(string $attribute) : bool {
-        return in_array($attribute, $this->dbColumns);
+    public function activateUser(int $id): void{
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=1 WHERE USER_ID=$id";
+        $this->conn->query($query);
+    }
+
+    public function deactivateUser(int $id): void{
+        $query = "UPDATE $this->dbName SET IS_ACTIVATED=0 WHERE USER_ID=$id";
+        $this->conn->query($query);
     }
 
     /* Add User */
@@ -153,19 +138,31 @@ class DbUsers{
         $request .= "'$username', '$email', '$pwd', ";
         $request .= "1, 0, '" . date("Y-m-d") . "', '" . date("Y-m-d") . "'";
         $request .= ", null, null);";
-        var_dump($request);
         $this->conn->query($request);
         return true;
+    }
+
+    /* Delete User */
+
+    public function deleteUserByID(int $id): void{
+        $query = "DELETE FROM $this->dbName WHERE USER_ID=$id";
+        $this->conn->query($query);
+    }
+
+    public function deleteUserByUsername(string $username): void{
+        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
+        $this->conn->query($query);
     }
 
     /* check if already exists functions */
 
     private function isUsernameAlreadyUsed(string $username) : bool {
-        return in_array(['USERNAME'=>$username], $this->getUsers(["USERNAME"])->getContent());
+        $request = "SELECT * FROM $this->dbName WHERE USERNAME = '$username'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
     private function isEmailAlreadyUsed(string $email) : bool {
-        return in_array(['USER_EMAIL'=>$email], $this->getUsers(["USER_EMAIL"])->getContent());
+        $request = "SELECT * FROM $this->dbName WHERE USER_EMAIL = '$email'";
+        return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
-
 }
