@@ -1,8 +1,10 @@
 <?php require '../GFramework/autoloader.php';
 $dbUsers = new dbUsers($dbConn);
+
 //var_dump($dbUser);
 use GFramework\utilities\GReturn; ?>
-<?php function displayDBinTable(GReturn $result) : string {
+<?php function displayDBinTable(GReturn $result): string
+{
     $columns = $result->getContent()->fetch_fields();
     $rows = mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC);
     $codeHtml = "<table><tr>";
@@ -22,7 +24,7 @@ use GFramework\utilities\GReturn; ?>
     }
     $codeHtml .= "</table>";
     return $codeHtml;
- }?>
+} ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,7 +39,7 @@ use GFramework\utilities\GReturn; ?>
     <?php
     //echo displayDBinTable($dbUser->select(""));
     //echo displayDBinTable($dbUser->select("admin"));
-    var_dump($dbUsers->select_by_id(1)->getContent()["USER_ID"] == 1);
+    //var_dump($dbUsers->select_by_id(1)->getContent()["USER_ID"] == 1);
     //var_dump(mysqli_fetch_all($dbUser->select("admin")->getTableContent(), MYSQLI_ASSOC)[0]);
     ?>
 </form>

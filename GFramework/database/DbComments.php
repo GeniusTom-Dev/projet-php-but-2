@@ -1,5 +1,6 @@
 <?php
-use \GFramework\utilities\GReturn;
+
+use GFramework\utilities\GReturn;
 
 class DbComments
 {
@@ -7,20 +8,24 @@ class DbComments
 
     private \mysqli $conn;
 
-    public function __construct($conn){
+    public function __construct($conn)
+    {
         $this->conn = $conn;
     }
 
-    public function getTotal(){
+    public function getTotal()
+    {
         $query = "SELECT COUNT(*) AS TOTAL FROM $this->dbName";
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
-    public function convertSQLResultToAssocArray(GReturn $result) : GReturn{
-        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
-    }
+    /*    public function convertSQLResultToAssocArray(GReturn $result): GReturn
+        {
+            return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
+        }*/
 
-    public function select_SQLResult(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax, ?int $limit=null, ?int $page=null, ?string $sort=null) : GReturn{
+    public function select_SQLResult(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    {
         $request = "SELECT * FROM $this->dbName";
         $conditions = [];
         if (!is_null($post_id)) {
@@ -43,34 +48,32 @@ class DbComments
         }
         // Sorting result and limiting result size for pagination
         $request .= " " . $this->getSortInstruction($sort);
-        if (empty($limit) === false){
+        if (empty($limit) === false) {
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
 
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: $result);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
-    public function getSortInstruction(?string $sort): string{
-        if ($sort == 'ID-asc'){
+    public function getSortInstruction(?string $sort): string
+    {
+        if ($sort == 'ID-asc') {
             return 'ORDER BY COMMENT_ID ASC';
-        }
-        else if ($sort == 'a-z'){
+        } else if ($sort == 'a-z') {
             return 'ORDER BY CONTENT ASC';
-        }
-        else if ($sort == 'recent'){
+        } else if ($sort == 'recent') {
             return 'ORDER BY DATE_POSTED DESC';
-        }
-        else if ($sort == 'id-user'){
+        } else if ($sort == 'id-user') {
             return 'ORDER BY USER_ID ASC';
-        }
-        else if ($sort == 'id-post'){
+        } else if ($sort == 'id-post') {
             return 'ORDER BY POST_ID ASC';
         }
         return '';
     }
 
-    public function addComment(int $post_id, int $user_id, string $content, string $date_posted): void{
+    public function addComment(int $post_id, int $user_id, string $content, string $date_posted): void
+    {
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
         $this->conn->query($resetIdMinValue);
         $request = "INSERT INTO $this->dbName (`POST_ID`, `USER_ID`, `CONTENT`, `DATE_POSTED`) VALUES ";
@@ -78,7 +81,8 @@ class DbComments
         $this->conn->query($request);
     }
 
-    public function updateComments(int $comment_id, string $newContent): bool {
+    public function updateComments(int $comment_id, string $newContent): bool
+    {
         $request = "UPDATE $this->dbName";
         if (empty($newContent)) { // The content of a post can not be empty
             return false;
@@ -88,7 +92,8 @@ class DbComments
         return true;
     }
 
-    public function deleteComment($id): void{
+    public function deleteComment($id): void
+    {
         $query = "DELETE FROM $this->dbName WHERE COMMENT_ID=$id";
         $this->conn->query($query);
     }
