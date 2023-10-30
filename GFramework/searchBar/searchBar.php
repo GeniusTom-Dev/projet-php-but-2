@@ -1,5 +1,6 @@
+<?= 'Search Bar     ' ?>
 <div>
-    <form action="controlSearchBar.php" method="GET" id="searchForm">
+    <form action="index.php" method="GET" id="searchForm">
         <select id="selectDb" name="selectDb">
             <option value="Topics" <?php if ($_GET['selectDb'] == 'Topics') echo 'selected'; ?>>Categories</option>
             <option value="Users" <?php if ($_GET['selectDb'] == 'Users') echo 'selected'; ?>>Utilisateurs</option>
@@ -19,10 +20,10 @@
                 <input type="number" id="searchId" name="searchId" min="1" style="width: 50px">
                 <label for='searchIsAdmin'>Is Activated = </label>
                 <input type='checkbox' id='searchIsAdmin'
-                       name='searchIsAdmin' <?php if ($_GET["searchIsAdmin"] === "on") echo "checked" ?>>
+                       name='searchIsAdmin' <?php if (isset($_GET["searchIsAdmin"]) && $_GET["searchIsAdmin"] === "on") echo "checked" ?>>
                 <label for='searchIsActivated'>Is Activated = </label>
                 <input type='checkbox' id='searchIsActivated'
-                       name='searchIsActivated' <?php if ($_GET["searchIsActivated"] === "on") echo "checked" ?>>
+                       name='searchIsActivated' <?php if (isset($_GET["searchIsActivated"]) && $_GET["searchIsActivated"] === "on") echo "checked" ?>>
             <?php } ?>
         </div>
     </form>

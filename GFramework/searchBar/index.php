@@ -5,6 +5,11 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<?php
+echo 'Index début     ';
+require '../autoloader.php';
+require 'controlSearchBar.php';
+?>
 <h1>Barre de recherche</h1>
 <?php include 'searchBar.php' ?>
 <h2>Resultats de la recherche :</h2>
@@ -19,5 +24,6 @@
     </table>
     <script src="SQLResultToTable.js"></script>
 </ul>
+<?= 'Index Fin    ' ?>
 </body>
 </html>

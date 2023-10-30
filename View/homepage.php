@@ -37,8 +37,8 @@ use GFramework\utilities\GReturn; ?>
     <input type="text" name="username" placeholder="Rechercher un utilisateur">
     <button type="submit">Rechercher</button>
     <?php
-    //echo displayDBinTable($dbUser->select(""));
-    //echo displayDBinTable($dbUser->select("admin"));
+    //echo displayDBinTable($dbUsers->select(""));
+    //echo displayDBinTable($dbUsers->select("admin"));
     //var_dump($dbUsers->select_by_id(1)->getContent()["USER_ID"] == 1);
     //var_dump(mysqli_fetch_all($dbUser->select("admin")->getTableContent(), MYSQLI_ASSOC)[0]);
     ?>
