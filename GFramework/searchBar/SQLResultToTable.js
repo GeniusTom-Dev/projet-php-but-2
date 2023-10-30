@@ -1,13 +1,16 @@
 // --- Construct the table ---
 
-columns = getColumns(localStorage.getItem("selectedDb"));
-updateTableHeader();
-updateTableContent();
+function generateTable(selectedDb, tableHead, tableBody) {
+    let columns = getColumns(selectedDb);
+    updateTableHeader(selectedDb, columns, tableHead);
+    updateTableContent(selectedDb, columns, tableBody);
+}
 
 // --- Functions ----
 
 function getColumns(dbName) {
     var columns = {};
+    console.log("Column : " + dbName);
     if (dbName === "Topics") {
         columns = {
             "TOPIC_ID": "ID", "NAME": "NOM", "DESCRIPTION": "DESCRIPTION"
@@ -43,8 +46,7 @@ function getColumns(dbName) {
     return columns;
 }
 
-function updateTableHeader() {
-    var tableHead = document.getElementById("tableHead");
+function updateTableHeader(selectedDb, columns, tableHead) {
     tableHead.innerHTML = "";
     for (const [key, value] of Object.entries(columns)) {
         var th = document.createElement("th");
@@ -52,11 +54,11 @@ function updateTableHeader() {
         tableHead.appendChild(th);
     }
 
-    if (localStorage.getItem("selectedDb") === "Topics") {
+    if (selectedDb === "Topics") {
         var thModifier = document.createElement("th");
         thModifier.textContent = "MODIFIER";
         tableHead.append(thModifier);
-    } else if (localStorage.getItem("selectedDb") === "Users") {
+    } else if (selectedDb === "Users") {
         var thDesacActiv = document.createElement("th");
         thDesacActiv.textContent = "Activate/Desactivate";
         tableHead.append(thDesacActiv);
@@ -67,8 +69,7 @@ function updateTableHeader() {
     tableHead.append(thSupprimer);
 }
 
-function updateTableContent() {
-    var tableBody = document.getElementById('tableBody');
+function updateTableContent(selectedDb, columns, tableBody) {
     tableBody.innerHTML = "";
     var results = JSON.parse(localStorage.getItem("searchResults"));
 
@@ -81,16 +82,16 @@ function updateTableContent() {
             ++cmp;
         }
 
-        if (localStorage.getItem("selectedDb") === "Topics") {
+        if (selectedDb === "Topics") {
             addModificationColumn(row, cmp);
             ++cmp;
-        } else if (localStorage.getItem("selectedDb") === "Users") {
+        } else if (selectedDb === "Users") {
             addDesactivateActivateColumn(row, cmp);
             ++cmp;
         }
         addDeleteColumn(row, cmp);
 
-        // Get id of selected line
+        // RENVOIT L'ID DE LIGNE QUI S'EST FAIT CLIQUÉ
         (function (currentLine) {
             row.addEventListener('click', function () {
                 alert('Vous avez cliqué sur la ligne avec l\'ID ' + results[currentLine][Object.entries(columns)[0][0]]);

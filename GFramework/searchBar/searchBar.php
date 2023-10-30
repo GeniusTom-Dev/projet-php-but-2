@@ -1,6 +1,26 @@
-<?= 'Search Bar     ' ?>
+<?php
+require_once '../autoloader.php';
+require_once 'controlSearchBar.php';
+
+$results = [];
+if (empty($_GET["selectDb"]) === false) {
+    var_dump($_GET["selectDb"]);
+    if ($_GET["selectDb"] == "Topics") $results = getTopicsResults($dbTopics);
+    else if ($_GET["selectDb"] == "Users") $results = getUsersResults($dbUsers);
+    else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts);
+    else if ($_GET["selectDb"] == "Comments") $results = getCommentsResults($dbComments);
+} else {
+    $results = getTopicsResults($dbTopics);
+}
+?>
+<script>
+    var results = <?php echo json_encode($results); ?>;
+    localStorage.setItem("searchResults", JSON.stringify(results));
+</script>
+
+
 <div>
-    <form action="index.php" method="GET" id="searchForm">
+    <form action="" method="GET" id="searchForm">
         <select id="selectDb" name="selectDb">
             <option value="Topics" <?php if ($_GET['selectDb'] == 'Topics') echo 'selected'; ?>>Categories</option>
             <option value="Users" <?php if ($_GET['selectDb'] == 'Users') echo 'selected'; ?>>Utilisateurs</option>

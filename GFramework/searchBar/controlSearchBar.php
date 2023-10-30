@@ -1,54 +1,45 @@
 <?php
-require_once '../autoloader.php';
-
-$results = [];
-
-if ($_GET["selectDb"] == "Topics") {
-    if (isset($_GET['searchId']) && $_GET['searchId'] != 0 && $_GET['searchId'] != '') {
+function getTopicsResults($dbTopics)
+{
+    $results = [];
+    if (empty($_GET["searchId"]) === false && $_GET['searchId'] === false) {
         $results = [$dbTopics->selectById($_GET["searchId"])->getContent()];
-    } else {
-        if (isset($_GET['searchText'])){
-            $nameOrDescriptionLike = $_GET['searchText'];
-        }
-        else{
-            $nameOrDescriptionLike = null;
-        }
+    } else if (empty($_GET["searchText"]) === false) {
+        $nameOrDescriptionLike = $_GET['searchText'];
         $results = $dbTopics->select_SQLResult($nameOrDescriptionLike)->getContent();
+    } else {
+        $results = $dbTopics->select_SQLResult()->getContent();
     }
-} else if ($_GET["selectDb"] == "Users") {
-    if (isset($_GET['searchId']) && $_GET['searchId'] != 0 && $_GET['searchId'] != '') {
+
+    return $results;
+}
+
+function getUsersResults($dbUsers)
+{
+    $results = [];
+    if ($_GET["searchId"] === false) {
         $results = [$dbUsers->selectById($_GET['searchId'])->getContent()];
     } else {
-        if (isset($_GET['searchText'])){
-            $usernameLike = $_GET['searchText'];
-        }
-        else {
-            $usernameLike = null;
-        }
-        if (isset($_GET['searchIsAdmin'])){
-            $isAdmin = $_GET['searchIsAdmin'];
-        }
-        else {
-            $isAdmin = null;
-        }
-        if (isset($_GET['serachIsActivate'])){
-            $isActivate = $_GET['serachIsActivate'];
-        }
-        else {
-            $isActivate = null;
-        }
-
+        $usernameLike = $_GET['searchText'];
+        $isAdmin = $_GET['searchIsAdmin'];
+        $isActivate = $_GET['serachIsActivate'];
         $results = $dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate)->getContent();
     }
-} else if ($_GET["selectDb"] == "Posts") {
-    $results = $dbPosts->select_SQLResult(null, null, null, null)->getContent();
-} else if ($_GET["selectDb"] == "Comments") {
-    $results = $dbComments->select_SQLResult(null, null, null, null, null)->getContent();
+    return $results;
 }
+
+function getPostsResults($dbPosts)
+{
+    $results = [];
+    $results = $dbPosts->select_SQLResult(null, null, null, null)->getContent();
+    return $results;
+}
+
+function getCommentsResults($dbComments)
+{
+    $results = [];
+    $results = $dbComments->select_SQLResult(null, null, null, null, null)->getContent();
+    return $results;
+}
+
 ?>
-    <script>
-        var results = <?php echo json_encode($results);?>;
-        localStorage.setItem("searchResults", JSON.stringify(results));
-    </script>
-<?php
-echo 'ControlSearchBar    ';?>

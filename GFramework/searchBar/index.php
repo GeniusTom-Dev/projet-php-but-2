@@ -23,6 +23,10 @@ require 'controlSearchBar.php';
         </tbody>
     </table>
     <script src="SQLResultToTable.js"></script>
+    <script>
+        var selectedDb = <?php echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; ?>;
+        generateTable(selectedDb, document.getElementById("tableHead"), document.getElementById("tableBody"));
+    </script>
 </ul>
 <?= 'Index Fin    ' ?>
 </body>
