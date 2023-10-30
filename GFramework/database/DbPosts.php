@@ -69,7 +69,12 @@ class DbPosts
     public function selectByID(int $post_id): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE POST_ID = '$post_id';";
+        $request .= " WHERE POST_ID = '$post_id'";
+        // Sorting result and limiting result size for pagination
+        $request .= " " . $this->getSortInstruction($sort);
+        if (empty($limit) === false) {
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
