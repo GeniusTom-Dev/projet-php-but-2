@@ -1,17 +1,23 @@
 <?php
-require_once '../autoloader.php';
-
-$results = [];
-
-if ($_GET["selectDb"] == "Topics") {
-    if ($_GET['searchId'] != 0) {
+function getTopicsResults($dbTopics)
+{
+    $results = [];
+    if (empty($_GET["searchId"]) === false && $_GET['searchId'] === false) {
         $results = [$dbTopics->selectById($_GET["searchId"])->getContent()];
-    } else {
+    } else if (empty($_GET["searchText"]) === false) {
         $nameOrDescriptionLike = $_GET['searchText'];
         $results = $dbTopics->select_SQLResult($nameOrDescriptionLike)->getContent();
+    } else {
+        $results = $dbTopics->select_SQLResult()->getContent();
     }
-} else if ($_GET["selectDb"] == "Users") {
-    if ($_GET['searchId'] != 0) {
+
+    return $results;
+}
+
+function getUsersResults($dbUsers)
+{
+    $results = [];
+    if ($_GET["searchId"] === false) {
         $results = [$dbUsers->selectById($_GET['searchId'])->getContent()];
     } else {
         $usernameLike = $_GET['searchText'];
@@ -19,16 +25,21 @@ if ($_GET["selectDb"] == "Topics") {
         $isActivate = $_GET['serachIsActivate'];
         $results = $dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate)->getContent();
     }
-} else if ($_GET["selectDb"] == "Posts") {
-    $results = $dbPosts->select_SQLResult(null, null, null, null)->getContent();
-} else if ($_GET["selectDb"] == "Comments") {
-    $results = $dbComments->select_SQLResult(null, null, null, null, null)->getContent();
+    return $results;
 }
-?>
-    <script>
-        var results = <?php echo json_encode($results);?>;
-        localStorage.setItem("searchResults", JSON.stringify(results));
-    </script>
-<?php
-include('index.php');
+
+function getPostsResults($dbPosts)
+{
+    $results = [];
+    $results = $dbPosts->select_SQLResult(null, null, null, null)->getContent();
+    return $results;
+}
+
+function getCommentsResults($dbComments)
+{
+    $results = [];
+    $results = $dbComments->select_SQLResult(null, null, null, null, null)->getContent();
+    return $results;
+}
+
 ?>
