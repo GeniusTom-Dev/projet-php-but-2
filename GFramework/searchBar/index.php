@@ -9,18 +9,12 @@
 <?php include 'searchBar.php' ?>
 <h2>Resultats de la recherche :</h2>
 <ul>
-    <table>
-        <thead>
-        <tr id="tableHead">
-        </tr>
-        </thead>
-        <tbody id="tableBody">
-        </tbody>
+    <table id="table">
     </table>
     <script src="SQLResultToTable.js"></script>
     <script>
         let selectedDb = <?php echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; ?>;
-        generateTable(selectedDb, document.getElementById("tableHead"), document.getElementById("tableBody"));
+        generateTable(selectedDb, document.getElementById("table"));
     </script>
 </ul>
 </body>

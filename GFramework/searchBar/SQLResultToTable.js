@@ -1,9 +1,10 @@
 // --- Construct the table ---
 
-function generateTable(selectedDb, tableHead, tableBody) {
+function generateTable(selectedDb, table) {
     let columns = getColumns(selectedDb);
-    updateTableHeader(selectedDb, columns, tableHead);
-    updateTableContent(selectedDb, columns, tableBody);
+    table.innerHTML = "";
+    updateTableHeader(selectedDb, columns, table);
+    updateTableContent(selectedDb, columns, table);
 }
 
 // --- Functions ----
@@ -45,35 +46,40 @@ function getColumns(dbName) {
     return columns;
 }
 
-function updateTableHeader(selectedDb, columns, tableHead) {
-    tableHead.innerHTML = "";
+function updateTableHeader(selectedDb, columns, table) {
+    let thead = document.createElement("thead");
+    let tr = document.createElement("tr");
+    table.insertBefore(thead, table.firstChild);
     for (const [key, value] of Object.entries(columns)) {
         let th = document.createElement("th");
         th.textContent = value;
-        tableHead.appendChild(th);
+        tr.appendChild(th);
     }
 
     if (selectedDb === "Topics") {
         let thModifier = document.createElement("th");
         thModifier.textContent = "MODIFIER";
-        tableHead.append(thModifier);
+        tr.append(thModifier);
     } else if (selectedDb === "Users") {
         let thDesacActiv = document.createElement("th");
         thDesacActiv.textContent = "Activer/Desactiver";
-        tableHead.append(thDesacActiv);
+        tr.append(thDesacActiv);
     }
 
     let thSupprimer = document.createElement("th");
     thSupprimer.textContent = "SUPPRIMER";
-    tableHead.append(thSupprimer);
+    tr.append(thSupprimer);
+
+    thead.append(tr);
+    table.head = thead;
 }
 
-function updateTableContent(selectedDb, columns, tableBody) {
-    tableBody.innerHTML = "";
+function updateTableContent(selectedDb, columns, table) {
+    let tbody = document.createElement("tbody");
+    table.appendChild(tbody);
     let results = JSON.parse(localStorage.getItem("searchResults"));
-
     for (let line in results) {
-        let row = tableBody.insertRow();
+        let row = tbody.insertRow();
         var cmp = 0;
         for (const [key, value] of Object.entries(columns)) {
             let cell = row.insertCell(cmp);
