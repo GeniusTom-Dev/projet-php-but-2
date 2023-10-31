@@ -60,9 +60,10 @@ class controlAdminComments
         }
         else
         {
-            if ($result->num_rows != 0)
+            if (count($result) != 0)
             {
-                while ($row = $result->fetch_assoc())
+                ob_start();
+                foreach ($result as &$row)
                 { ?>
             <tr>
                 <td><?= $row['COMMENT_ID']?></td>

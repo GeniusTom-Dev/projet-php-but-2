@@ -22,7 +22,7 @@ function getUsersResults($dbUsers)
     } else {
         $usernameLike = $_GET['searchText'];
         $isAdmin = $_GET['searchIsAdmin'];
-        $isActivate = $_GET['serachIsActivate'];
+        $isActivate = $_GET['searchIsActivate'];
         $results = $dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate)->getContent();
     }
     return $results;

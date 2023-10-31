@@ -8,7 +8,7 @@ use utilities\GReturn;
 class controlAdminTopics
 {
     private DbTopics $dbTopics;
-    private int $limitSelect = 10;
+    private int $limitSelect = 2;
 
     public function __construct($conn)
     {

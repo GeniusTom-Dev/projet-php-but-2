@@ -58,10 +58,10 @@ class controlAdminPosts
         }
         else
         {
-            if ($result->num_rows != 0)
+            if (count($result) != 0)
             {
                 ob_start();
-                while ($row = $result->fetch_assoc())
+                foreach ($result as &$row)
                 { ?>
             <tr>
                 <td rowspan="2"><?= $row['POST_ID']?></td>

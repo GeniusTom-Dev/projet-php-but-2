@@ -8,7 +8,7 @@ use DbUsers;
 class controlAdminUsers
 {
     private DbUsers $dbUsers;
-    private int $limitSelect = 2;
+    private int $limitSelect = 6;
 
     public function __construct($conn){
         $this->dbUsers = new DbUsers($conn);
@@ -103,17 +103,17 @@ class controlAdminUsers
     }
 
     public function getTableContent(): string{
-        $result = $this->dbUsers->select_SQLResult(null, null, null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        $result = $this->dbUsers->select_SQLResult(null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';
         }
         else
         {
-            if ($result->num_rows != 0)
+            if (count($result) != 0)
             {
                 ob_start();
-                while ($row = $result->fetch_assoc())
+               foreach ($result as &$row)
                 { ?>
             <tr>
                 <td> <?= $row['USER_ID']?></td>

@@ -6,9 +6,7 @@
 </head>
 <body>
 <?php
-echo 'Index début     ';
 require '../autoloader.php';
-require 'controlSearchBar.php';
 ?>
 <h1>Barre de recherche</h1>
 <?php include 'searchBar.php' ?>
@@ -28,6 +26,5 @@ require 'controlSearchBar.php';
         generateTable(selectedDb, document.getElementById("tableHead"), document.getElementById("tableBody"));
     </script>
 </ul>
-<?= 'Index Fin    ' ?>
 </body>
 </html>
