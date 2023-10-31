@@ -1,16 +1,16 @@
 // --- Construct the table ---
 
-function generateTable(selectedDb, tableHead, tableBody) {
+function generateTable(selectedDb, table) {
     let columns = getColumns(selectedDb);
-    updateTableHeader(selectedDb, columns, tableHead);
-    updateTableContent(selectedDb, columns, tableBody);
+    table.innerHTML = "";
+    updateTableHeader(selectedDb, columns, table);
+    updateTableContent(selectedDb, columns, table);
 }
 
 // --- Functions ----
 
 function getColumns(dbName) {
-    var columns = {};
-    console.log("Column : " + dbName);
+    let columns = {};
     if (dbName === "Topics") {
         columns = {
             "TOPIC_ID": "ID", "NAME": "NOM", "DESCRIPTION": "DESCRIPTION"
@@ -46,38 +46,43 @@ function getColumns(dbName) {
     return columns;
 }
 
-function updateTableHeader(selectedDb, columns, tableHead) {
-    tableHead.innerHTML = "";
+function updateTableHeader(selectedDb, columns, table) {
+    let thead = document.createElement("thead");
+    let tr = document.createElement("tr");
+    table.insertBefore(thead, table.firstChild);
     for (const [key, value] of Object.entries(columns)) {
-        var th = document.createElement("th");
+        let th = document.createElement("th");
         th.textContent = value;
-        tableHead.appendChild(th);
+        tr.appendChild(th);
     }
 
     if (selectedDb === "Topics") {
-        var thModifier = document.createElement("th");
+        let thModifier = document.createElement("th");
         thModifier.textContent = "MODIFIER";
-        tableHead.append(thModifier);
+        tr.append(thModifier);
     } else if (selectedDb === "Users") {
-        var thDesacActiv = document.createElement("th");
-        thDesacActiv.textContent = "Activate/Desactivate";
-        tableHead.append(thDesacActiv);
+        let thDesacActiv = document.createElement("th");
+        thDesacActiv.textContent = "Activer/Desactiver";
+        tr.append(thDesacActiv);
     }
 
-    var thSupprimer = document.createElement("th");
+    let thSupprimer = document.createElement("th");
     thSupprimer.textContent = "SUPPRIMER";
-    tableHead.append(thSupprimer);
+    tr.append(thSupprimer);
+
+    thead.append(tr);
+    table.head = thead;
 }
 
-function updateTableContent(selectedDb, columns, tableBody) {
-    tableBody.innerHTML = "";
-    var results = JSON.parse(localStorage.getItem("searchResults"));
-
-    for (var line in results) {
-        var row = tableBody.insertRow();
-        cmp = 0;
+function updateTableContent(selectedDb, columns, table) {
+    let tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    let results = JSON.parse(localStorage.getItem("searchResults"));
+    for (let line in results) {
+        let row = tbody.insertRow();
+        var cmp = 0;
         for (const [key, value] of Object.entries(columns)) {
-            var cell = row.insertCell(cmp);
+            let cell = row.insertCell(cmp);
             cell.innerHTML = results[line][key];
             ++cmp;
         }
@@ -101,7 +106,7 @@ function updateTableContent(selectedDb, columns, tableBody) {
 }
 
 function addModificationColumn(row, cmp) {
-    var cell = row.insertCell(cmp);
+    let cell = row.insertCell(cmp);
     cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
         '<input type="text" id="newName" name="newName" placeholder="Nouveau Nom">\n' +
         '<br>\n' +
@@ -111,14 +116,14 @@ function addModificationColumn(row, cmp) {
 }
 
 function addDeleteColumn(row, cmp) {
-    var cell = row.insertCell(cmp);
+    let cell = row.insertCell(cmp);
     cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
         '<button name="Delete" value="TOPIC_ID">X</button>\n' +
         '</form>';
 }
 
 function addDesactivateActivateColumn(row, cmp) {
-    var cell = row.insertCell(cmp);
+    let cell = row.insertCell(cmp);
     cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
         '<button name="action" value="<?=$row[\'USER_ID\']?>" onclick="submit()">\n' +
         '<?php\n' + 'if ($row[\'IS_ACTIVATED\'] == 1){\n' +

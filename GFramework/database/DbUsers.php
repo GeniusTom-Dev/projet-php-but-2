@@ -17,13 +17,6 @@ class DbUsers
         $this->conn = $conn;
     }
 
-
-    // UTILISER DE PREFERENCE LE ASSOC ARRAY PLUTOT QUE LE RESULT SQL
-    /*public function convertSQLResultToAssocArray(GReturn $result): GReturn
-    {
-        return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
-    }*/
-
     /**
      * @param string|null $usernameLike
      * @param bool|null $isAdmin
