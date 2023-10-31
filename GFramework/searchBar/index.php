@@ -1,4 +1,4 @@
-<!-- UTLISÉ POUR TESTER, A ADAPTER PAR LA SUITE -->
+<!-- UTILISÉ POUR TESTER, A ADAPTER PAR LA SUITE -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
     </table>
     <script src="SQLResultToTable.js"></script>
     <script>
-        var selectedDb = <?php echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; ?>;
+        let selectedDb = <?php echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; ?>;
         generateTable(selectedDb, document.getElementById("tableHead"), document.getElementById("tableBody"));
     </script>
 </ul>

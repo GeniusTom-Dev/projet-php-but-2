@@ -19,11 +19,6 @@ class DbTopics
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
-    /*    public function convertSQLResultToAssocArray(GReturn $result): GReturn
-        {
-            return new GReturn("ok", content: mysqli_fetch_all($result->getContent(), MYSQLI_ASSOC));
-        }*/
-
     public function select_SQLResult(?string $nameOrDescriptionLike = null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName ";
