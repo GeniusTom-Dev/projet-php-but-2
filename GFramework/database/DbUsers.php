@@ -27,7 +27,7 @@ class DbUsers
      * @return GReturn
      * Used when you need to filter the table according to several non-unique key attributes
      */
-    public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?string $usernameLike=null, ?bool $isAdmin=null, ?bool $isActivated=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
         // Filtering result
@@ -96,7 +96,7 @@ class DbUsers
 
     /* Select by primary key */
 
-    public function selectById(int $id, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectById(int $id, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_ID = $id ";
@@ -104,10 +104,10 @@ class DbUsers
         $request .= $this->getSortAndLimit($limit, $page, $sort);
 
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByUsername(string $username, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectByUsername(string $username, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USERNAME = '$username' ";
@@ -115,10 +115,10 @@ class DbUsers
         $request .= $this->getSortAndLimit($limit, $page, $sort);
 
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByEmail(string $email, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectByEmail(string $email, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_EMAIL = '$email' ";
@@ -126,7 +126,7 @@ class DbUsers
         $request .= $this->getSortAndLimit($limit, $page, $sort);
 
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
     /* Update User */

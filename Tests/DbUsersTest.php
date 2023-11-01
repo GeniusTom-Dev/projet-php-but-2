@@ -23,27 +23,27 @@ class DbUsersTest extends TestCase { // Completed
     // -------------------------
 
     public function test_no_filter() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null,null,null))->getContent();
+        $result = $this->getConnection()->select_SQLResult()->getContent();
         $this->assertEquals(5, sizeof($result));
     }
 
     public function test_one_filter() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("be",null,null))->getContent();
+        $result = $this->getConnection()->select_SQLResult("be")->getContent();
         $this->assertEquals(2, sizeof($result));
     }
 
     public function test_one_filter_2() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 0,null))->getContent();
+        $result = $this->getConnection()->select_SQLResult(null, 0)->getContent();
         $this->assertEquals(4, sizeof($result));
     }
 
     public function  test_some_filter() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("mar", null, 0))->getContent();
+        $result = $this->getConnection()->select_SQLResult("mar", null, 0)->getContent();
         $this->assertEquals(1, sizeof($result));
     }
 
     public function test_some_filter_2() {
-        $result = $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null, 1, 1))->getContent();
+        $result = $this->getConnection()->select_SQLResult(null, 1, 1)->getContent();
         $this->assertEquals(1, sizeof($result));
     }
 
