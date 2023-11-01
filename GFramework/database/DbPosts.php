@@ -81,7 +81,7 @@ class DbPosts
         return $request;
     }
 
-    public function selectByID(int $post_id, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectByID(int $post_id, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE POST_ID = '$post_id' ";

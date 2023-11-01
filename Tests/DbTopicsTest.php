@@ -23,11 +23,12 @@ class DbTopicsTest extends TestCase { // Completed
 
     public function test_select_by_id() {
         $result = $this->getConnection()->selectById("1")->getContent()["NAME"];
+        var_dump($this->getConnection()->selectById("1")->getContent());
         $this->assertEquals('Sport', $result);
     }
 
     public function test_select_by_name() {
-        $result = $this->getConnection()->selectByName("Cinema")->getContent()["TOPIC_ID"];
+        $result = $this->getConnection()->selectByName("Musique")->getContent()["TOPIC_ID"];
         $this->assertEquals(2, $result);
     }
 
@@ -36,22 +37,21 @@ class DbTopicsTest extends TestCase { // Completed
     // -------------------------
 
     public function test_add_a_topic() {
-        $this->assertEquals(3, sizeof($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null))->getContent()));
+        $this->assertEquals(3, sizeof($this->getConnection()->select_SQLResult()->getContent()));
         $this->getConnection()->addTopic("Test", "A topic used for testing add, update and delete function");
-        $this->assertEquals(4, sizeof($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null))->getContent()));
+        $this->assertEquals(4, sizeof($this->getConnection()->select_SQLResult()->getContent()));
     }
 
     public function test_update_a_topic() {
-        $this->assertEquals("Test", $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("testing"))->getContent()[0]["NAME"]);
+        $this->assertEquals("Test", $this->getConnection()->select_SQLResult("testing")->getContent()[0]["NAME"]);
         $this->getConnection()->changeTopic(4, "Test_2", "New description");
-        var_dump($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null))->getContent());
-        $this->assertEquals("Test_2", $this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("New description"))->getContent()[0]["NAME"]);
-        $this->assertEmpty($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult("testing"))->getContent());
+        $this->assertEquals("Test_2", $this->getConnection()->select_SQLResult("New description")->getContent()[0]["NAME"]);
+        $this->assertEmpty($this->getConnection()->select_SQLResult("testing")->getContent());
     }
 
     public function test_delete_a_topic() {
-        $this->assertEquals(4, sizeof($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null))->getContent()));
+        $this->assertEquals(4, sizeof($this->getConnection()->select_SQLResult()->getContent()));
         $this->getConnection()->deleteTopic(4);
-        $this->assertEquals(3, sizeof($this->getConnection()->convertSQLResultToAssocArray($this->getConnection()->select_SQLResult(null))->getContent()));
+        $this->assertEquals(3, sizeof($this->getConnection()->select_SQLResult()->getContent()));
     }
 }

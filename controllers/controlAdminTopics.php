@@ -22,7 +22,7 @@ class controlAdminTopics
      public function getSearchResult(): array{
         $container = [];
         if (empty($_GET["searchId"]) === false) {
-            $results = $this->dbTopics->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+            $results = [$this->dbTopics->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent()];
             $count = count($results); // Result has either 1 or 0 rows no matter the limit
         } else {
             $nameOrDescriptionLike = (empty($_GET["searchText"]) === false) ? $_GET['searchText'] : null;

@@ -59,7 +59,7 @@ class DbTopics
         return $request;
     }
 
-    public function selectById(int $topic_id, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectById(int $topic_id, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE TOPIC_ID = $topic_id";
@@ -68,10 +68,10 @@ class DbTopics
 
         $request .= ";";
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByName(string $topic_name, ?int $limit, ?int $page, ?string $sort): GReturn
+    public function selectByName(string $topic_name, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE NAME = '$topic_name'";
@@ -80,7 +80,7 @@ class DbTopics
 
         $request .= ";";
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
     /* Update Topic */
