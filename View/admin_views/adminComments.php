@@ -1,7 +1,9 @@
 <h1>Comments</h1>
-<?php require_once 'organisersElements.php';
+<?php
+require_once '../GFramework/searchBar/searchBarAdmin.php';
+require_once 'organisersElements.php';
 require '../autoloads/adminAutoloader.php';
-$controller = new \controllers\controlAdminComments($dbConn)
+$controller = new \controllers\controlAdminComments($dbConn);
 ?>
 
 <?php

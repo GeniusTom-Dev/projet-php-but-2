@@ -9,11 +9,35 @@ class controlAdminComments
 {
 
     private DbComments $dbComments;
-    private int $limitSelect = 2;
+    private int $limitSelect = 10;
 
     public function __construct($conn){
         $this->dbComments = new DbComments($conn);
     }
+
+    /* *********************************************************** *
+     * ************************* SEARCH ************************** *
+     * *********************************************************** */
+
+    public function getSearchResult(): array{
+        $container = [];
+
+        $post_id = (empty($_GET['searchPostId']) === false) ? $_GET['searchPostId'] : null;
+        $user_id = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
+        $contentLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
+        $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
+        $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
+        $count = $this->dbComments->getTotal($post_id, $user_id, $contentLike, $dateMin, $dateMax);
+        $results = $this->dbComments->select_SQLResult($post_id, $user_id, $contentLike, $dateMin, $dateMax, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+
+        $container['queryResult'] = $results;
+        $container['total'] = $count;
+        return $container;
+    }
+
+    /* *********************************************************** *
+     * ************************* CHECKS ************************** *
+     * *********************************************************** */
 
     /**
      * Verifies if a deletion form was sent through the method "POST" and realize the necessary
@@ -26,6 +50,10 @@ class controlAdminComments
             $this->dbComments->deleteComment($id);
         }
     }
+
+    /* *********************************************************** *
+     * ******************* TABLE INTERFACE *********************** *
+     * *********************************************************** */
 
     public function getTableStart(): string{
         ob_start(); ?>
@@ -53,7 +81,7 @@ class controlAdminComments
     }
 
     public function getTableContent(): string{
-        $result = $this->dbComments->select_SQLResult(null, null, null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        $result = $this->getSearchResult()['queryResult'];
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';
@@ -71,7 +99,7 @@ class controlAdminComments
                 <td><?= $row['DATE_POSTED']?></td>
                 <td><?= $row['POST_ID']?></td>
                 <td><?= $row['USER_ID']?></td>
-                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post" action=""><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }
@@ -87,8 +115,12 @@ class controlAdminComments
         echo $this->getTableEnd();
     }
 
+   /* *********************************************************** *
+    * ******************** PAGE SELECT INTERFACE **************** *
+    * *********************************************************** */
+
     public function getMaxNumPage(): int{
-        $total = $this->dbComments->getTotal();
+        $total = $this->getSearchResult()['total'];
         $max = (int) floor($total / $this->limitSelect);
         if ($total % $this->limitSelect != 0){
             $max += 1;
@@ -99,7 +131,7 @@ class controlAdminComments
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="/projet-php-but-2/View/homeAdmin.php">
+        <form method="get" action="">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

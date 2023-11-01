@@ -8,11 +8,37 @@ use DbPosts;
 class controlAdminPosts
 {
     private DbPosts $dbPosts;
-    private int $limitSelect = 2;
+    private int $limitSelect = 10;
 
     public function __construct($conn){
         $this->dbPosts = new DbPosts($conn);
     }
+
+    /* *********************************************************** *
+     * ************************* SEARCH ************************** *
+     * *********************************************************** */
+
+    public function getSearchResult(): array{
+        $container = [];
+        if (empty($_GET["searchId"]) === false) {
+            $results = $this->dbPosts->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+            $count = count($results); // Result has either 1 or 0 rows no matter the limit
+        } else {
+            $contentOrTitleLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
+            $user_id = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
+            $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
+            $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
+            $count = $this->dbPosts->getTotal($contentOrTitleLike, $user_id, $dateMin, $dateMax);
+            $results = $this->dbPosts->select_SQLResult($contentOrTitleLike, $user_id, $dateMin, $dateMax, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        }
+        $container['queryResult'] = $results;
+        $container['total'] = $count;
+        return $container;
+    }
+
+    /* *********************************************************** *
+     * ************************* CHECKS ************************** *
+     * *********************************************************** */
 
     /**
      * Verifies if a deletion form was sent through the method "POST" and realize the necessary
@@ -25,6 +51,10 @@ class controlAdminPosts
             $this->dbPosts->deletePost($id);
         }
     }
+
+    /* *********************************************************** *
+     * ******************* TABLE INTERFACE *********************** *
+     * *********************************************************** */
 
     public function getTableStart(): string{
         ob_start(); ?>
@@ -51,7 +81,7 @@ class controlAdminPosts
     }
 
     public function getTableContent(): string{
-        $result = $this->dbPosts->select_SQLResult(null, null, null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        $result = $this->getSearchResult()['queryResult'];
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';
@@ -68,7 +98,7 @@ class controlAdminPosts
                 <td><?= $row['TITLE']?></td>
                 <td rowspan="2"><?= $row['USER_ID']?></td>
                 <td rowspan="2"><?= $row['DATE_POSTED']?></td>
-                <td rowspan="2"><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
+                <td rowspan="2"><form method="post" action=""><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
             <tr>
                 <td><?= $row['CONTENT']?></td>
@@ -87,8 +117,12 @@ class controlAdminPosts
         echo $this->getTableEnd();
     }
 
+   /* *********************************************************** *
+    * ******************** PAGE SELECT INTERFACE **************** *
+    * *********************************************************** */
+
     public function getMaxNumPage(): int{
-        $total = $this->dbPosts->getTotal();
+        $total = $this->getSearchResult()['total'];
         $max = (int) floor($total / $this->limitSelect);
         if ($total % $this->limitSelect != 0){
             $max += 1;
@@ -99,7 +133,7 @@ class controlAdminPosts
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="/projet-php-but-2/View/homeAdmin.php">
+        <form method="get" action="">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

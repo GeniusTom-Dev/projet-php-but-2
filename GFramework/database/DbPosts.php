@@ -13,15 +13,27 @@ class DbPosts
         $this->conn = $conn;
     }
 
-    public function getTotal()
+    public function getTotal(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax)
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        // Filtering results
+        $query .= " " . $this->getWhereInstruction($contentOrTitleLike, $user_id, $dateMin, $dateMax);
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
     public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
+        // Filtering results
+        $request .= " " . $this->getWhereInstruction($contentOrTitleLike, $user_id, $dateMin, $dateMax);
+        // Sorting result and limiting size for pagination
+        $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
+
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+    }
+
+    public function getWhereInstruction(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($contentOrTitleLike)) {
             $conditions[] = "(TITLE LIKE '%$contentOrTitleLike%' OR CONTENT LIKE '%$contentOrTitleLike%')";
@@ -36,16 +48,12 @@ class DbPosts
             $conditions[] = "DATE_POSTED <= '$dateMax'";
         }
         if (!empty($conditions)) {
-            $request .= " WHERE " . implode(" AND ", $conditions);
+            $query = " WHERE " . implode(" AND ", $conditions);
         }
-        // Sorting result and limiting size for pagination
-        $request .= " " . $this->getSortInstruction($sort);
-        if (empty($limit) === false) {
-            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        else{
+            $query = "";
         }
-
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return $query;
     }
 
     public function getSortInstruction(?string $sort): string
@@ -62,15 +70,24 @@ class DbPosts
         return '';
     }
 
-    public function selectByID(int $post_id): GReturn
-    {
-        $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE POST_ID = '$post_id'";
-        // Sorting result and limiting result size for pagination
-        $request .= " " . $this->getSortInstruction($sort);
-        if (empty($limit) === false) {
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
+        $request = '';
+        if ($sort != null) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
+        if ($limit != null && $page != null) {
             $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
         }
+        return $request;
+    }
+
+    public function selectByID(int $post_id, ?int $limit, ?int $page, ?string $sort): GReturn
+    {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE POST_ID = '$post_id' ";
+        // Sorting result and limiting size for pagination
+        $request .= $this->getSortAndLimit($limit, $page, $sort);
+
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }

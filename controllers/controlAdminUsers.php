@@ -15,6 +15,27 @@ class controlAdminUsers
     }
 
     /* *********************************************************** *
+     * ************************* SEARCH ************************** *
+     * *********************************************************** */
+
+    public function getSearchResult(): array{
+        $container = [];
+        if (empty($_GET["searchId"]) === false) {
+            $results = $this->dbUsers->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+            $count = count($results); // Result has either 1 or 0 rows no matter the limit
+        } else {
+            $usernameLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
+            $isAdmin = (empty($_GET['searchIsAdmin']) === false) ? $_GET['searchIsAdmin'] : null;
+            $isActivate = (empty($_GET['searchIsActivated']) === false) ? $_GET['searchIsActivated'] : null;
+            $count = $this->dbUsers->getTotal($usernameLike, $isAdmin, $isActivate);
+            $results = $this->dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        }
+        $container['queryResult'] = $results;
+        $container['total'] = $count;
+        return $container;
+    }
+
+    /* *********************************************************** *
      * ************************* CHECKS ************************** *
      * *********************************************************** */
 
@@ -103,7 +124,7 @@ class controlAdminUsers
     }
 
     public function getTableContent(): string{
-        $result = $this->dbUsers->select_SQLResult(null, null, null, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+        $result = $this->getSearchResult()['queryResult'];
         if (!$result)
         {
             echo 'Impossible d\'exécuter la requête...';
@@ -123,7 +144,7 @@ class controlAdminUsers
                 <td> <?= $row['USER_CREATED']?></td>
                 <td> <?= $row['USER_LAST_CONNECTION']?></td>
                 <td> <?= $row['IS_ADMIN']?></td>
-                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="<?php
+                <td><form method="post" action=""><button name="<?php
                         if ($row['IS_ACTIVATED'] == 1){
                             echo 'deactivate';
                         }
@@ -140,7 +161,7 @@ class controlAdminUsers
                             }
                             ?></button></form>
                 </td>
-                <td><form method="post" action="/projet-php-but-2/View/homeAdmin.php"><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post" action=""><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }
@@ -161,7 +182,7 @@ class controlAdminUsers
      * *********************************************************** */
 
     public function getMaxNumPage(): int{
-        $total = $this->dbUsers->getTotal();
+        $total = $this->getSearchResult()['total'];
         $max = (int) floor($total / $this->limitSelect);
         if ($total % $this->limitSelect != 0){
             $max += 1;
@@ -172,7 +193,7 @@ class controlAdminUsers
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="/projet-php-but-2/View/homeAdmin.php">
+        <form method="get" action="">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

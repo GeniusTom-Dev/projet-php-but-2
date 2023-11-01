@@ -30,6 +30,16 @@ class DbUsers
     public function select_SQLResult(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
+        // Filtering result
+        $request .= " " . $this->getWhereInstruction($usernameLike, $isAdmin, $isActivated);
+        // Sorting result and limiting size for pagination
+        $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
+
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+    }
+
+    public function getWhereInstruction(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): string{
         $conditions = [];
         if (!is_null($usernameLike)) {
             $conditions[] = "USERNAME LIKE '$usernameLike%'";
@@ -41,16 +51,12 @@ class DbUsers
             $conditions[] = "IS_ACTIVATED = " . ($isActivated ? 'true' : 'false');
         }
         if (!empty($conditions)) {
-            $request .= " WHERE " . implode(" AND ", $conditions);
+            $query = " WHERE " . implode(" AND ", $conditions);
         }
-        // Sorting result and limiting size for pagination
-        $request .= " " . $this->getSortInstruction($sort);
-        if (empty($limit) === false) {
-            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        else{
+            $query = "";
         }
-
-        $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+        return $query;
     }
 
     public function getSortInstruction(?string $sort): string
@@ -67,9 +73,22 @@ class DbUsers
         return '';
     }
 
-    public function getTotal()
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
+        $request = '';
+        if ($sort != null) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
+        if ($limit != null && $page != null) {
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
+        return $request;
+    }
+
+    public function getTotal(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        // Filtering result
+        $query .= " " . $this->getWhereInstruction($usernameLike, $isAdmin, $isActivated);
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
@@ -77,28 +96,37 @@ class DbUsers
 
     /* Select by primary key */
 
-    public function selectById(int $id): GReturn
+    public function selectById(int $id, ?int $limit, ?int $page, ?string $sort): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USER_ID = $id;";
+        $request .= " WHERE USER_ID = $id ";
+        // Sorting result and limiting size for pagination
+        $request .= $this->getSortAndLimit($limit, $page, $sort);
+
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
-    public function selectByUsername(string $username): GReturn
+    public function selectByUsername(string $username, ?int $limit, ?int $page, ?string $sort): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USERNAME = '$username';";
+        $request .= " WHERE USERNAME = '$username' ";
+        // Sorting result and limiting size for pagination
+        $request .= $this->getSortAndLimit($limit, $page, $sort);
+
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
-    public function selectByEmail(string $email): GReturn
+    public function selectByEmail(string $email, ?int $limit, ?int $page, ?string $sort): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
-        $request .= " WHERE USER_EMAIL = '$email';";
+        $request .= " WHERE USER_EMAIL = '$email' ";
+        // Sorting result and limiting size for pagination
+        $request .= $this->getSortAndLimit($limit, $page, $sort);
+
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
     /* Update User */

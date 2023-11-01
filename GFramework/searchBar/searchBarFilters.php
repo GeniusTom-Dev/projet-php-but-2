@@ -13,9 +13,9 @@ function getUsersFilters($isAdmin): void
         <label for="searchId">Id = </label>
         <input type="number" id="searchId" name="searchId" min="1" style="width: 50px" <?php if (isset($_GET['searchId'])) echo 'value=', $_GET['searchId']; ?>>
         <label for="searchIsAdmin">Is Admin = </label>
-        <input type="checkbox" id="searchIsAdmin" name="searchIsAdmin" <?php if ($_GET["searchIsAdmin"] === "on") echo "checked" ?>>
+        <input type="checkbox" id="searchIsAdmin" name="searchIsAdmin" <?php if (isset($_GET["searchIsAdmin"]) && $_GET["searchIsAdmin"] === "on") echo "checked" ?>>
         <label for="searchIsActivated">Is Activated = </label>
-        <input type="checkbox" id="searchIsActivated" name="searchIsActivated" <?php if ($_GET["searchIsActivated"] === "on") echo "checked" ?>>
+        <input type="checkbox" id="searchIsActivated" name="searchIsActivated" <?php if (isset($_GET["searchIsActivated"]) && $_GET["searchIsActivated"] === "on") echo "checked" ?>>
     <?php }
 }
 
@@ -38,7 +38,7 @@ function getPostsFilters($isAdmin): void
 function getCommentsFilters($isAdmin): void
 {
     if ($isAdmin) { ?>
-        <label for="searchPostId">Id = </label>
+        <label for="searchPostId">Post Id = </label>
         <input type="number" id="searchPostId" name="searchPostId" min="1" style="width: 50px" <?php if (isset($_GET['searchPostId'])) echo 'value=', $_GET['searchPostId']; ?>>
         <label for="searchUserId">User Id = </label>
         <input type="number" id="searchUserId" name="searchUserId" min="1" style="width: 50px" <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
