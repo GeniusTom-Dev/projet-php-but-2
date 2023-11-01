@@ -6,10 +6,11 @@ function start_page($title): void
     <head>
         <title><?php echo $title; ?></title>
         <link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>
-        <link rel="stylesheet" type="text/css" href="/Projet/projet-php-but-2/html/styles/index.css">
+        <script src="https://cdn.tailwindcss.com"></script>
+        
         
     </head>
-    <body>
+    <body >
         <?php
         }
         ?>
