@@ -1,9 +1,4 @@
-<form>
-    <input type="search" placeholder="Search...">
-    <button type="submit">Submit</button>
-</form>
-<form id="sorter" action="/projet-php-but-2/View/homeAdmin.php"
-      method="GET">
+<form id="sorter" action="" method="GET">
     <!--<input type="text" name="test" placeholder="Testing" onchange="submit()">-->
     <label for="sort">Tri par :</label>
     <select name="sort" id="sort" onchange="submit()">
@@ -25,7 +20,7 @@
     </select>
 </form>
 <?php
-if(isset($_GET['sort'])) {
-    echo '<strong>Trieur changé sur l\'option : ' , $_GET['sort'] , '</strong>';
-}
+//if(isset($_GET['sort'])) {
+//    echo '<strong>Trieur changé sur l\'option : ' , $_GET['sort'] , '</strong>';
+//}
 ?>

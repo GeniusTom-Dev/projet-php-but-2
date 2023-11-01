@@ -13,9 +13,12 @@ class DbTopics
         $this->conn = $conn;
     }
 
-    public function getTotal()
+    public function getTotal(?string $nameOrDescriptionLike = null)
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        if ($nameOrDescriptionLike != null){
+            $query .= " WHERE (NAME LIKE '%$nameOrDescriptionLike%' OR DESCRIPTION LIKE '%$nameOrDescriptionLike%')";
+        }
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
@@ -62,7 +65,7 @@ class DbTopics
         }
         $request .= ";";
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
     public function selectByName(string $topic_name, ?int $limit, ?int $page, ?string $sort): GReturn
@@ -78,12 +81,12 @@ class DbTopics
         }
         $request .= ";";
         $result = $this->conn->query($request);
-        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
     /* Update Topic */
 
-    public function changeTopic($topic_id, $newName = null, $newDescription = null): bool
+    public function changeTopic(int $topic_id, ?string $newName = null, ?string $newDescription = null): bool
     {
         if (empty($newName) || $this->doesTopicAlreadyExist($newName)) {
             return False; // the modification was not made

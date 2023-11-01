@@ -7,6 +7,7 @@
             if ($_GET['tab'] != $_SESSION['tab']){
                 $_GET['sort'] = 'ID-asc';
                 $_GET['page'] = 1;
+                unset($_SESSION['search']);
             }
             $_SESSION['tab'] = $_GET['tab'];
         }
@@ -26,6 +27,64 @@
         }
         else
             $_GET['sort'] = $_SESSION['sort'];
+    }
+
+    function checkSearch(): void{
+        if (isset($_GET['newSearch'])){
+            // Go back to first page
+            $_GET['page'] = 1;
+            // Clear search array in session if exists
+            if (isset($_SESSION['search'])){
+                unset($_SESSION['search']);
+            }
+            // Repopulate session array depending on tab
+            if ($_GET['tab'] == 'categories') {
+                fillSearch('session', SearchParameters::getTopicsSearchParameters());
+            }
+            else if ($_GET['tab'] == 'utilisateurs') {
+                fillSearch('session', SearchParameters::getUsersSearchParameters());
+            }
+            else if ($_GET['tab'] == 'posts') {
+                fillSearch('session', SearchParameters::getPostsSearchParameters());
+            }
+            else if ($_GET['tab'] == 'commentaires') {
+                fillSearch('session', SearchParameters::getCommentsSearchParameters());
+            }
+        }
+        else {
+            // Repopulate get array depending on tab
+            if ($_GET['tab'] == 'categories') {
+                fillSearch('get', SearchParameters::getTopicsSearchParameters());
+            }
+            else if ($_GET['tab'] == 'utilisateurs') {
+                fillSearch('get', SearchParameters::getUsersSearchParameters());
+            }
+            else if ($_GET['tab'] == 'posts') {
+                fillSearch('get', SearchParameters::getPostsSearchParameters());
+            }
+            else if ($_GET['tab'] == 'commentaires') {
+                fillSearch('get', SearchParameters::getCommentsSearchParameters());
+            }
+        }
+    }
+
+    function fillSearch(string $nameArrayToFill, array $params){
+        if ($nameArrayToFill == 'get'){
+            foreach ($params as $parameter){
+                if (isset($_SESSION['search'][$parameter])) {
+                    $_GET[$parameter] = $_SESSION['search'][$parameter];
+                    //echo $_GET[$parameter], '     ';
+                }
+            }
+        }
+        else if ($nameArrayToFill == 'session'){
+            foreach ($params as $parameter){
+                if (isset($_GET[$parameter])) {
+                    $_SESSION['search'][$parameter] = $_GET[$parameter];
+                    //echo $_SESSION['search'][$parameter], '     ';
+                }
+            }
+        }
     }
 
     function checkPage(): void{

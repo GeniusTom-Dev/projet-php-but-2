@@ -1,4 +1,8 @@
 <?php
+
+function getTopicsSearchParameters(): array{
+    return ['searchId', 'searchText'];
+}
 function getTopicsResults($dbTopics)
 {
     if (empty($_GET["searchId"]) === false) {
@@ -10,6 +14,9 @@ function getTopicsResults($dbTopics)
     return $results;
 }
 
+function getUsersSearchParameters(): array{
+    return ['searchId', 'searchText', 'searchIsAdmin', 'searchIsActivate'];
+}
 function getUsersResults($dbUsers)
 {
     if (empty($_GET["searchId"]) === false) {
@@ -23,6 +30,9 @@ function getUsersResults($dbUsers)
     return $results;
 }
 
+function getPostsSearchParameters(): array{
+    return ['searchId', 'searchText', 'searchUserId', 'searchDateMin', 'searchDateMax'];
+}
 function getPostsResults($dbPosts)
 {
     if (empty($_GET['searchId']) === false) {
@@ -37,6 +47,9 @@ function getPostsResults($dbPosts)
     return $results;
 }
 
+function getCommentsSearchParameters(): array{
+    return ['searchId', 'searchPostId', 'searchUserId', 'searchText', 'searchDateMin', 'searchDateMax'];
+}
 function getCommentsResults($dbComments)
 {
     if (empty($_GET['searchId']) === false) {
