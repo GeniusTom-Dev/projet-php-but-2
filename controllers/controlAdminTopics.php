@@ -71,24 +71,6 @@ class controlAdminTopics
      * ******************* TABLE INTERFACE *********************** *
      * *********************************************************** */
 
-
-    public function getTableStart(): string
-    {
-        ob_start(); ?>
-        <table border="1">
-        <tr aria-colspan="5">
-            <td>Identifiant</td>
-            <td>Catégorie</td>
-            <td>Description</td>
-            <td>Modifier</td>
-            <td>Supprimer</td>
-        </tr>
-        <?php
-        $table = ob_get_contents();
-        ob_end_clean();
-        return $table;
-    }
-
     public function getTableContent(): string
     {
         $result = $this->getSearchResult()['queryResult'];
@@ -124,12 +106,6 @@ class controlAdminTopics
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
-    }
-
-    public function showTableFull(): void
-    {
-        echo $this->getTableStart();
-        echo $this->getTableContent();
     }
 
     /* *********************************************************** *
@@ -198,11 +174,5 @@ class controlAdminTopics
         ob_end_clean();
         return $interface;
     }
-
-    public function showPageInterface(): void
-    {
-        echo $this->getPageInterface();
-    }
-
 
 }

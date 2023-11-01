@@ -15,8 +15,20 @@ try{
     $report = str_replace( '\n', '<br/>', $report );
     echo '<p>', $report , '</p>';
 }
-
-$controller->showTableFull();
-
-$controller->showPageInterface();
 ?>
+    <table border="1">
+        <tr aria-colspan="9">
+            <td>Identifiant</td>
+            <td>Username</td>
+            <td>Email</td>
+            <td>Biographie</td>
+            <td>Première connection</td>
+            <td>Dernière connection</td>
+            <td>Admin</td>
+            <td>Désactiver / Activer</td>
+            <td>Supprimer</td>
+        </tr>
+        <?= $controller->getTableContent(); ?>
+    </table>
+
+<?= $controller->getPageInterface() ?>

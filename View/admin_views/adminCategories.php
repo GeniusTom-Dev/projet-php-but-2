@@ -18,9 +18,17 @@ $controller->checkNewTopic();
 $controller->checkChangedTopic();
 $controller->checkDeletedTopic();
 
-$controller->showTableFull();
-
-$controller->showPageInterface();
-//echo $controller->getMaxNumPage();
-
 ?>
+
+    <table border="1">
+        <tr aria-colspan="5">
+            <td>Identifiant</td>
+            <td>Catégorie</td>
+            <td>Description</td>
+            <td>Modifier</td>
+            <td>Supprimer</td>
+        </tr>
+        <?= $controller->getTableContent(); ?>
+    </table>
+
+<?= $controller->getPageInterface() ?>

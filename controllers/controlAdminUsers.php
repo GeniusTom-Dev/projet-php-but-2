@@ -95,34 +95,6 @@ class controlAdminUsers
      * ******************* TABLE INTERFACE *********************** *
      * *********************************************************** */
 
-    public function getTableStart(): string{
-        ob_start(); ?>
-        <table border="1">
-            <tr aria-colspan="9">
-                <td>Identifiant</td>
-                <td>Username</td>
-                <td>Email</td>
-                <td>Biographie</td>
-                <td>Première connection</td>
-                <td>Dernière connection</td>
-                <td>Admin</td>
-                <td>Désactiver / Activer</td>
-                <td>Supprimer</td>
-            </tr>
-        <?php
-        $table = ob_get_contents();
-        ob_end_clean();
-        return $table;
-    }
-
-    public function getTableEnd(): string{
-        ob_start(); ?>
-        </table>
-        <?php $table = ob_get_contents();
-        ob_end_clean();
-        return $table;
-    }
-
     public function getTableContent(): string{
         $result = $this->getSearchResult()['queryResult'];
         if (!$result)
@@ -169,12 +141,6 @@ class controlAdminUsers
         $table = ob_get_contents();
         ob_end_clean();
         return $table;
-    }
-
-    public function showTableFull(): void{
-        echo $this->getTableStart();
-        echo $this->getTableContent();
-        echo $this->getTableEnd();
     }
 
     /* *********************************************************** *
@@ -231,10 +197,6 @@ class controlAdminUsers
         $interface = ob_get_contents();
         ob_end_clean();
         return $interface;
-    }
-
-    public function showPageInterface(): void{
-        echo $this->getPageInterface();
     }
 
 }
