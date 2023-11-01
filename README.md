@@ -1,1 +1,1 @@
-# projet-php-but-2
+# Code for interacting with imgur
