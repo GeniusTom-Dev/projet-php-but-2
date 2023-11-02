@@ -11,14 +11,14 @@
 <div class="bg-[#b2a5ff] h-screen w-64 fixed left-0"></div>
 
 <article id="article" class="w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
-    <header class="flex justify-between items-center mb-16">
-        <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125">
-        <div class="flex flex-col">
+    <header class="flex flex-lign items-center mb-9">
+        <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-9">
+        <div class="flex flex-col mr-9">
             <p>@Profile_name</p>
             <p>Follow | 1K followers</p>
         </div>
         <button id="suscribe-button" class="ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md">S'abonner</button>
-        <img id="growArrow" src="/html/images/fleches.svg" alt="growArrow" class="w-8 h-auto transition-transform duration-300 hover:scale-125">
+        <img id="growArrow" src="/html/images/fleches.svg" alt="growArrow" class="w-8 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
     </header>
     <main class="max-h-60 overflow-y-auto">
         <div class="flex flex-lign items-center mb-2">
