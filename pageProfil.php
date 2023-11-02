@@ -1,8 +1,32 @@
 <?php
-// Inclusion du fichier "utils.inc.php" contenant les fonctions/utilitaires nécessaires
-require 'utils.inc.php';
-?>
+function start_page($title): void
+{
+?><!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title><?php echo $title; ?></title>
+        <!--<link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>-->
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+        
+    </head>
+    <body >
+        <?php
+        }
+        ?>
+        <?php
+        start_page('Projet');
+        ?>
 
+        <?php
+        function end_page($title): void
+        {
+        ?>
+        <body>
+            <hr><br><strong><?php echo $title; ?></strong><br><hr>
+        <?php
+        }
+        ?>
 <div class="flex">
     <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
         <!-- Conteneur principal de la page -->
@@ -30,7 +54,7 @@ require 'utils.inc.php';
                         <!-- Bouton pour ajouter une image -->
                         <button id="plusButton" class="w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <!-- Image de bouton "plus" -->
-                            <img src="/Projet/projet-php-but-2/html/images/plus-solid.svg" alt="plus">
+                            <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
                         <!-- Input de type "file" caché pour télécharger des images -->
                         <input type="file" id="fileInput" accept="image/*" style="display: none;" class ="p-6">
@@ -48,4 +72,6 @@ require 'utils.inc.php';
     </div>
 </div>
 <!-- Inclusion d'un fichier JavaScript pour gérer les fonctionnalités interactives -->
-<script src="/Projet/projet-php-but-2/html/Script/script.js"></script>
+<script src="/html/Script/script.js"></script>
+    </body>
+</html>
