@@ -30,6 +30,47 @@ const addCategoryButton = document.getElementById("add-category-button");
 const categoryList = document.getElementById("category-list");
 
 
+// Sélectionnez le bouton "Poster" par son ID
+const postButton = document.getElementById("submit-post-button");
+
+// Sélectionnez le champ de texte pour le titre par son ID
+const titleInput = document.getElementById("title-input");
+
+// Sélectionnez la zone de texte pour le contenu par son ID
+const contentInput = document.getElementById("post-content");
+
+// Sélectionnez la div où vous souhaitez afficher les titres et le contenu
+const postedContent = document.getElementById("posted-content");
+
+// Ajoutez un gestionnaire d'événements pour le clic sur le bouton "Poster"
+postButton.addEventListener("click", () => {
+    // Récupérez le titre et le contenu entrés par l'utilisateur
+    const title = titleInput.value;
+    const content = contentInput.value;
+
+    // Créez un élément pour afficher le titre et le contenu
+    const postElement = document.createElement("div");
+    postElement.className = "mb-2"; // Ajoutez des marges entre les messages
+
+    // Créez un élément pour le titre
+    const titleElement = document.createElement("div");
+    titleElement.className = "font-bold text-xl"; // Appliquez le style au titre
+    titleElement.textContent = title; // Définissez le texte du titre
+    postElement.appendChild(titleElement);
+
+    // Créez un élément pour le contenu
+    const contentElement = document.createElement("div");
+    contentElement.textContent = content; // Définissez le texte du contenu
+    postElement.appendChild(contentElement);
+
+    // Ajoutez l'élément au conteneur où les publications sont affichées
+    postedContent.appendChild(postElement);
+
+    // Effacez les zones de texte
+    titleInput.value = "";
+    contentInput.value = "";
+});
+
 // Sélectionnez l'image du paper plane par son ID
 const paperPlaneImage = document.getElementById("paperPlane");
 
@@ -39,20 +80,15 @@ paperPlaneImage.addEventListener("click", () => {
     const currentArticle = document.getElementById("article");
 
     // Sélectionnez tous les éléments interactifs dans le main, y compris les boutons, les images et les textarea
-    const mainInteractiveElements = currentArticle.querySelectorAll("main button, main input, plusButton");
-
-    // Sélectionnez tous les éléments interactifs dans le footer, y compris les boutons, les images et les textarea
-    const footerInteractiveElements = currentArticle.querySelectorAll("footer button, footer input, footer img, footer textarea");
+    const mainInteractiveElements = currentArticle.querySelectorAll("main button, main input, plusButton, main textarea");
 
     // Parcourez les éléments du main et masquez-les
     mainInteractiveElements.forEach((element) => {
         element.style.display = "none";
     });
 
-    // Parcourez les éléments du footer et masquez-les
-    footerInteractiveElements.forEach((element) => {
-        element.style.display = "none";
-    });
+    // Affichez la section des commentaires
+    commentsContainer.style.display = "block";
 });
 
 

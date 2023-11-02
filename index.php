@@ -22,11 +22,16 @@
     </header>
     <main class="max-h-60 overflow-y-auto">
         <div class="flex flex-lign items-center mb-2">
-            <h1 class="mr-2">Titre poste</h1>
+            <input type="text" id="title-input" placeholder="Titre du post" class="border border-[#b2a5ff] rounded-md font-bold text-xl">
             <img id="trashCan" src="/html/images/trash-can-solid.svg" alt="trashCan" class="w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
         </div>
-        <p>Ceci est un exemple de post Twitter-like.</p>
-        <p>Vous pouvez ajouter plus de contenu ici.</p>
+        <textarea id="post-content" placeholder="Écrivez votre contenu ici" class="w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
+        <button id="submit-post-button">Poster</button>
+
+        <div id="posted-content">
+            <!-- Les titres et le contenu seront ajoutés ici -->
+        </div>
+
         <div id="imageContainer" class="mt-4">
             <button id="plusButton" class="w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                 <img src="/html/images/plus-solid.svg" alt="plus">
@@ -40,8 +45,8 @@
         <ul class="category-list" id="category-list"></ul>
     </main>
     <footer>
-        <div id="comment-section" class="p-4 max-h-40 overflow-y-auto">
-            <h2 class="mb-4">Commentaires</h2>
+        <div id="comment-section" class="p-4 max-h-40 overflow-y-auto" style="display: none;">
+            <h2 class="mb-4 font-bold text-xl">Commentaires</h2>
             <div id="comments-container" class="max-h-40 overflow-y-auto"></div>
             <div class="flex items-center mb-2">
                 <textarea id="comment-input" placeholder="Ajoutez un commentaire..." class="w-full p-2 border border-[#b2a5ff] rounded-md"></textarea>
@@ -68,3 +73,5 @@
 <script src="/html/script/script.js"></script>
 </body>
 </html>
+
+
