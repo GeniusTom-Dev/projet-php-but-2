@@ -3,7 +3,7 @@ session_start();
 //$_SESSION['suid'] = session_id();
 //$_SESSION['userid'] = 1;
 //$_SESSION['admin'] = true;
-if (isset($_SESSION['admin']) && $_SESSION['admin']){
+if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']){
     require_once '../autoloads/adminAutoloader.php';
     checkTab();
     checkSort();
