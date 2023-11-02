@@ -32,10 +32,10 @@ if (empty($_GET["selectDb"]) === false) {
         <input type="submit" value="Rechercher" id="search"/>
         <br>
         <div id="searchFilters">
-            <?php if (!isset($_GET['selectDb']) || $_GET['selectDb'] == "Topics") getTopicsFilters(true);
-            else if ($_GET['selectDb'] == "Users") getUsersFilters(true);
-            else if ($_GET['selectDb'] == "Posts") getPostsFilters(true);
-            else if ($_GET['selectDb'] == "Comments") getCommentsFilters(true); ?>
+            <?php if (!isset($_GET['selectDb']) || $_GET['selectDb'] == "Topics") getTopicsFilters(false);
+            else if ($_GET['selectDb'] == "Users") getUsersFilters(false);
+            else if ($_GET['selectDb'] == "Posts") getPostsFilters(false);
+            else if ($_GET['selectDb'] == "Comments") getCommentsFilters(false); ?>
         </div>
     </form>
     <script>
