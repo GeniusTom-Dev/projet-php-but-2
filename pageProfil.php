@@ -2,6 +2,7 @@
 require 'utils.inc.php';
 ?>
 
+
 <div class="flex">
     <div class="bg-[#b2a5ff] h-screen w-64 fixed left-0"></div>
     <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
@@ -67,7 +68,7 @@ require 'utils.inc.php';
                         <div class="mx-auto max-w-2xl h-auto rounded-lg p-2">
                             <img src="<?php echo $selectedImage; ?>" alt="Image Sélectionnée" class="w-56 h-auto">
                         </div>
-                        <img id="trashCan" src="/Projet/projet-php-but-2/html/images/trash-can-solid.svg" alt="trashCan" class="w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto cursor-pointer" onclick="deleteImage('<?php echo $selectedImage; ?>')">
+                        <img id="deleteConfirmation" src="/Projet/projet-php-but-2/html/images/trash-can-solid.svg" alt="trashCan" class="w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto cursor-pointer" onclick="deleteImage('<?php echo $selectedImage; ?>')">
                         <?php
                         } else {
                         ?>
@@ -84,27 +85,6 @@ require 'utils.inc.php';
         </main>
     </div>
 </div>
-<script>
-    function deleteImage(imagePath) {
-        // Demander une confirmation avant de supprimer
-        if (confirm("Voulez-vous vraiment supprimer cette image ?")) {
-            // Effectuer la suppression (ici, nous laisserons simplement un message)
-            alert("Image supprimée : " + imagePath);
-        }
-    }
-    function openFileInput() {
-        const fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = "/*";
-        fileInput.onchange = function(event) {
-            const selectedFile = event.target.files[0];
-            if (selectedFile) {
-                // Envoyer le fichier côté serveur (vous devrez implémenter cette partie en PHP)
-                alert("Image sélectionnée : " + selectedFile.name);
-            }
-        };
-        fileInput.click();
-    }
-</script>
+<script src="/Projet/projet-php-but-2/html/Script/ScriptPageProfil.js"></script>
 
 

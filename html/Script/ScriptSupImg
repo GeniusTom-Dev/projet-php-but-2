@@ -1,9 +1,0 @@
-<script>
-    function deleteImage(imagePath) {
-        // Demander une confirmation avant de supprimer
-        if (confirm("Voulez-vous vraiment supprimer cette image ?")) {
-            // Effectuer la suppression (ici, nous laisserons simplement un message)
-            alert("Image supprimée : " + imagePath);
-        }
-    }
-</script>
