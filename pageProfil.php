@@ -14,13 +14,11 @@ require 'utils.inc.php';
                     <p class="mb-2"><?php echo "Follow | 320 followers"; ?></p>
                     <p class="mb-2"><?php echo "Abonnements : 800"; ?></p>
                     <p class="mb-2"><?php echo "Dernière connexion : ..."; ?></p>
-                    <p class="mb-2"><?php echo "Bio : testetest"; ?></p>
+                    <p class="mb-2"><?php echo "Bio : La bio de mon profil"; ?></p>
                 </div>
             </header>
             <main class="border-2 border-[#b2a5ff]-500 p-0.5 px-14 flex items-center justify-between flex-col">
-                <h1 class="text-2xl font-semibold"><?php echo "Mes Poste"; ?></h1>
-                <p class="text-gray-700">Ceci est un exemple de post Twitter-like.</p>
-                <p class="text-gray-700">Vous pouvez ajouter plus de contenu ici.</p>
+                <h1 class="text-2xl font-semibold"><?php echo "Mes Postes"; ?></h1>
                 <!-- Affiche les publications selon vos besoins -->
                 <div class="flex items-center space-x-4">
                     <div id="imageContainer" class="mt-4">
@@ -34,21 +32,6 @@ require 'utils.inc.php';
                 </div>
                 <div class="py-8">
                     <div>
-                        <!--Affiche image si elle est sélectionnée-->
-                        <?php
-                        if ($selectedImage) {
-                        ?>
-                        <div class="mx-auto max-w-2xl h-auto rounded-lg p-2">
-                            <img src="<?php echo $selectedImage; ?>" alt="Image Sélectionnée" class="w-56 h-auto">
-                        </div>
-                        <img id="trashCan" src="/Projet/projet-php-but-2/html/images/trash-can-solid.svg" alt="trashCan" class="w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
-                        <?php
-                        } else {
-                        ?>
-                        <p class="text-lg">Aucune image sélectionnée.</p>
-                        <?php
-                        }
-                        ?>
                     </div>
                 </div>
             </main>
