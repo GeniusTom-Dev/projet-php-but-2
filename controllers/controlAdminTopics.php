@@ -19,6 +19,11 @@ class controlAdminTopics
      * ************************* SEARCH ************************** *
      * *********************************************************** */
 
+    /**
+     * Execute a selection query that takes into account the search parameters present in $_GET and the selection limit, page and sort name.
+     * Also execute a count query with the same 'where' instruction but without any selection limit.
+     * @return array Returns an array containing the result of the search request with limit, page and sort (queryResult), and the total of rows for this request without any selection limit (total).
+     */
      public function getSearchResult(): array{
         $container = [];
         if (empty($_GET["searchId"]) === false) {
@@ -38,6 +43,11 @@ class controlAdminTopics
      * ************************* CHECKS ************************** *
      * *********************************************************** */
 
+    /**
+     * Verifies if a topic creation form was sent through the method "POST" and realize the necessary
+     *  SQL request to create the new topic by using the name and description stored in the associated $_POST field.
+     * @return void
+     */
     public function checkNewTopic(): void
     {
         if (isset($_POST['newCateName'])) {
@@ -51,6 +61,11 @@ class controlAdminTopics
         }
     }
 
+    /**
+     * Verifies if a modification form was sent through the method "POST" and realize the necessary
+     * SQL request to modify the name and description by using the id stored in the associated $_POST field.
+     * @return void
+     */
     public function checkChangedTopic(): void
     {
         if (isset($_POST['Change'])) {
@@ -59,6 +74,11 @@ class controlAdminTopics
         }
     }
 
+    /**
+     * Verifies if a deletion form was sent through the method "POST" and realize the necessary
+     * SQL request to delete the topic by using the id stored in the associated $_POST field.<br>
+     * @return void
+     */
     public function checkDeletedTopic(): void
     {
         if (isset($_POST['Delete'])) {
@@ -71,6 +91,18 @@ class controlAdminTopics
      * ******************* TABLE INTERFACE *********************** *
      * *********************************************************** */
 
+    /**
+     * Create table rows that will fill an already existing topic table with 5 columns.<br>
+     * Each row contains a cell for :
+     * <ul>
+     *      <li>The topic ID</li>
+     *      <li>The name</li>
+     *      <li>The description</li>
+     *      <li>The modification form (Modif button, text-field for name and description each)</li>
+     *      <li>A button to delete the topic (form)</li>
+     * </ul>
+     * @return string The HTML Code corresponding to the content of the topic table
+     */
     public function getTableContent(): string
     {
         $result = $this->getSearchResult()['queryResult'];
@@ -112,6 +144,12 @@ class controlAdminTopics
      * ******************** PAGE SELECT INTERFACE **************** *
      * *********************************************************** */
 
+    /**
+     * Calculate the maximum number of pages possible for the search request using Euclidean division and modulo.
+     * The maximum equals to the total of rows from the search request without a limit divided (Euclidean) by the selection limit.<br>
+     * In the case where the total of rows is not divisible by the limit, there will be a rest of rows that will never be showed so the int following the maximum is returned instead in this case.
+     * @return int The maximum number of pages possible for the search request used in the filling of a table.
+     */
     public function getMaxNumPage(): int
     {
         $total = $this->getSearchResult()['total'];
@@ -122,6 +160,18 @@ class controlAdminTopics
         return $max;
     }
 
+    /**
+     * Create a page selection interface that allows users to go to :
+     * <ul>
+     *     <li>The first 3 pages</li>
+     *     <li>The page before the current one</li>
+     *     <li>The current page</li>
+     *     <li>The page after the current one</li>
+     *     <li>The last 3 pages</li>
+     * </ul>
+     * When a button is clicked, the page will be reloaded with the number of the new page.
+     * @return string The HTML Code corresponding to the page interface
+     */
     public function getPageInterface(): string
     {
         $max = $this->getMaxNumPage();

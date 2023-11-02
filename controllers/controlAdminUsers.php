@@ -1,7 +1,7 @@
 <?php
 
 namespace controllers;
-use \utilities\GReturn;
+use GFramework\utilities\GReturn;
 use \utilities\CannotDoException;
 use DbUsers;
 
@@ -18,10 +18,15 @@ class controlAdminUsers
      * ************************* SEARCH ************************** *
      * *********************************************************** */
 
+    /**
+     * Execute a selection query that takes into account the search parameters present in $_GET and the selection limit, page and sort name.
+     * Also execute a count query with the same 'where' instruction but without any selection limit.
+     * @return array Returns an array containing the result of the search request with limit, page and sort (queryResult), and the total of rows for this request without any selection limit (total).
+     */
     public function getSearchResult(): array{
         $container = [];
         if (empty($_GET["searchId"]) === false) {
-            $results = [$this->dbUsers->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent()];
+            $results = [$this->dbUsers->selectById($_GET["searchId"])->getContent()];
             $count = count($results); // Result has either 1 or 0 rows no matter the limit
         } else {
             $usernameLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
@@ -69,7 +74,12 @@ class controlAdminUsers
 
     /**
      * Verifies if a deletion form was sent through the method "POST" and realize the necessary
-     * SQL request to delete the user by using the id stored in the associated $_POST field.
+     * SQL request to delete the user by using the id stored in the associated $_POST field.<br>
+     * There exists two cases where the user cannot be deleted on the admin interface:
+     * <ol>
+     *     <li>The user is trying to delete themselves</li>
+     *     <li>The user to be deleted is an admin -> Admins can only be deleted via direct access to the database server</li>
+     * </ol>
      * @throws CannotDoException If, for some reason, the user cannot be deleted, throws an Exception to be processed and give a report on the reason.
      */
     public function checkDeletedUser(): void{
@@ -95,6 +105,22 @@ class controlAdminUsers
      * ******************* TABLE INTERFACE *********************** *
      * *********************************************************** */
 
+    /**
+     * Create table rows that will fill an already existing user table with 9 columns.<br>
+     * Each row contains a cell for :
+     * <ul>
+     *      <li>The user ID</li>
+     *      <li>The username</li>
+     *      <li>The email</li>
+     *      <li>The bio</li>
+     *      <li>The date the user created their account</li>
+     *      <li>The date the user was last connected</li>
+     *      <li>If the user is an admin (1) or not (0)</li>
+     *      <li>A button to either activate or deactivate the user's account (form)</li>
+     *      <li>A button to delete the user's account (form)</li>
+     * </ul>
+     * @return string The HTML Code corresponding to the content of the user table
+     */
     public function getTableContent(): string{
         $result = $this->getSearchResult()['queryResult'];
         if (!$result)
@@ -147,6 +173,12 @@ class controlAdminUsers
      * ******************** PAGE SELECT INTERFACE **************** *
      * *********************************************************** */
 
+    /**
+     * Calculate the maximum number of pages possible for the search request using Euclidean division and modulo.
+     * The maximum equals to the total of rows from the search request without a limit divided (Euclidean) by the selection limit.<br>
+     * In the case where the total of rows is not divisible by the limit, there will be a rest of rows that will never be showed so the int following the maximum is returned instead in this case.
+     * @return int The maximum number of pages possible for the search request used in the filling of a table.
+     */
     public function getMaxNumPage(): int{
         $total = $this->getSearchResult()['total'];
         $max = (int) floor($total / $this->limitSelect);
@@ -156,6 +188,18 @@ class controlAdminUsers
         return $max;
     }
 
+    /**
+     * Create a page selection interface that allows users to go to :
+     * <ul>
+     *     <li>The first 3 pages</li>
+     *     <li>The page before the current one</li>
+     *     <li>The current page</li>
+     *     <li>The page after the current one</li>
+     *     <li>The last 3 pages</li>
+     * </ul>
+     * When a button is clicked, the page will be reloaded with the number of the new page.
+     * @return string The HTML Code corresponding to the page interface
+     */
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
