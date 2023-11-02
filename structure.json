@@ -1,0 +1,10 @@
+{
+  "login": {
+    "template": "login.html",
+    "documentName": "Echo | Login"
+  },
+  "lala": {
+    "coucou": 5,
+    "lala": 6
+  }
+}
