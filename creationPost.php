@@ -11,7 +11,7 @@
 <div class="bg-[#b2a5ff] h-screen w-64 fixed left-0"></div>
 
 <article id="article" class="w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
-    <header class="flex flex-lign items-center mb-9">
+    <header class="flex flex-lign items-center mb-2">
         <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
         <div class="flex flex-col mr-1">
             <p>@Profile_name</p>
