@@ -123,11 +123,11 @@ class controlAdminTopics
                         <td> <?= $row['DESCRIPTION']?></td>
                         <td>
                             <form method="post">
-                                <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button>
-                                <label for="newName">Nouveau Nom : </label>
-                                <input type="text" id="newName" name="newName"><br>
-                                <label for="newInfo">Description de la catégorie : </label>
-                                <input type="text" id="newInfo" name="newInfo">
+                                <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button><br>
+                                <label>Nouveau Nom : </label>
+                                <input type="text" name="newName"><br>
+                                <label>Description de la catégorie : </label>
+                                <input type="text" name="newInfo">
                             </form>
                         </td>
                         <td><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>

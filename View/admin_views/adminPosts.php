@@ -18,8 +18,8 @@ try{
 }
 ?>
 
-    <table border="1">
-        <tr aria-colspan="5">
+    <table>
+        <tr>
             <td>Identifiant</td>
             <td>Affichage</td>
             <td>Utilisateur</td>

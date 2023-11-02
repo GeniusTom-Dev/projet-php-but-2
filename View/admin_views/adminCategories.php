@@ -7,10 +7,10 @@ $controller = new \controllers\controlAdminTopics($dbConn);
 
 ?>
 <form id="newCate" method="post">
-    <label for="newCateName">Nom de la Nouvelle catégorie : </label>
-    <input type="text" id="newCateName" name="newCateName"><br>
-    <label for="newCateInfo">Description de la catégorie : </label>
-    <input type="text" id="newCateInfo" name="newCateInfo">
+    <label for="newCateNameId">Nom de la Nouvelle catégorie : </label>
+    <input type="text" id="newCateNameId" name="newCateName"><br>
+    <label for="newCateInfoId">Description de la catégorie : </label>
+    <input type="text" id="newCateInfoId" name="newCateInfo">
     <button onclick="submit()">+</button>
 </form>
 <?php
@@ -20,8 +20,8 @@ $controller->checkDeletedTopic();
 
 ?>
 
-    <table border="1">
-        <tr aria-colspan="5">
+    <table>
+        <tr>
             <td>Identifiant</td>
             <td>Catégorie</td>
             <td>Description</td>

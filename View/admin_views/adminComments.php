@@ -17,8 +17,8 @@ try{
 }
 ?>
 
-    <table border="1">
-        <tr aria-colspan="6">
+    <table>
+        <tr>
             <td>Identifiant</td>
             <td>Contenu</td>
             <td>Date de création</td>

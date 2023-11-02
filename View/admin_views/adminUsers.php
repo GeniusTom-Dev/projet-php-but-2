@@ -16,8 +16,8 @@ try{
     echo '<p>', $report , '</p>';
 }
 ?>
-    <table border="1">
-        <tr aria-colspan="9">
+    <table>
+        <tr>
             <td>Identifiant</td>
             <td>Username</td>
             <td>Email</td>
