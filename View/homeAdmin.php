@@ -2,8 +2,13 @@
 session_start();
 //$_SESSION['suid'] = session_id();
 //$_SESSION['userid'] = 1;
-$_SESSION['isAdmin'] = true;
-if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']){
+//$_SESSION['isAdmin'] = true;
+//unset($_SESSION['isAdmin']);
+if (! (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'])){
+    header('Location: ../index.php');
+    die();
+}
+else {
     require_once '../autoloads/adminAutoloader.php';
     checkTab();
     checkSort();
