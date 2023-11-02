@@ -1,4 +1,3 @@
-<!-- UTILISÉ POUR TESTER, A ADAPTER PAR LA SUITE -->
 <!DOCTYPE html>
 <html>
 <head>

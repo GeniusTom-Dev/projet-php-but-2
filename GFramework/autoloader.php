@@ -14,11 +14,11 @@ require_once("searchBar/SearchParameters.php");
 $db = new Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd');
 $dbConn = $db->getConnection()->getContent();
 
-//$dbComments = new DbComments($dbConn);
-//$dbFavorites = new DbFavorites($dbConn);
-//$dbFollows = new DbFollows($dbConn);
-//$dbLikes = new DbLikes($dbConn);
-//$dbPosts = new DbPosts($dbConn);
-//$dbTopics = new DbTopics($dbConn);
-//$dbUsers = new DbUsers($dbConn);
+$dbComments = new DbComments($dbConn);
+$dbFavorites = new DbFavorites($dbConn);
+$dbFollows = new DbFollows($dbConn);
+$dbLikes = new DbLikes($dbConn);
+$dbPosts = new DbPosts($dbConn);
+$dbTopics = new DbTopics($dbConn);
+$dbUsers = new DbUsers($dbConn);
 ?>
