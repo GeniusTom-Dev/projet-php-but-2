@@ -9,6 +9,9 @@
 
 use \GFramework\utilities\GReturn;
 
+/**
+ * Singleton use to initialize the connection with the Database on alwaysdata.com
+ */
 class Database {
 
     // Host of db server

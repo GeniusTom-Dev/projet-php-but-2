@@ -2,6 +2,9 @@
 
 use GFramework\utilities\GReturn;
 
+/**
+ * Singleton used to initialize the connection with the DbPosts table and perform queries
+ */
 class DbPosts
 {
     private string $dbName = "posts";
@@ -13,6 +16,15 @@ class DbPosts
         $this->conn = $conn;
     }
 
+    /**
+     * Get the total number of posts based on optional filtering criteria.
+     *
+     * @param string|null $contentOrTitleLike
+     * @param int|null $user_id
+     * @param string|null $dateMin
+     * @param string|null $dateMax
+     * @return int
+     */
     public function getTotal(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax)
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
@@ -21,6 +33,18 @@ class DbPosts
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
+    /**
+     * Retrieve posts from the database based on optional filtering, sorting, and pagination criteria.
+     *
+     * @param string|null $contentOrTitleLike (optional)
+     * @param int|null $user_id (optional)
+     * @param string|null $dateMin (optional)
+     * @param string|null $dateMax (optional)
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return GReturn
+     */
     public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
@@ -33,6 +57,15 @@ class DbPosts
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
+    /**
+     * Generate the WHERE clause for SQL queries based on optional filtering criteria.
+     *
+     * @param string|null $contentOrTitleLike (optional)
+     * @param int|null $user_id (optional)
+     * @param string|null $dateMin (optional)
+     * @param string|null $dateMax (optional)
+     * @return string
+     */
     public function getWhereInstruction(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($contentOrTitleLike)) {
@@ -56,6 +89,12 @@ class DbPosts
         return $query;
     }
 
+    /**
+     * Generate an SQL sorting instruction based on the specified sorting option.
+     *
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortInstruction(?string $sort): string
     {
         if ($sort == 'ID-asc') {
@@ -70,6 +109,14 @@ class DbPosts
         return '';
     }
 
+    /**
+     * Generate SQL sorting and pagination instructions based on optional parameters.
+     *
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
@@ -81,28 +128,30 @@ class DbPosts
         return $request;
     }
 
-    public function selectByID(int $post_id, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    /**
+     * Retrieve a specific post from the database by its ID.
+     *
+     * @param int $post_id
+     * @return GReturn
+     */
+    public function selectByID(int $post_id): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE POST_ID = '$post_id' ";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    /* Delete Post */
-
-    public function deletePost($id): void
-    {
-        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
-        $this->conn->query($query);
-    }
-
-    /* Add Post */
-
-    public function addPost(int $user_id, string $title, string $content, string $date_posted): bool
+    /**
+     * Add a new post to the database.
+     *
+     * @param int $user_id
+     * @param string $title
+     * @param string $content
+     * @param string $date_posted
+     * @return void
+     */
+    public function addPost(int $user_id, string $title, string $content, string $date_posted): void
     {
         // check if the user exist ?
         $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
@@ -111,12 +160,17 @@ class DbPosts
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
         $request .= "$user_id, '$title', '$content', '$date_posted');";
         $this->conn->query($request);
-        return true;
     }
 
-    /* Update Post */
-
-    public function updateTitleAndContent(int $post_id, string $title, string $content)
+    /**
+     * Update the content of a post in the database.
+     *
+     * @param int $post_id
+     * @param string $title
+     * @param string $content
+     * @return bool True if the update was successful; false if the new content is empty.
+     */
+    public function updateTitleAndContent(int $post_id, string $title, string $content) : bool
     {
         $request = "UPDATE $this->dbName";
         if (empty($title)) {
@@ -133,5 +187,17 @@ class DbPosts
         $request .= " WHERE POST_ID = '$post_id';";
         $this->conn->query($request);
         return true;
+    }
+
+    /**
+     * Delete a post from the database by its ID.
+     *
+     * @param $id
+     * @return void
+     */
+    public function deletePost($id): void
+    {
+        $query = "DELETE FROM " . $this->dbName . " WHERE POST_ID=$id";
+        $this->conn->query($query);
     }
 }

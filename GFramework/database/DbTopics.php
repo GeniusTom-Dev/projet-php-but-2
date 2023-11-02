@@ -2,6 +2,9 @@
 
 use GFramework\utilities\GReturn;
 
+/**
+ * Singleton used to initialize the connection with the DbTopics table and perform queries
+ */
 class DbTopics
 {
     private string $dbName = "topics";
@@ -13,6 +16,12 @@ class DbTopics
         $this->conn = $conn;
     }
 
+    /**
+     * Get the total number of topics based on optional filtering criteria.
+     *
+     * @param string|null $nameOrDescriptionLike
+     * @return int
+     */
     public function getTotal(?string $nameOrDescriptionLike = null): int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
@@ -22,6 +31,15 @@ class DbTopics
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
+    /**
+     * Retrieve topics from the database based on optional filtering, sorting, and pagination criteria.
+     *
+     * @param string|null $nameOrDescriptionLike (optional)
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return GReturn
+     */
     public function select_SQLResult(?string $nameOrDescriptionLike = null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName ";
@@ -36,6 +54,12 @@ class DbTopics
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
+    /**
+     * Generate an SQL sorting instruction based on the specified sorting option.
+     *
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortInstruction(?string $sort): string
     {
         if ($sort == 'ID-asc') {
@@ -48,6 +72,14 @@ class DbTopics
         return '';
     }
 
+    /**
+     * Generate SQL sorting and pagination instructions based on optional parameters.
+     *
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
@@ -59,44 +91,43 @@ class DbTopics
         return $request;
     }
 
-    public function selectById(int $topic_id, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    /**
+     * Retrieve a specific topic from the database by its ID.
+     *
+     * @param int $topic_id
+     * @return GReturn
+     */
+    public function selectById(int $topic_id): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE TOPIC_ID = $topic_id";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $request .= ";";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByName(string $topic_name, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
+    /**
+     * Retrieve a specific topic from the database by its Name.
+     *
+     * @param string $topic_name
+     * @return GReturn
+     */
+    public function selectByName(string $topic_name): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE NAME = '$topic_name'";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $request .= ";";
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    /* Update Topic */
-
-    public function changeTopic(int $topic_id, ?string $newName = null, ?string $newDescription = null): bool
-    {
-        if (empty($newName) || $this->doesTopicAlreadyExist($newName)) {
-            return False; // the modification was not made
-        }
-        $query = "UPDATE $this->dbName SET NAME='$newName', DESCRIPTION='$newDescription' WHERE TOPIC_ID='$topic_id'";
-        $this->conn->query($query);
-        return True; // the modification was made
-    }
-
-    /* Add Topic */
-
+    /**
+     * Add a new topic to the database.
+     *
+     * @param $name
+     * @param $Description
+     * @return bool True if the update was successful; false if a topic with this name already exists
+     */
     public function addTopic($name, $Description): bool
     {
         if (empty($name) || $this->doesTopicAlreadyExist($name)) {
@@ -109,16 +140,42 @@ class DbTopics
         return true;
     }
 
-    /* Delete Topic */
+    /**
+     * Update a topic in the database.
+     *
+     * @param int $topic_id
+     * @param string $newName
+     * @param string|null $newDescription (optional)
+     * @return bool True if the update was successful; false if a topic with this name already exists or if the new content is empty.
+     */
+    public function changeTopic(int $topic_id, string $newName, ?string $newDescription = null): bool
+    {
+        if (empty($newName) || $this->doesTopicAlreadyExist($newName)) {
+            return False; // the modification was not made
+        }
+        $query = "UPDATE $this->dbName SET NAME='$newName', DESCRIPTION='$newDescription' WHERE TOPIC_ID='$topic_id'";
+        $this->conn->query($query);
+        return True; // the modification was made
+    }
 
+    /**
+     * Delete a topic from the database by its ID.
+     *
+     * @param $id
+     * @return void
+     */
     public function deleteTopic($id): void
     {
         $query = "DELETE FROM $this->dbName WHERE TOPIC_ID = $id";
         $this->conn->query($query);
     }
 
-    /* check if already exists functions */
-
+    /**
+     * Check if a topic with a specific name already exists in the database.
+     *
+     * @param string $name
+     * @return bool True if a topic with the specified name already exists, false otherwise.
+     */
     private function doesTopicAlreadyExist(string $name): bool
     {
         $request = "SELECT * FROM $this->dbName WHERE NAME = '$name'";

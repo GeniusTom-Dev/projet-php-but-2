@@ -2,6 +2,9 @@
 
 use GFramework\utilities\GReturn;
 
+/**
+ * Singleton used to initialize the connection with the DbUsers table and perform queries
+ */
 class DbUsers
 {
 
@@ -18,12 +21,28 @@ class DbUsers
     }
 
     /**
-     * @param string|null $usernameLike
-     * @param bool|null $isAdmin
-     * @param bool|null $isActivated
-     * @param int|null $limit
-     * @param int $page
-     * @param string|null $sort
+     * Get the total number of users based on optional filtering criteria.
+     *
+     * @param string|null $usernameLike (optional)
+     * @param bool|null $isAdmin (optional)
+     * @param bool|null $isActivated (optional)
+     * @return int
+     */
+    public function getTotal(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): int
+    {
+        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
+        // Filtering result
+        $query .= " " . $this->getWhereInstruction($usernameLike, $isAdmin, $isActivated);
+        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
+    }
+
+    /**
+     * @param string|null $usernameLike (optional)
+     * @param bool|null $isAdmin (optional)
+     * @param bool|null $isActivated (optional)
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
      * @return GReturn
      * Used when you need to filter the table according to several non-unique key attributes
      */
@@ -39,6 +58,14 @@ class DbUsers
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
+    /**
+     * Generate the WHERE clause for SQL queries based on optional filtering criteria.
+     *
+     * @param string|null $usernameLike (optional)
+     * @param bool|null $isAdmin (optional)
+     * @param bool|null $isActivated (optional)
+     * @return string
+     */
     public function getWhereInstruction(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): string{
         $conditions = [];
         if (!is_null($usernameLike)) {
@@ -59,6 +86,12 @@ class DbUsers
         return $query;
     }
 
+    /**
+     * Generate an SQL sorting instruction based on the specified sorting option.
+     *
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortInstruction(?string $sort): string
     {
         if ($sort == 'ID-asc') {
@@ -73,6 +106,14 @@ class DbUsers
         return '';
     }
 
+    /**
+     * Generate SQL sorting and pagination instructions based on optional parameters.
+     *
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return string
+     */
     public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
@@ -84,78 +125,80 @@ class DbUsers
         return $request;
     }
 
-    public function getTotal(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): int
-    {
-        $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
-        // Filtering result
-        $query .= " " . $this->getWhereInstruction($usernameLike, $isAdmin, $isActivated);
-        return $this->conn->query($query)->fetch_assoc()['TOTAL'];
-    }
-
-    // -------------------------- CODE MATHIEU --------------------------
-
-    /* Select by primary key */
-
-    public function selectById(int $id, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
+    /**
+     * Retrieve a specific user from the database by its ID.
+     *
+     * @param int $id
+     * @return GReturn
+     */
+    public function selectById(int $id): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_ID = $id ";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByUsername(string $username, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
+    /**
+     * Retrieve a specific user from the database by its Username.
+     *
+     * @param string $username
+     * @return GReturn
+     */
+    public function selectByUsername(string $username): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USERNAME = '$username' ";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    public function selectByEmail(string $email, ?int $limit=null, ?int $page=null, ?string $sort=null): GReturn
+    /**
+     * Retrieve a specific user from the database by its Email.
+     *
+     * @param string $email
+     * @return GReturn
+     */
+    public function selectByEmail(string $email): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_EMAIL = '$email' ";
-        // Sorting result and limiting size for pagination
-        $request .= $this->getSortAndLimit($limit, $page, $sort);
-
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_assoc($result));
     }
 
-    /* Update User */
-
-    public function updateUsername(string $oldUsername, string $newUsername): bool
-    {
-        if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
-            return false; // the new username is already used, the update was not made
-        }
-        $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
-        $request .= " WHERE USERNAME = '$oldUsername';";
-        $this->conn->query($request);
-        return true;
-    }
-
+    /**
+     * Activate a user in the database by setting their activation status to true.
+     *
+     * @param int $id
+     * @return void
+     */
     public function activateUser(int $id): void
     {
         $query = "UPDATE $this->dbName SET IS_ACTIVATED=1 WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
+    /**
+     * Deactivate a user in the database by setting their activation status to false.
+     *
+     * @param int $id
+     * @return void
+     */
     public function deactivateUser(int $id): void
     {
         $query = "UPDATE $this->dbName SET IS_ACTIVATED=0 WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
-    /* Add User */
-
+    /**
+     * Add a new user to the database.
+     *
+     * @param string $username
+     * @param string $email
+     * @param string $pwd
+     * @return bool True if the update was successful; false if the username or email is already used.
+     */
     public function addUser(string $username, string $email, string $pwd): bool
     {
         if ($this->isUsernameAlreadyUsed($username) || $this->isEmailAlreadyUsed($email)) {
@@ -172,28 +215,54 @@ class DbUsers
         return true;
     }
 
-    /* Delete User */
+    /**
+     * Update a topic in the database.
+     *
+     * @param string $oldUsername
+     * @param string $newUsername
+     * @return bool True if the update was successful; false if a user with this username already exists or if the new username is empty.
+     */
+    public function updateUsername(string $oldUsername, string $newUsername): bool
+    {
+        if ($this->isUsernameAlreadyUsed($newUsername) || !$this->isUsernameAlreadyUsed($oldUsername)) {
+            return false; // the new username is already used, the update was not made
+        }
+        $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
+        $request .= " WHERE USERNAME = '$oldUsername';";
+        $this->conn->query($request);
+        return true;
+    }
 
+    /**
+     * Delete a user from the database by its ID.
+     *
+     * @param int $id
+     * @return void
+     */
     public function deleteUserByID(int $id): void
     {
         $query = "DELETE FROM $this->dbName WHERE USER_ID=$id";
         $this->conn->query($query);
     }
 
-    public function deleteUserByUsername(string $username): void
-    {
-        $query = "DELETE FROM " . $this->dbName . " WHERE USERNAME='$username'";
-        $this->conn->query($query);
-    }
-
-    /* check if already exists functions */
-
+    /**
+     * Check if a username is already in use by another user in the database.
+     *
+     * @param string $username
+     * @return bool True if the username is already used, false otherwise.
+     */
     private function isUsernameAlreadyUsed(string $username): bool
     {
         $request = "SELECT * FROM $this->dbName WHERE USERNAME = '$username'";
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
+    /**
+     * Check if an email is already in use by another user in the database.
+     *
+     * @param string $email
+     * @return bool True if the email is already used, false otherwise.
+     */
     private function isEmailAlreadyUsed(string $email): bool
     {
         $request = "SELECT * FROM $this->dbName WHERE USER_EMAIL = '$email'";
