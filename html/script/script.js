@@ -24,24 +24,86 @@ let deleteConfirmation = document.querySelector("#deleteConfirmation");
 let confirmDeleteButton = document.querySelector("#confirmDeleteButton");
 let cancelDeleteButton = document.querySelector("#cancelDeleteButton");
 
+// Sélectionnez la zone de texte et le bouton
+const categoryInput = document.getElementById("category-input");
+const addCategoryButton = document.getElementById("add-category-button");
+const categoryList = document.getElementById("category-list");
+
+
+// Sélectionnez l'image du paper plane par son ID
+const paperPlaneImage = document.getElementById("paperPlane");
+
+// Ajoutez un gestionnaire d'événements pour le clic sur l'image
+paperPlaneImage.addEventListener("click", () => {
+    // Sélectionnez l'article actuel
+    const currentArticle = document.getElementById("article");
+
+    // Sélectionnez tous les éléments interactifs dans le main, y compris les boutons, les images et les textarea
+    const mainInteractiveElements = currentArticle.querySelectorAll("main button, main input, plusButton");
+
+    // Sélectionnez tous les éléments interactifs dans le footer, y compris les boutons, les images et les textarea
+    const footerInteractiveElements = currentArticle.querySelectorAll("footer button, footer input, footer img, footer textarea");
+
+    // Parcourez les éléments du main et masquez-les
+    mainInteractiveElements.forEach((element) => {
+        element.style.display = "none";
+    });
+
+    // Parcourez les éléments du footer et masquez-les
+    footerInteractiveElements.forEach((element) => {
+        element.style.display = "none";
+    });
+});
+
+
+// Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
+addCategoryButton.addEventListener("click", () => {
+    // Récupérez la valeur de la zone de texte
+    const newCategory = categoryInput.value.trim();
+
+    if (newCategory !== "") {
+        // Créez un élément li pour la nouvelle catégorie
+        const categoryItem = document.createElement("li");
+        categoryItem.className = "bg-purple-500 text-white rounded-md px-2 py-1 m-2";
+        categoryItem.textContent = newCategory;
+
+        // Créez un bouton pour supprimer la catégorie
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Supprimer";
+        deleteButton.className = "bg-red-500 text-white rounded-md px-2 py-1 m-2";
+        deleteButton.addEventListener("click", () => {
+            categoryItem.remove(); // Supprime la catégorie lorsque le bouton "Supprimer" est cliqué
+        });
+
+        // Ajoutez la catégorie et le bouton de suppression à la liste
+        categoryItem.appendChild(deleteButton);
+        categoryList.appendChild(categoryItem);
+
+        // Effacez le champ de texte
+        categoryInput.value = "";
+    }
+});
+
+
 trashCan.addEventListener("click", () => {
     // Affiche la boîte de confirmation
     deleteConfirmation.style.display = "block";
 });
 
 confirmDeleteButton.addEventListener("click", () => {
-    // Supprime l'élément lorsque le bouton de confirmation est cliqué
-    // Vous pouvez ajouter le code de suppression ici
-    // Par exemple, supprimez l'article ou masquez-le
+    // Sélectionnez l'article actuel
+    const currentArticle = document.getElementById("article");
+
+    // Supprimez l'article
+    currentArticle.parentNode.removeChild(currentArticle);
 
     // Après la suppression, cache la boîte de confirmation
     deleteConfirmation.style.display = "none";
 });
 
+
 cancelDeleteButton.addEventListener("click", () => {
     // Annule la suppression lorsque le bouton d'annulation est cliqué
-    // Vous pouvez ajouter le code nécessaire pour annuler l'opération ici
-
     // Cache la boîte de confirmation
     deleteConfirmation.style.display = "none";
 });
@@ -87,7 +149,6 @@ fileInput.addEventListener("change", (event) => {
         deleteButton.style.border = "none"; /* Supprime la bordure du bouton de suppression */
         deleteButton.style.borderRadius = "5px"; /* Coins arrondis du bouton de suppression */
         deleteButton.style.padding = "5px 10px"; /* Espacement interne du bouton de suppression */
-        deleteButton.style.cursor = "pointer"; /* Curseur pointeur au survol du bouton de suppression */
         deleteButton.addEventListener("click", () => {
             // Supprime l'image et le bouton de suppression lorsque le bouton est cliqué
             imageContainer.remove();
@@ -169,7 +230,6 @@ commentButton.addEventListener("click", () => {
         deleteButton.style.border = "none"; /* Supprime la bordure du bouton de suppression */
         deleteButton.style.borderRadius = "5px"; /* Coins arrondis du bouton de suppression */
         deleteButton.style.padding = "5px 10px"; /* Espacement interne du bouton de suppression */
-        deleteButton.style.cursor = "pointer"; /* Curseur pointeur au survol du bouton de suppression */
         deleteButton.addEventListener("click", () => {
             // Supprime le commentaire lorsque le bouton de suppression est cliqué
             commentsContainer.removeChild(commentElement);
