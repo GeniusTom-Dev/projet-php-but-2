@@ -1,4 +1,4 @@
-<form id="sorter" action="" method="GET">
+<form id="sorter" method="GET">
     <!--<input type="text" name="test" placeholder="Testing" onchange="submit()">-->
     <label for="sort">Tri par :</label>
     <select name="sort" id="sort" onchange="submit()">

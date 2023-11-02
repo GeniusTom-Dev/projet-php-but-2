@@ -92,7 +92,7 @@ class controlAdminComments
                 <td><?= $row['DATE_POSTED']?></td>
                 <td><?= $row['POST_ID']?></td>
                 <td><?= $row['USER_ID']?></td>
-                <td><form method="post" action=""><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }
@@ -136,7 +136,7 @@ class controlAdminComments
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="">
+        <form method="get">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

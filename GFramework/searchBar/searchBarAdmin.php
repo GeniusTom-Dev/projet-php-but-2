@@ -3,7 +3,7 @@ require_once 'searchBarFilters.php';
 ?>
 
 <div>
-    <form action="" method="GET" id="searchForm">
+    <form method="GET" id="searchForm">
         <input type="hidden" name="newSearch" value="1"/>
         <input type="text" id="searchText" name="searchText" placeholder="Rechercher..."
             <?php if (empty($_GET['searchText']) === false) echo 'value="' . $_GET["searchText"] . '"'; ?>/>

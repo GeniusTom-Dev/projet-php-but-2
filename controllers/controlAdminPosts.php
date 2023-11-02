@@ -90,7 +90,7 @@ class controlAdminPosts
                 <td><?= $row['TITLE']?></td>
                 <td rowspan="2"><?= $row['USER_ID']?></td>
                 <td rowspan="2"><?= $row['DATE_POSTED']?></td>
-                <td rowspan="2"><form method="post" action=""><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
+                <td rowspan="2"><form method="post"><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
             <tr>
                 <td><?= $row['CONTENT']?></td>
@@ -137,7 +137,7 @@ class controlAdminPosts
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="">
+        <form method="get">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

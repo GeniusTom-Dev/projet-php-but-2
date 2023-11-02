@@ -20,7 +20,7 @@ if (empty($_GET["selectDb"]) === false) {
 
 
 <div>
-    <form action="" method="GET" id="searchForm">
+    <form method="GET" id="searchForm">
         <select id="selectDb" name="selectDb">
             <option value="Topics" <?php if ($_GET['selectDb'] == 'Topics') echo 'selected'; ?>>Categories</option>
             <option value="Users" <?php if ($_GET['selectDb'] == 'Users') echo 'selected'; ?>>Utilisateurs</option>

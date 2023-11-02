@@ -142,7 +142,7 @@ class controlAdminUsers
                 <td> <?= $row['USER_CREATED']?></td>
                 <td> <?= $row['USER_LAST_CONNECTION']?></td>
                 <td> <?= $row['IS_ADMIN']?></td>
-                <td><form method="post" action=""><button name="<?php
+                <td><form method="post"><button name="<?php
                         if ($row['IS_ACTIVATED'] == 1){
                             echo 'deactivate';
                         }
@@ -159,7 +159,7 @@ class controlAdminUsers
                             }
                             ?></button></form>
                 </td>
-                <td><form method="post" action=""><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
+                <td><form method="post"><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }
@@ -203,7 +203,7 @@ class controlAdminUsers
     public function getPageInterface(): string{
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="">
+        <form method="get">
             <table>
                 <tr>
                     <td><button name="page" value="1" onclick="submit()">Début</button></td>

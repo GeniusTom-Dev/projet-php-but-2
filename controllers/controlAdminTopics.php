@@ -122,7 +122,7 @@ class controlAdminTopics
                         <td> <?= $row['NAME']?></td>
                         <td> <?= $row['DESCRIPTION']?></td>
                         <td>
-                            <form method="post" action="">
+                            <form method="post">
                                 <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button>
                                 <label for="newName">Nouveau Nom : </label>
                                 <input type="text" id="newName" name="newName"><br>
@@ -130,7 +130,7 @@ class controlAdminTopics
                                 <input type="text" id="newInfo" name="newInfo">
                             </form>
                         </td>
-                        <td><form method="post" action=""><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
+                        <td><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
                     </tr>
                 <?php }
             }
@@ -176,7 +176,7 @@ class controlAdminTopics
     {
         $max = $this->getMaxNumPage();
         ob_start(); ?>
-        <form method="get" action="">
+        <form method="get">
             <table>
                 <tr>
                     <td>
