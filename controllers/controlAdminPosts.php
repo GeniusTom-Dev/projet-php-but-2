@@ -27,7 +27,7 @@ class controlAdminPosts
             $count = count($results); // Result has either 1 or 0 rows no matter the limit
         } else {
             $contentOrTitleLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
-            $user_id = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
+            $user_id = (empty($_GET['searchUserId']) === false) ? intval($_GET['searchUserId']) : null;
             $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
             $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
             $count = $this->dbPosts->getTotal($contentOrTitleLike, $user_id, $dateMin, $dateMax);

@@ -50,7 +50,7 @@ function getPostsResults($dbPosts, $dbTopics) : array
     } else {
         $topicId = (empty($_GET['searchInputTopic']) === false) ? $dbTopics->selectByName($_GET['searchInputTopic'])->getContent()["TOPIC_ID"] : null;
         $contentOrTitleLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
-        $user = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
+        $user = (empty($_GET['searchUserId']) === false) ? intval($_GET['searchUserId']) : null;
         if (is_null($user)) {
             $user = (empty($_GET['searchUser']) === false) ? $_GET['searchUser'] : null;
         }
@@ -73,7 +73,7 @@ function getCommentsResults($dbComments) : array
         $results = [$dbComments->selectById($_GET['searchId'])->getContent()];
     } else {
         $post_id = (empty($_GET['searchPostId']) === false) ? $_GET['searchPostId'] : null;
-        $user = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
+        $user = (empty($_GET['searchUserId']) === false) ? intval($_GET['searchUserId']) : null;
         if (is_null($user)) {
             $user = (empty($_GET['searchUser']) === false) ? $_GET['searchUser'] : null;
         }
