@@ -13,6 +13,15 @@
 <?php
 require_once "../GFramework/autoloader.php";
 
+if (isset($_GET['topics'])){
+    foreach ($_GET['topics'] as $topic){
+        echo $topic, "    ";
+    }
+}
+else {
+    echo 'Pas un array.';
+}
+
 $controller = new controlShowPosts($dbConn);
 echo $controller->getCreatePost();
 

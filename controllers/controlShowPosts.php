@@ -57,19 +57,21 @@ class controlShowPosts
     function getCreatePost(): string {
         ob_start();?>
 
-        <article id="article" class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
+        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
+            <form method="get" action="" class="postPublisher">
+                <input name="createPost" type="hidden" value="1">
             <main class="max-h-60 overflow-y-auto">
                 <div class="flex flex-lign items-center mb-2">
-                    <input type="text" placeholder="Titre du post" class="title-input border border-[#b2a5ff] rounded-md font-bold text-xl">
+                    <input type="text" name="title" placeholder="Titre du post" class="title-input border border-[#b2a5ff] rounded-md font-bold text-xl">
                     <img src="/html/images/trash-can-solid.svg" alt="trashCan" class="trashCan w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
                 </div>
-                <textarea placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
+                <textarea name="content" placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
                 <div class="imageContainer mt-4">
-                    <button id="plusButton" class="w-4 h-auto transform transition-transform duration-300 hover:scale-125">
+                    <button class="plusButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                         <img src="/html/images/plus-solid.svg" alt="plus">
                     </button>
                     <!-- Input de type "file" caché -->
-                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                    <input type="file" class="fileInput" accept="image/*" style="display: none;">
                 </div>
                 <div class="galleryContainer mt-4"></div>
                 <input type="text" placeholder="Nouvelle catégorie" class="categoryInput border border-[#b2a5ff] rounded-md">
@@ -77,7 +79,7 @@ class controlShowPosts
                 <ul class="category-list"></ul>
             </main>
             <footer>
-                <img src="/html/images/paper-plane-solid.svg" alt="paperPlane" class="paperPlane w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
+                <img id="paperPlane" src="/html/images/paper-plane-solid.svg" alt="paperPlane" class="paperPlane w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto" onclick="submit()">
             </footer>
             <div class="deleteConfirmation fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 border border-[#b2a5ff] rounded-lg shadow-md" style="display: none;">
                 <p>Voulez-vous vraiment supprimer ce post ?</p>
@@ -95,7 +97,7 @@ class controlShowPosts
         $postData = $this->dbPosts->selectByID($postID)->getContent();
         ob_start();?>
 
-        <article id="article" class="w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
+        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <header class="flex flex-lign items-center mb-2">
                 <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
                 <div class="flex flex-col mr-1">

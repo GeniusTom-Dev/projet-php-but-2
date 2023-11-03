@@ -1,10 +1,5 @@
 let postCreator = document.querySelector(".postInterface");
 
-// Sélectionnez le champ de texte pour le titre par son ID
-const titleInput = postCreator.querySelector(".title-input");
-// Sélectionnez la zone de texte pour le contenu par son ID
-const contentInput = postCreator.querySelector(".content-input");
-
 let plusButton = postCreator.querySelector(".plusButton");
 let fileInput = postCreator.querySelector(".fileInput");
 
@@ -18,41 +13,8 @@ const categoryInput = postCreator.querySelector(".categoryInput");
 const addCategoryButton = postCreator.querySelector(".add-category-button");
 const categoryList = postCreator.querySelector(".category-list");
 
-// Sélectionnez l'image du paper plane par son ID
-const paperPlaneImage = postCreator.querySelector(".paperPlane");
-
 // Article gallery
 const galleryContainer = postCreator.querySelector(".galleryContainer");
-
-
-// Ajoutez un gestionnaire d'événements pour le clic sur l'image
-paperPlaneImage.addEventListener("click", () => {
-    // Retrieving post title
-    const title = titleInput.textContent;
-    // Retrieving post content
-    const content = contentInput.textContent;
-
-    // Retrieving topics names
-    var arrTopics = [];
-    const arrInputTopics = categoryList.querySelectorAll(".topicItemInput")
-    arrInputTopics.forEach(value => {
-        arrTopics.push(value.value);
-    });
-
-    // Retrieving post images url
-    var arrImg = [];
-    const arrInputImgURL = galleryContainer.querySelectorAll(".imgURLInput");
-    arrInputImgURL.forEach(value => {
-        arrImg.push(value.value);
-    });
-
-    // Query to publish post
-
-
-    // Return to index
-
-
-});
 
 
 // Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
@@ -68,7 +30,7 @@ addCategoryButton.addEventListener("click", () => {
         categoryItem.textContent = newCategory;
         // Hidden input
         categoryItemInput.type = "hidden";
-        categoryItemInput.name = "topic" + categoryList.length;
+        categoryItemInput.name = "topics[]";
         categoryItemInput.value = newCategory;
         categoryItemInput.className = "topicItemInput";
 
@@ -139,7 +101,7 @@ fileInput.addEventListener("change", (event) => {
         // Create hidden input for image url
         const imgURLInput = document.createElement("input")
         imgURLInput.type = "hidden";
-        imgURLInput.name = "img" + galleryContainer.length;
+        imgURLInput.name = "img[]";
         imgURLInput.value = imgElement.src;
         imgURLInput.className = "imgURLInput";
 
