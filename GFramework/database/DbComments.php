@@ -38,7 +38,7 @@ class DbComments
      * Retrieve comments from the database based on optional filtering, sorting, and pagination criteria.
      *
      * @param int|null $post_id (optional)
-     * @param int|null $user_id (optional)
+     * @param int|string|null $user_id (optional) int = userId and string = usernameLike
      * @param string|null $contentLike (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
@@ -47,11 +47,14 @@ class DbComments
      * @param string|null $sort (optional)
      * @return GReturn
      */
-    public function select_SQLResult(?int $post_id=null, ?int $user_id=null, ?string $contentLike=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?int $post_id=null, int|string|null $user=null, ?string $contentLike=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
+        if (is_string($user)) {
+            $request .= " INNER JOIN users u ON " . $this->dbName . ".USER_ID=u.USER_ID";
+        }
         // Filtering results
-        $request .= " " . $this->getWhereInstruction($post_id, $user_id, $contentLike, $dateMin, $dateMax);
+        $request .= " " . $this->getWhereInstruction($post_id, $user, $contentLike, $dateMin, $dateMax);
         // Sorting result and limiting result size for pagination
         $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
 
@@ -63,19 +66,21 @@ class DbComments
      * Generate the WHERE clause for SQL queries based on optional filtering criteria.
      *
      * @param int|null $post_id (optional)
-     * @param int|null $user_id (optional)
+     * @param int|string|null $user_id (optional) int = userId and string = usernameLike
      * @param string|null $contentLike (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
      * @return string
      */
-    public function getWhereInstruction(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax): string{
+    public function getWhereInstruction(?int $post_id, int|string|null $user, ?string $contentLike, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($post_id)) {
             $conditions[] = "POST_ID = $post_id";
         }
-        if (!is_null($user_id)) {
-            $conditions[] = "USER_ID = $user_id";
+        if (is_int($user)) {
+            $conditions[] = "USER_ID = $user";
+        } else if (is_string($user)) {
+            $conditions[] = "u.USERNAME LIKE '$user%'";
         }
         if (!is_null($contentLike)) {
             $conditions[] = "CONTENT LIKE '%$contentLike%'";

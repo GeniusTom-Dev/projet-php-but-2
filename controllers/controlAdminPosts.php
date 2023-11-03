@@ -34,7 +34,7 @@ class controlAdminPosts
             $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
             $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
             $count = $this->dbPosts->getTotal($contentOrTitleLike, $user_id, $dateMin, $dateMax);
-            $results = $this->dbPosts->select_SQLResult($contentOrTitleLike, $user_id, $dateMin, $dateMax, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
+            $results = $this->dbPosts->select_SQLResult(null, $contentOrTitleLike, $user_id, $dateMin, $dateMax, $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent();
         }
         $container['queryResult'] = $results;
         $container['total'] = $count;

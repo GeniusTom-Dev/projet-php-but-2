@@ -56,7 +56,7 @@ function updateTableHeader(selectedDb, columns, table) {
         tr.appendChild(th);
     }
 
-    if (selectedDb === "Topics") {
+    /*if (selectedDb === "Topics") {
         let thModifier = document.createElement("th");
         thModifier.textContent = "MODIFIER";
         tr.append(thModifier);
@@ -68,7 +68,7 @@ function updateTableHeader(selectedDb, columns, table) {
 
     let thSupprimer = document.createElement("th");
     thSupprimer.textContent = "SUPPRIMER";
-    tr.append(thSupprimer);
+    tr.append(thSupprimer);*/
 
     thead.append(tr);
     table.head = thead;
@@ -87,7 +87,7 @@ function updateTableContent(selectedDb, columns, table) {
             ++cmp;
         }
 
-        if (selectedDb === "Topics") {
+        /*if (selectedDb === "Topics") {
             addModificationColumn(row, cmp);
             ++cmp;
         } else if (selectedDb === "Users") {
@@ -95,7 +95,7 @@ function updateTableContent(selectedDb, columns, table) {
             ++cmp;
         }
         addDeleteColumn(row, cmp);
-
+*/
         // RENVOIT L'ID DE LIGNE QUI S'EST FAIT CLIQUÉ
         (function (currentLine) {
             row.addEventListener('click', function () {
