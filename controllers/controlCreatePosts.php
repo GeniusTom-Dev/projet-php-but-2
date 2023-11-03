@@ -3,22 +3,12 @@
 class controlCreatePosts
 {
 
-    private DbUsers $dbUsers;
     private DbPosts $dbPosts;
     private DbTopics $dbTopics;
-    private DbLikes $dbLikes;
-    private DbFavorites $dbFavorites;
-    private DbFollows $dbFollows;
-    private DbComments $dbComments;
 
     public function __construct($conn){
-        $this->dbComments = new DbComments($conn);
-        $this->dbFavorites = new DbFavorites($conn);
-        $this->dbFollows = new DbFollows($conn);
-        $this->dbLikes = new DbLikes($conn);
         $this->dbPosts = new DbPosts($conn);
         $this->dbTopics = new DbTopics($conn);
-        $this->dbUsers = new DbUsers($conn);
     }
 
     function publishPost($title, $content, $arrayTopics, $arrayImg): void{

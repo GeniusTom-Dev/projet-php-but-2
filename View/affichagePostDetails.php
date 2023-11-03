@@ -1,6 +1,7 @@
 <?php
 session_start();
-$_SESSION['suid'] = 4;
+$_SESSION['suid'] = 1;
+$_SESSION['isAdmin'] = true;
 
 require_once "../GFramework/autoloader.php";
 
@@ -23,7 +24,7 @@ $controller->checkAllShowActions();
 
 <?php
 
-echo $controller->getFullPostHTML($_GET['detailPost']);
+echo $controller->getFullPostHTML($_GET['detailsPost']);
 
 ?>
 

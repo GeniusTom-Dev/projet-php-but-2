@@ -23,6 +23,7 @@ class controlGenerateFullPosts
 
     function getFullPostHTML(int $postID): string{
         $postData = $this->dbPosts->selectByID($postID)->getContent();
+        $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID'] );
         ob_start();?>
 
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
@@ -36,18 +37,20 @@ class controlGenerateFullPosts
                     </div>
                 </form>
                 <form method="post">
-                    <?php if ($this->dbFollows->doesUserFollowAnotherUser($_SESSION['suid'], $postData['USER_ID'])){ ?>
+                    <?php if (isset($_SESSION['suid'])) { if ($this->dbFollows->doesUserFollowAnotherUser($_SESSION['suid'], $postData['USER_ID'])){ ?>
                         <button class="suscribe-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" name="unsubscribe" value="<?= $postData['USER_ID'] ?>">Se désabonner</button>
                     <?php } else {?>
                         <button class="suscribe-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" name="subscribe" value="<?= $postData['USER_ID'] ?>">S'abonner</button>
-                    <?php } ?>
+                    <?php }} ?>
                 </form>
 
             </header>
             <main class="max-h-60 overflow-y-auto">
                 <div class="flex flex-lign items-center mb-2">
                     <h1 class="mr-2 font-bold text-xl"><?= $postData['TITLE'] ?></h1>
-                    <img src="/html/images/trash-can-solid.svg" alt="trashCan" class="trashCan w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
+                    <?php if ($owns){?>
+                        <img src="/html/images/trash-can-solid.svg" alt="trashCan" class="trashCan w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
+                    <?php } ?>
                 </div>
                 <p><?= $postData['CONTENT'] ?></p>
 
@@ -62,9 +65,9 @@ class controlGenerateFullPosts
                 <div class="comment-section p-4 max-h-40 overflow-y-auto">
                     <h2 class="mb-4 font-bold text-xl">Commentaires</h2>
                     <div class="flex items-center mb-2">
-                        <form method="post">
+                        <form name="createCommentForm" method="post">
                             <textarea name="content" placeholder="Ajoutez un commentaire..." class="comment-input w-full p-2 border border-[#b2a5ff] rounded-md"></textarea>
-                            <button name="createComment" class="comment-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" value="<?= $postID ?>">Poster</button>
+                            <button name="createComment" class="comment-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?> value="<?= $postID ?>">Poster</button>
                         </form>
                     </div>
                     <div class="comments-container max-h-40 overflow-y-auto">
@@ -74,22 +77,22 @@ class controlGenerateFullPosts
                     </div>
                 </div>
                 <div>
-                    <form method="post">
-                        <?php if ($this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
+                    <form name="LikeForm" method="post">
+                        <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="dislikePost" value="<?= $postID ?>">
-                            <img src="/html/images/heart-solid.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125">
+                            <img src="/html/images/heart-solid.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="likePost" value="<?= $postID ?>">
-                            <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125">
+                            <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
-                    <form method="post">
-                        <?php if ($this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
+                    <form name="MarkForm" method="post">
+                        <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125">
+                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125">
+                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
                 </div>
@@ -109,13 +112,16 @@ class controlGenerateFullPosts
     }
 
     public function getComment(int $commentID, int $userID, string $content): string{
+        $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $userID );
         ob_start();?>
         <div class="flex items-center mb-2">
             <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
             <p>@<?= $this->dbUsers->selectById($userID)->getContent()['USERNAME'] ?></p>
             <p class="w-full p-2 border border-[#b2a5ff] rounded-md"><?= $content ?></p>
-            <form method="post"><button id="delete-comment-button" name="deleteComment" class="ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" value="<?= $commentID ?>">Delete</button><form>
-        </div>
+            <?php if ($owns){?>
+            <form name="deleteComment" method="post"><button id="delete-comment-button" name="deleteComment" class="ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" value="<?= $commentID ?>">Delete</button></form>
+            <?php } ?>
+            </div>
         <?php $comment = ob_get_contents();
         ob_end_clean();
         return $comment;
@@ -136,13 +142,13 @@ class controlGenerateFullPosts
 
     public function checkPostId():void{
         if (isset($_GET['detailsPost'])){
-            $_SESSION['detailPost'] = $_GET['detailsPost'];
+            $_SESSION['detailsPost'] = $_GET['detailsPost'];
         }
         else{
-            if (empty($_SESSION['detailPost'])){
-                $_SESSION['detailPost'] = 1;
+            if (empty($_SESSION['detailsPost'])){
+                $_SESSION['detailsPost'] = 1;
             }
-            $_GET['detailPost'] = $_SESSION['detailPost'];
+            $_GET['detailsPost'] = $_SESSION['detailsPost'];
         }
     }
 
@@ -172,7 +178,7 @@ class controlGenerateFullPosts
         }
     }
     private function checkDeleteComment(): void{
-        if (isset($_POST['deleteComment']) && isset($_POST['content'])){
+        if (isset($_POST['deleteComment'])){
             $this->dbComments->deleteComment($_POST['deleteComment']);
         }
     }
