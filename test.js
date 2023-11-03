@@ -8,16 +8,14 @@ const menuContainer = document.getElementById('menu-container');
 const menuIcon = document.getElementById('menu-icon');
 const closeIcon = document.getElementById('close-icon');
 
-// Ajouter un écouteur d'événements pour le clic sur "Catégorie"
-categoryBtn.addEventListener('click', () => {
-  categoryDropdown.classList.toggle('hidden');
+// Ajouter un écouteur d'événements pour le survol du bouton "Catégorie"
+categoryBtn.addEventListener('mouseover', () => {
+  categoryDropdown.classList.remove('hidden');
 });
 
-// Ajouter un écouteur d'événements pour masquer le menu déroulant lorsqu'on clique ailleurs
-document.addEventListener('click', (event) => {
-  if (event.target !== categoryBtn) {
-    categoryDropdown.classList.add('hidden');
-  }
+// Ajouter un écouteur d'événements pour masquer le menu déroulant lorsque la souris quitte le bouton
+categoryBtn.addEventListener('click', () => {
+  categoryDropdown.classList.add('hidden');
 });
 
 // Empêcher la propagation du clic à l'intérieur du menu déroulant
@@ -32,8 +30,12 @@ function toggleTheme() {
 
   if (slider.checked) {
     // Appliquer le thème rouge
-    themeContainer.classList.remove('bg-blue-500');
-    themeContainer.classList.add('bg-red-500');
+    themeContainer.style.backgroundColor = "#b2a5ff";
+    // Appliquer le thème jaune menu
+    menuContainer.style.backgroundColor = "black";
+    menuIcon.style.color ="black";
+    closeIcon.style.color ="#b2a5ff";
+    
     // Changer les classes de texte en fonction du thème
     const textElements = document.querySelectorAll('.text-green');
     textElements.forEach((element) => {
@@ -41,29 +43,16 @@ function toggleTheme() {
     });
   } else {
     // Appliquer le thème bleu
-    themeContainer.classList.remove('bg-red-500');
-    themeContainer.classList.add('bg-blue-500');
+    themeContainer.style.backgroundColor = "white";
+    // Appliquer le thème vert au menu
+    menuContainer.style.backgroundColor = "#b2a5ff";
+    menuIcon.style.color ="#b2a5ff";
+    closeIcon.style.color ="black";
     // Changer les classes de texte en fonction du thème
     const textElements = document.querySelectorAll('.text-yellow');
     textElements.forEach((element) => {
       element.classList.replace('text-yellow', 'text-green');
     });
-  }
-  if (slider.checked) {
-    // Appliquer le thème jaune
-    menuContainer.classList.remove('bg-green-500');
-    menuContainer.classList.add('bg-yellow-500');
-    // Appliquer la couleur de fond jaune au menu déroulant
-        link.classList.remove('bg-green-500', 'hover:bg-green-600');
-        link.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
-  }else {
-    // Appliquer le thème vert
-    menuContainer.classList.remove('bg-yellow-500');
-    menuContainer.classList.add('bg-green-500');
-    // Appliquer la couleur de fond verte au menu déroulant
-    
-        link.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
-        link.classList.add('bg-green-500', 'hover:bg-green-600');
   }
 }
 
@@ -80,3 +69,4 @@ menuIcon.addEventListener('click', () => {
     closeIcon.classList.add('hidden'); // Masque l'icône de fermeture
     menuIcon.classList.remove('hidden'); // Affiche l'icône burger
   });
+ 
