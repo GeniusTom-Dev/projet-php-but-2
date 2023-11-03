@@ -1,9 +1,12 @@
 <h1>Utilisateurs</h1>
 <?php
-require_once '../GFramework/searchBar/searchBarAdmin.php';
+
+use controllers\controlAdminUsers;
+
+require_once __DIR__ . '/../../GFramework/searchBar/searchBarAdmin.php';
 require_once 'organisersElements.php';
-require '../autoloads/adminAutoloader.php';
-$controller = new \controllers\controlAdminUsers($dbConn);
+require __DIR__ . '/../../autoloads/adminAutoloader.php';
+$controller = new controlAdminUsers($dbConn);
 ?>
 
 <?php

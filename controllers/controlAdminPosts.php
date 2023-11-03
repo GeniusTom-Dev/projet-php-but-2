@@ -1,15 +1,12 @@
 <?php
 
 namespace controllers;
-use GFramework\utilities\GReturn;
-use \utilities\CannotDoException;
 use DbPosts;
 
 class controlAdminPosts
 {
     private DbPosts $dbPosts;
     private int $limitSelect = 10;
-
     public function __construct($conn){
         $this->dbPosts = new DbPosts($conn);
     }
@@ -26,7 +23,7 @@ class controlAdminPosts
     public function getSearchResult(): array{
         $container = [];
         if (empty($_GET["searchId"]) === false) {
-            $results = [$this->dbPosts->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent()];
+            $results = [$this->dbPosts->selectById($_GET["searchId"])->getContent()];
             $count = count($results); // Result has either 1 or 0 rows no matter the limit
         } else {
             $contentOrTitleLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
@@ -83,7 +80,7 @@ class controlAdminPosts
             if (count($result) != 0)
             {
                 ob_start();
-                foreach ($result as &$row)
+                foreach ($result as $row)
                 { ?>
             <tr>
                 <td rowspan="2"><?= $row['POST_ID']?></td>

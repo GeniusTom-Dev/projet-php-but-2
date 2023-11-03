@@ -1,9 +1,12 @@
 <h1>Categories</h1>
 <?php
-require_once '../GFramework/searchBar/searchBarAdmin.php';
-require_once 'organisersElements.php';
-require '../autoloads/adminAutoloader.php';
-$controller = new \controllers\controlAdminTopics($dbConn);
+
+use controllers\controlAdminTopics;
+
+require_once __DIR__ . '/../../GFramework/searchBar/searchBarAdmin.php';
+require_once __DIR__ . '/organisersElements.php';
+require __DIR__ . '/../../autoloads/adminAutoloader.php';
+$controller = new controlAdminTopics($dbConn);
 
 ?>
 <form id="newCate" method="post">

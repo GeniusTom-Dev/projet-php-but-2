@@ -8,7 +8,7 @@ require_once("database/DbPosts.php");
 require_once("database/DbTopics.php");
 require_once("database/DbUsers.php");
 require_once("utilities/GReturn.php");
-require_once("utilities/CannotDoException.php");
+require_once(__DIR__ . "/utilities/CannotDoException.php");
 require_once("searchBar/SearchParameters.php");
 require_once(__DIR__ . "/../controllers/controlGeneratePosts.php");
 require_once(__DIR__ . "/../controllers/controlGenerateFullPosts.php");
@@ -24,4 +24,3 @@ $dbLikes = new DbLikes($dbConn);
 $dbPosts = new DbPosts($dbConn);
 $dbTopics = new DbTopics($dbConn);
 $dbUsers = new DbUsers($dbConn);
-?>

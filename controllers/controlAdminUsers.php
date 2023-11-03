@@ -1,8 +1,7 @@
 <?php
 
 namespace controllers;
-use GFramework\utilities\GReturn;
-use \utilities\CannotDoException;
+use utilities\CannotDoException;
 use DbUsers;
 
 class controlAdminUsers
@@ -132,7 +131,7 @@ class controlAdminUsers
             if (count($result) != 0)
             {
                 ob_start();
-               foreach ($result as &$row)
+               foreach ($result as $row)
                 { ?>
             <tr>
                 <td> <?= $row['USER_ID']?></td>

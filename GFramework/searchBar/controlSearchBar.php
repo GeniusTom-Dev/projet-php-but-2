@@ -1,6 +1,12 @@
 <?php
 
-function getTopicsResults($dbTopics)
+/**
+ * Retrieve topics based on search criteria from the search bar form.
+ *
+ * @param $dbTopics
+ * @return array An array of topic results matching the search criteria.
+ */
+function getTopicsResults($dbTopics) : array
 {
     if (empty($_GET["searchId"]) === false) {
         $results = [$dbTopics->selectById($_GET["searchId"])->getContent()];
@@ -11,7 +17,13 @@ function getTopicsResults($dbTopics)
     return $results;
 }
 
-function getUsersResults($dbUsers)
+/**
+ * Retrieve users based on search criteria from the search bar form.
+ *
+ * @param $dbUsers
+ * @return array An array of user results matching the search criteria.
+ */
+function getUsersResults($dbUsers) : array
 {
     if (empty($_GET["searchId"]) === false) {
         $results = [$dbUsers->selectById($_GET['searchId'])->getContent()];
@@ -24,7 +36,14 @@ function getUsersResults($dbUsers)
     return $results;
 }
 
-function getPostsResults($dbPosts, $dbTopics, $dbUsers)
+/**
+ * Retrieve posts based on search criteria from the search bar form.
+ *
+ * @param $dbPosts
+ * @param $dbTopics
+ * @return array An array of post results matching the search criteria.
+ */
+function getPostsResults($dbPosts, $dbTopics) : array
 {
     if (empty($_GET['searchId']) === false) {
         $results = [$dbPosts->selectById($_GET['searchId'])->getContent()];
@@ -42,7 +61,13 @@ function getPostsResults($dbPosts, $dbTopics, $dbUsers)
     return $results;
 }
 
-function getCommentsResults($dbComments, $dbUsers)
+/**
+ * Retrieve comments based on search criteria from the search bar form.
+ *
+ * @param $dbComments
+ * @return array An array of comment results matching the search criteria.
+ */
+function getCommentsResults($dbComments) : array
 {
     if (empty($_GET['searchId']) === false) {
         $results = [$dbComments->selectById($_GET['searchId'])->getContent()];

@@ -80,7 +80,7 @@ function updateTableContent(selectedDb, columns, table) {
     let results = JSON.parse(localStorage.getItem("searchResults"));
     for (let line in results) {
         let row = tbody.insertRow();
-        var cmp = 0;
+        let cmp = 0;
         for (const [key, value] of Object.entries(columns)) {
             let cell = row.insertCell(cmp);
             cell.innerHTML = results[line][key];

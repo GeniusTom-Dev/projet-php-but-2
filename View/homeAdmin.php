@@ -1,8 +1,8 @@
 <?php
 session_start();
-/*$_SESSION['suid'] = session_id();
+$_SESSION['suid'] = session_id();
 $_SESSION['userid'] = 1;
-$_SESSION['isAdmin'] = true;*/
+$_SESSION['isAdmin'] = true;
 //unset($_SESSION['isAdmin']);
 if (! (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'])){
     header('Location: ../index.php');

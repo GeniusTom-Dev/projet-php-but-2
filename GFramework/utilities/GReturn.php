@@ -17,8 +17,6 @@ class GReturn{
 
     private mixed $content;
 
-    private $columnNames;
-
     private $levelDump;
 
     public function __construct($state, $reason = "", $content = []){
@@ -47,12 +45,5 @@ class GReturn{
      */
     public function getContent(): mixed{
         return $this->content;
-    }
-
-    /**
-     * @return array|string
-     */
-    public function getColumNames(): array|string {
-        return $this->columnNames;
     }
 }

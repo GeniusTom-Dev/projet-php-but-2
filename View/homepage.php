@@ -1,7 +1,6 @@
 <?php require '../GFramework/autoloader.php';
 $dbUsers = new dbUsers($dbConn);
 
-//var_dump($dbUser);
 use GFramework\utilities\GReturn; ?>
 <?php function displayDBinTable(GReturn $result): string
 {

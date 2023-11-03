@@ -2,7 +2,9 @@
 
 namespace utilities;
 
-class CannotDoException extends \Exception
+use Exception;
+
+class CannotDoException extends Exception
 {
     private string $default_msg = 'An action cannot be executed.';
     private string $target;

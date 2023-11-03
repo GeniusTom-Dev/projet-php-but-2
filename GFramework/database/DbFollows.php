@@ -5,9 +5,7 @@
  */
 class DbFollows {
     private string $dbName = "follows";
-
     private mysqli $conn;
-
     public function __construct($conn){
         $this->conn = $conn;
     }
@@ -61,7 +59,7 @@ class DbFollows {
         }
         $request = "INSERT INTO $this->dbName (`ID_FOLLOWER`, `ID_FOLLOWED`) VALUES ";
         $request .= "($follower, $followed);";
-+       $this->conn->query($request);
+        $this->conn->query($request);
         return true;
     }
 

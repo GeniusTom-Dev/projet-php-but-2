@@ -2,7 +2,6 @@
 
 class controlGeneratePosts
 {
-
     private DbUsers $dbUsers;
     private DbPosts $dbPosts;
     private DbTopics $dbTopics;

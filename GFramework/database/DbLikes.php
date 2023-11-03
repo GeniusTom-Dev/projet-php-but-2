@@ -7,8 +7,7 @@ class DbLikes
 {
     private string $dbName = "likes";
     private array | string $dbColumns = ["USER_ID", "POST_ID"];
-
-    private \mysqli $conn;
+    private mysqli $conn;
 
     public function __construct($conn){
         $this->conn = $conn;
@@ -54,7 +53,6 @@ class DbLikes
         $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`)";
         $request .= " VALUES ($user_id, $post_id);";
-//        var_dump($request);
         $this->conn->query($request);
         return true;
     }

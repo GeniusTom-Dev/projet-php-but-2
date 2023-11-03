@@ -7,7 +7,6 @@ class DbFavorites
 {
     private string $dbName = "favorites";
     private mysqli $conn;
-
     public function __construct($conn){
         $this->conn = $conn;
     }
@@ -52,7 +51,7 @@ class DbFavorites
      */
     public function removeFavorite(int $user_id, int $post_id) : bool {
         if (!$this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
-            return false; // This entry doesn't exists in the table
+            return false; // This entry doesn't exist in the table
         }
         $query = "DELETE FROM $this->dbName WHERE USER_ID=$user_id AND POST_ID=$post_id";
         $this->conn->query($query);

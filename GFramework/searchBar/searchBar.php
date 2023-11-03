@@ -7,17 +7,17 @@ $results = [];
 if (empty($_GET["selectDb"]) === false) {
     if ($_GET["selectDb"] == "Topics") $results = getTopicsResults($dbTopics);
     else if ($_GET["selectDb"] == "Users") $results = getUsersResults($dbUsers);
-    else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts, $dbTopics, $dbUsers);
-    else if ($_GET["selectDb"] == "Comments") $results = getCommentsResults($dbComments,$dbUsers);
+    else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts, $dbTopics);
+    else if ($_GET["selectDb"] == "Comments") $results = getCommentsResults($dbComments);
 } else {
-    if (isset($_GET['selectDb']) == false) {
+    if (!isset($_GET['selectDb'])) {
         $_GET['selectDb'] = "Topics";
     }
     $results = getTopicsResults($dbTopics);
 }
 ?>
 <script>
-    var results = <?php echo json_encode($results); ?>;
+    let results = <?php echo json_encode($results); ?>;
     localStorage.setItem("searchResults", JSON.stringify(results));
 </script>
 

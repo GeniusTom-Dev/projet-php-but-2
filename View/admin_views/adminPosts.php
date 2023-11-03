@@ -1,10 +1,12 @@
 <h1>Posts</h1>
 <?php
-require_once '../GFramework/searchBar/searchBarAdmin.php';
+
+use controllers\controlAdminPosts;
+
+require_once __DIR__ . '/../../GFramework/searchBar/searchBarAdmin.php';
 require_once 'organisersElements.php';
-require '../autoloads/adminAutoloader.php';
-//require_once 'autoloads/database-connect.php';
-$controller = new \controllers\controlAdminPosts($dbConn);
+require __DIR__ . '/../../autoloads/adminAutoloader.php';
+$controller = new controlAdminPosts($dbConn);
 ?>
 
 <?php

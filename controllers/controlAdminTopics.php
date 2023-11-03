@@ -3,7 +3,6 @@
 namespace controllers;
 
 use DbTopics;
-use GFramework\utilities\GReturn;
 
 class controlAdminTopics
 {
@@ -27,7 +26,7 @@ class controlAdminTopics
      public function getSearchResult(): array{
         $container = [];
         if (empty($_GET["searchId"]) === false) {
-            $results = [$this->dbTopics->selectById($_GET["searchId"], $this->limitSelect, $_GET['page'], $_GET['sort'])->getContent()];
+            $results = [$this->dbTopics->selectById($_GET["searchId"])->getContent()];
             $count = count($results); // Result has either 1 or 0 rows no matter the limit
         } else {
             $nameOrDescriptionLike = (empty($_GET["searchText"]) === false) ? $_GET['searchText'] : null;
@@ -115,7 +114,7 @@ class controlAdminTopics
             if (count($result) != 0)
             {
                 ob_start();
-                foreach ($result as &$row)
+                foreach ($result as $row)
                 { ?>
                     <tr>
                         <td> <?= $row['TOPIC_ID']?></td>

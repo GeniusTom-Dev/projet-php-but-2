@@ -8,9 +8,7 @@ use GFramework\utilities\GReturn;
 class DbTopics
 {
     private string $dbName = "topics";
-
-    private \mysqli $conn;
-
+    private mysqli $conn;
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -19,7 +17,7 @@ class DbTopics
     /**
      * Get the total number of topics based on optional filtering criteria.
      *
-     * @param string|null $nameOrDescriptionLike
+     * @param string|null $nameOrDescriptionLike (optional)
      * @return int
      */
     public function getTotal(?string $nameOrDescriptionLike = null): int

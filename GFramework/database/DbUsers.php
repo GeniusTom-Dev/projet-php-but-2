@@ -7,13 +7,9 @@ use GFramework\utilities\GReturn;
  */
 class DbUsers
 {
-
     private string $dbName = "users";
-
-    private \mysqli $conn;
-
+    private mysqli $conn;
     private array|string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
-
 
     public function __construct($conn)
     {
@@ -154,7 +150,7 @@ class DbUsers
     }
 
     /**
-     * Retrieve a specific user from the database by its Email.
+     * Retrieve a specific user from the database by its email.
      *
      * @param string $email
      * @return GReturn

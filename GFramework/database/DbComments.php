@@ -8,9 +8,7 @@ use GFramework\utilities\GReturn;
 class DbComments
 {
     private string $dbName = "comments";
-
     private mysqli $conn;
-
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -26,7 +24,7 @@ class DbComments
      * @param string|null $dateMax (optional)
      * @return int
      */
-    public function getTotal(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax)
+    public function getTotal(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax) : int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM $this->dbName";
         // Filtering results
@@ -38,7 +36,7 @@ class DbComments
      * Retrieve comments from the database based on optional filtering, sorting, and pagination criteria.
      *
      * @param int|null $post_id (optional)
-     * @param int|string|null $user_id (optional) int = userId and string = usernameLike
+     * @param int|string|null $user (optional) int = userId and string = usernameLike
      * @param string|null $contentLike (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
@@ -66,7 +64,7 @@ class DbComments
      * Generate the WHERE clause for SQL queries based on optional filtering criteria.
      *
      * @param int|null $post_id (optional)
-     * @param int|string|null $user_id (optional) int = userId and string = usernameLike
+     * @param int|string|null $user (optional) int = userId and string = usernameLike
      * @param string|null $contentLike (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
@@ -158,7 +156,7 @@ class DbComments
     /**
      * Retrieve all comments from the database by their post id.
      *
-     * @param int $comment_id
+     * @param int $post_id
      * @return array
      */
     public function getPostComments(int $post_id): array
@@ -209,7 +207,7 @@ class DbComments
      *
      * @param int $id
      */
-    public function deleteComment($id): void
+    public function deleteComment(int $id): void
     {
         $query = "DELETE FROM $this->dbName WHERE COMMENT_ID=$id";
         $this->conn->query($query);

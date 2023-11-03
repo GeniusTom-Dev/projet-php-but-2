@@ -7,7 +7,7 @@
  * @desc Create connection to database and actions
  */
 
-use \GFramework\utilities\GReturn;
+use GFramework\utilities\GReturn;
 
 /**
  * Singleton use to initialize the connection with the Database on alwaysdata.com
@@ -27,7 +27,7 @@ class Database {
     private string $db;
 
     // Connection of db
-    private \mysqli $conn;
+    private mysqli $conn;
 
     public function __construct($host, $username, $password, $db){
         $this->host = $host;
@@ -38,7 +38,7 @@ class Database {
 
     public function getConnection(): GReturn
     {
-        $connection = new \mysqli($this->host, $this->username, $this->password, $this->db);
+        $connection = new mysqli($this->host, $this->username, $this->password, $this->db);
 
         if ($connection->connect_error) {
             return new GReturn("ko", reason: $connection->connect_error);

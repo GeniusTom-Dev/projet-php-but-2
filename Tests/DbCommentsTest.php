@@ -28,19 +28,19 @@ class DbCommentsTest extends TestCase
 
     public function test_select_by_only_post_id()
     {
-        $result = $this->getConnection()->select_SQLResult(1, null, null, null, null)->getContent();
+        $result = $this->getConnection()->select_SQLResult(1)->getContent();
         $this->assertCount(2, $result);
     }
 
     public function test_select_by_only_user_id()
     {
-        $result = $this->getConnection()->select_SQLResult(null, 1, null, null, null)->getContent();
+        $result = $this->getConnection()->select_SQLResult(null, 1)->getContent();
         $this->assertCount(2, $result);
     }
 
     public function test_select_by_only_content()
     {
-        $result = $this->getConnection()->select_SQLResult(null, null, "super", null, null)->getContent();
+        $result = $this->getConnection()->select_SQLResult(null, null, "super")->getContent();
         $this->assertCount(3, $result);
     }
 
@@ -74,7 +74,7 @@ class DbCommentsTest extends TestCase
     public function test_update_comment()
     {
         $this->getConnection()->updateComments(5, "???");
-        $this->assertNotEmpty($this->getConnection()->select_SQLResult(null, null, "???", null, null));
+        $this->assertNotEmpty($this->getConnection()->select_SQLResult(null, null, "???"));
     }
 
     // -------------------------
@@ -84,6 +84,6 @@ class DbCommentsTest extends TestCase
     public function test_delete_comment()
     {
         $this->getConnection()->deleteComment(5);
-        $this->assertEmpty($this->getConnection()->select_SQLResult(null, null, "???", null, null)->getContent());
+        $this->assertEmpty($this->getConnection()->select_SQLResult(null, null, "???")->getContent());
     }
 }

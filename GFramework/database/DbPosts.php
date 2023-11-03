@@ -29,13 +29,14 @@ class DbPosts
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
         // Filtering results
-        $query .= " " . $this->getWhereInstruction($contentOrTitleLike, $user_id, $dateMin, $dateMax);
+        $query .= " " . $this->getWhereInstruction(null, $contentOrTitleLike, $user_id, $dateMin, $dateMax);
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
     }
 
     /**
      * Retrieve posts from the database based on optional filtering, sorting, and pagination criteria.
      *
+     * @param int|null $topicId (optional)
      * @param string|null $contentOrTitleLike (optional)
      * @param int|string|null $user (optional) int = userId and string = usernameLike
      * @param string|null $dateMin (optional)
@@ -62,8 +63,9 @@ class DbPosts
     /**
      * Generate the WHERE clause for SQL queries based on optional filtering criteria.
      *
+     * @param int|null $topicId (optional)
      * @param string|null $contentOrTitleLike (optional)
-     * @param int|string|null $user_id (optional)
+     * @param int|string|null $user (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
      * @return string

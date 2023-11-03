@@ -1,8 +1,7 @@
 <?php
 
 namespace controllers;
-use \utilities\GReturn;
-use \utilities\CannotDoException;
+/*use utilities\GReturn;*/
 use DbComments;
 
 class controlAdminComments

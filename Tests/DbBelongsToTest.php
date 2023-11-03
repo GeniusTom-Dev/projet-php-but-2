@@ -9,7 +9,7 @@ class DbBelongsToTest extends TestCase
 {
     private DbBelongsTo|null $dbBelongsTo = null;
 
-    final public function getConnection(): \DbBelongsTo
+    final public function getConnection(): DbBelongsTo
     {
         if ($this->dbBelongsTo== null) {
             $db = new Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd_test');
