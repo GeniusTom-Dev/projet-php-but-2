@@ -8,11 +8,14 @@
 <?php
 require '../autoloader.php';
 ?>
+
 <h1 class="text-2xl font-semibold">Barre de recherche</h1>
 
-<div class="space-y-4">
+<div class="flex space-x-4 items-start">
     <?php include 'searchBarAdmin.php' ?>
+</div>
 
+<div class="space-y-4">
     <h2 class="text-xl font-semibold">Résultats de la recherche :</h2>
 
     <nav class="mb-4">
