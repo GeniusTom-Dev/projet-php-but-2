@@ -1,17 +1,18 @@
 <?php
 session_start();
-$_SESSION['suid'] = 1;
+$_SESSION['suid'] = 4;
 
 require_once "../GFramework/autoloader.php";
 
-$controller = new controlCreatePosts($dbConn);
-$controller->checkCreatePost();
+$controller = new controlGenerateFullPosts($dbConn);
+$controller->checkPostId();
+$controller->checkAllShowActions();
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Création de Post</title>
+    <title>Page Post Full</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="/html/styles/index.css">
 
@@ -22,11 +23,11 @@ $controller->checkCreatePost();
 
 <?php
 
-echo $controller->getCreatePost();
+echo $controller->getFullPostHTML($_GET['detailPost']);
 
 ?>
 
-<script src="/html/script/scriptCreatePost.js"></script>
+<script src="/html/script/scriptShowPostFull.js"></script>
 </body>
 </html>
 

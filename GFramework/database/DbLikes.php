@@ -54,7 +54,7 @@ class DbLikes
         $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`)";
         $request .= " VALUES ($user_id, $post_id);";
-        var_dump($request);
+//        var_dump($request);
         $this->conn->query($request);
         return true;
     }
