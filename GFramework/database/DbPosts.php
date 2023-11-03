@@ -37,7 +37,7 @@ class DbPosts
      * Retrieve posts from the database based on optional filtering, sorting, and pagination criteria.
      *
      * @param string|null $contentOrTitleLike (optional)
-     * @param int|null $user_id (optional)
+     * @param int|string|null $user (optional) int = userId and string = usernameLike
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
      * @param int|null $limit (optional)
@@ -45,13 +45,15 @@ class DbPosts
      * @param string|null $sort (optional)
      * @return GReturn
      */
-    public function select_SQLResult(?int $topicId=null, ?string $contentOrTitleLike=null, ?int $user_id=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?int $topicId=null, ?string $contentOrTitleLike=null, int|string|null $user=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
         if ($topicId != null) {
             $request .= " INNER JOIN belongs_to b ON " . $this->dbName . ".POST_ID=b.POST_ID";
+        } else if (is_string($user)) {
+            $request .= " INNER JOIN users u ON " . $this->dbName . ".USER_ID=u.USER_ID";
         }
-        $request .= " " . $this->getWhereInstruction($topicId, $contentOrTitleLike, $user_id, $dateMin, $dateMax);
+        $request .= " " . $this->getWhereInstruction($topicId, $contentOrTitleLike, $user, $dateMin, $dateMax);
         $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
@@ -61,12 +63,12 @@ class DbPosts
      * Generate the WHERE clause for SQL queries based on optional filtering criteria.
      *
      * @param string|null $contentOrTitleLike (optional)
-     * @param int|null $user_id (optional)
+     * @param int|string|null $user_id (optional)
      * @param string|null $dateMin (optional)
      * @param string|null $dateMax (optional)
      * @return string
      */
-    public function getWhereInstruction(?int $topicId, ?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): string{
+    public function getWhereInstruction(?int $topicId, ?string $contentOrTitleLike, int|string|null $user, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($topicId)) {
             $conditions[] = "b.TOPIC_ID=$topicId";
@@ -74,8 +76,10 @@ class DbPosts
         if (!is_null($contentOrTitleLike)) {
             $conditions[] = "(TITLE LIKE '%$contentOrTitleLike%' OR CONTENT LIKE '%$contentOrTitleLike%')";
         }
-        if (!is_null($user_id)) {
-            $conditions[] = "USER_ID = $user_id";
+        if (is_int($user)) {
+            $conditions[] = "USER_ID = $user";
+        } else if (is_string($user)) {
+            $conditions[] = "u.USERNAME LIKE '$user%'";
         }
         if (!is_null($dateMin)) {
             $conditions[] = "DATE_POSTED >= '$dateMin'";

@@ -4,25 +4,7 @@ $dbConn = $db->getConnection()->getContent();
 $dbTopics = new DbTopics($dbConn);
 
 ?>
-<!--<!DOCTYPE html> ==> A DECOMMENTER POUR LA VOIR EN LANCANT LE FICHIER
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        #topicsList {
-            display: none;
-            position: absolute;
-            border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-            width: 100px;
-            padding: 0;
-            list-style: none;
-            margin-top: 5px;
-        }
-    </style>
-</head>
-<body>-->
+
 <input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off"
     <?php if (isset($_GET['searchInputTopic'])) echo ' value=', $_GET['searchInputTopic']; ?>>
 <ul id='topicsList'>
@@ -35,13 +17,22 @@ $dbTopics = new DbTopics($dbConn);
     const searchInput = document.getElementById('searchInputTopic');
     const topicsList = document.getElementById('topicsList');
     const optionItems = topicsList.getElementsByTagName('li');
-    positionTopicsList();
 
-    // Function pour placer la liste en dessous de l'input
-    function positionTopicsList() {
-        const inputRect = searchInput.getBoundingClientRect();
-        topicsList.style.left = inputRect.left + 'px';
-        topicsList.style.top = (inputRect.bottom + window.scrollY) + 'px';
+    // sert à placer la liste en dessous de l'input
+    const inputRect = searchInput.getBoundingClientRect();
+    topicsList.style.left = inputRect.left + 'px';
+    topicsList.style.top = (inputRect.bottom + window.scrollY) + 'px';
+
+    // Ajouter un gestionnaire d'événements au clic sur les options
+    for (let i = 0; i < optionItems.length; i++) {
+        optionItems[i].addEventListener('click', () => {
+
+            // C'EST ICI POUR RECUP LA CATÉGORIE QUI A ÉTÉ SELECTIONNÉ
+
+            searchInput.value = optionItems[i].textContent.trim();
+            topicsList.style.display = 'none';
+            console.log("clicker")
+        });
     }
 
     // Gérer l'ouverture de la liste d'options
@@ -63,17 +54,6 @@ $dbTopics = new DbTopics($dbConn);
             }
         }
     });
-
-    // Ajouter un gestionnaire d'événements au clic sur les options
-    for (let i = 0; i < optionItems.length; i++) {
-        optionItems[i].addEventListener('click', () => {
-
-            // C'EST ICI POUR RECUP LA CATÉGORIE QUI A ÉTÉ SELECTIONNÉ
-
-            searchInput.value = optionItems[i].textContent;
-            topicsList.style.display = 'none';
-        });
-    }
 
     // Fermer la liste d'options lorsque l'utilisateur clique en dehors
     document.addEventListener('click', (event) => {
