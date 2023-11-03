@@ -1,7 +1,22 @@
+<?php require_once '../autoloader.php'?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        #topicsList {
+            display: none;
+            position: absolute;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100px;
+            padding: 0;
+            list-style: none;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <?php

@@ -29,9 +29,9 @@ function getPostsFilters($isAdmin): void
     <?php } else { ?>
         <label for="searchUser">Auteur = </label>
         <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
-        <label for="searchTopic">Entrée une catégorie = </label>
-        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
-    <?php } ?>
+        <?php include "onlyTopicSearchBar.php"?>
+<!--        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" <?php /*if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; */?>>
+-->    <?php } ?>
     <label for="searchDateMin">De : </label>
     <input type="date" id="searchDateMin" name="searchDateMin" <?php if (isset($_GET['searchDateMin'])) echo 'value=', $_GET['searchDateMin']; ?>>
     <label for="searchDateMax">A : </label>
