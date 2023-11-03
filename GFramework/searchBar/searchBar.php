@@ -11,7 +11,7 @@ if (empty($_GET["selectDb"]) === false) {
     else if ($_GET["selectDb"] == "Comments") $results = getCommentsResults($dbComments,$dbUsers);
 } else {
     if (isset($_GET['selectDb']) == false) {
-        $_GET['selectDb'] = "Posts";
+        $_GET['selectDb'] = "Topics";
     }
     $results = getTopicsResults($dbTopics);
 }
