@@ -23,7 +23,8 @@ $dbTopics = new DbTopics($dbConn);
     </style>
 </head>
 <body>-->
-<input type="text" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off">
+<input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off"
+    <?php if (isset($_GET['searchInputTopic'])) echo ' value=', $_GET['searchInputTopic']; ?>>
 <ul id='topicsList'>
     <?php
     foreach ($dbTopics->select_SQLResult()->getContent() as &$topic) { ?>
@@ -81,5 +82,3 @@ $dbTopics = new DbTopics($dbConn);
         }
     });
 </script>
-</body>
-</html>

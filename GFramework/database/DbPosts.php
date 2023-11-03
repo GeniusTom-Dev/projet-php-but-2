@@ -53,7 +53,6 @@ class DbPosts
         }
         $request .= " " . $this->getWhereInstruction($topicId, $contentOrTitleLike, $user_id, $dateMin, $dateMax);
         $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
-        var_dump($request);
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
