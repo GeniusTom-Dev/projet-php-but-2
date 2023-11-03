@@ -41,9 +41,9 @@ function getPostsFilters($isAdmin): void
             <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
 
     <?php } else { ?>
-        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
+        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
-        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
+        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
 
     <?php } ?>
@@ -68,7 +68,7 @@ function getCommentsFilters($isAdmin): void
             <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
 
     <?php } else { ?>
-        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
+        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
     <?php } ?>
         <label for="searchDateMin" class="mr-2">De&nbsp;: </label>

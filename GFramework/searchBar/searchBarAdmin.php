@@ -4,7 +4,7 @@ require_once 'searchBarFilters.php';
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!div class="max-w-lg mx-auto p-4"-->
+<!--div class="max-w-lg mx-auto p-4"-->
     <form method="GET" id="searchForm" class="space-y-4">
         <div class="flex flex-col mb-2">
             <div class="flex flex-row items-center mb-2">
@@ -24,4 +24,4 @@ require_once 'searchBarFilters.php';
             </div>
         </div>
     </form>
-<!/div-->
+<!--/div-->
