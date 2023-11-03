@@ -25,7 +25,7 @@ class DbPosts
      * @param string|null $dateMax
      * @return int
      */
-    public function getTotal(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax)
+    public function getTotal(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
         // Filtering results
@@ -149,17 +149,41 @@ class DbPosts
      * @param string $title
      * @param string $content
      * @param string $date_posted
-     * @return void
+     * @return int The ID of the created post
      */
-    public function addPost(int $user_id, string $title, string $content, string $date_posted): void
+    public function addPost(int $user_id, string $title, string $content, string $date_posted): int
     {
         // check if the user exist ?
-        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
-        $this->conn->query($resetIdMinValue);
+//        $resetIdMinValue = "ALTER TABLE $this->dbName AUTO_INCREMENT = 1;";
+//        $this->conn->query($resetIdMinValue);
+        $postID = $this->getLastID() + 1;
         $request = "INSERT INTO $this->dbName (";
         $request .= "`" . implode("`, `", $this->dbColumns) . "`) VALUES (";
         $request .= "$user_id, '$title', '$content', '$date_posted');";
         $this->conn->query($request);
+        return $postID;
+    }
+
+    /**
+     * Link a post to a selected topic
+     * @param int $postID The ID of the post to be linked
+     * @param int $topicID The ID of the topic the post will be linked to
+     * @return void
+     */
+    public function linkPostToTopic(int $postID, int $topicID): void{
+        $query = "INSERT INTO belongs_to VALUES ($postID, $topicID)";
+        $this->conn->query($query);
+    }
+
+    public function getLinkedTopics(int $postID): array{
+        $query = "SELECT TOPIC_ID FROM belongs_to WHERE POST_ID = $postID";
+        $result = $this->conn->query($query);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    public function getLastID(): int{
+        $query = "SELECT MAX(POST_ID) AS MAXIMUM FROM " . $this->dbName;
+        return $this->conn->query($query)->fetch_assoc()['MAXIMUM'];
     }
 
     /**

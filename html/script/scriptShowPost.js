@@ -42,84 +42,6 @@ const contentInput = document.getElementById("post-content");
 // Sélectionnez la div où vous souhaitez afficher les titres et le contenu
 const postedContent = document.getElementById("posted-content");
 
-// Ajoutez un gestionnaire d'événements pour le clic sur le bouton "Poster"
-postButton.addEventListener("click", () => {
-    // Récupérez le titre et le contenu entrés par l'utilisateur
-    const title = titleInput.value;
-    const content = contentInput.value;
-
-    // Créez un élément pour afficher le titre et le contenu
-    const postElement = document.createElement("div");
-    postElement.className = "mb-2"; // Ajoutez des marges entre les messages
-
-    // Créez un élément pour le titre
-    const titleElement = document.createElement("div");
-    titleElement.className = "font-bold text-xl"; // Appliquez le style au titre
-    titleElement.textContent = title; // Définissez le texte du titre
-    postElement.appendChild(titleElement);
-
-    // Créez un élément pour le contenu
-    const contentElement = document.createElement("div");
-    contentElement.textContent = content; // Définissez le texte du contenu
-    postElement.appendChild(contentElement);
-
-    // Ajoutez l'élément au conteneur où les publications sont affichées
-    postedContent.appendChild(postElement);
-
-    // Effacez les zones de texte
-    titleInput.value = "";
-    contentInput.value = "";
-});
-
-// Sélectionnez l'image du paper plane par son ID
-const paperPlaneImage = document.getElementById("paperPlane");
-
-// Ajoutez un gestionnaire d'événements pour le clic sur l'image
-paperPlaneImage.addEventListener("click", () => {
-    // Sélectionnez l'article actuel
-    const currentArticle = document.getElementById("article");
-
-    // Sélectionnez tous les éléments interactifs dans le main, y compris les boutons, les images et les textarea
-    const mainInteractiveElements = currentArticle.querySelectorAll("main button, main input, plusButton, main textarea");
-
-    // Parcourez les éléments du main et masquez-les
-    mainInteractiveElements.forEach((element) => {
-        element.style.display = "none";
-    });
-
-    // Affichez la section des commentaires
-    commentsContainer.style.display = "block";
-});
-
-
-// Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
-addCategoryButton.addEventListener("click", () => {
-    // Récupérez la valeur de la zone de texte
-    const newCategory = categoryInput.value.trim();
-
-    if (newCategory !== "") {
-        // Créez un élément li pour la nouvelle catégorie
-        const categoryItem = document.createElement("li");
-        categoryItem.className = "bg-purple-500 text-white rounded-md px-2 py-1 m-2";
-        categoryItem.textContent = newCategory;
-
-        // Créez un bouton pour supprimer la catégorie
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Supprimer";
-        deleteButton.className = "bg-red-500 text-white rounded-md px-2 py-1 m-2";
-        deleteButton.addEventListener("click", () => {
-            categoryItem.remove(); // Supprime la catégorie lorsque le bouton "Supprimer" est cliqué
-        });
-
-        // Ajoutez la catégorie et le bouton de suppression à la liste
-        categoryItem.appendChild(deleteButton);
-        categoryList.appendChild(categoryItem);
-
-        // Effacez le champ de texte
-        categoryInput.value = "";
-    }
-});
-
 
 trashCan.addEventListener("click", () => {
     // Affiche la boîte de confirmation
@@ -130,7 +52,9 @@ confirmDeleteButton.addEventListener("click", () => {
     // Sélectionnez l'article actuel
     const currentArticle = document.getElementById("article");
 
-    // Supprimez l'article
+    // Delete post in database
+
+    // Supprimez l'article sur la page
     currentArticle.parentNode.removeChild(currentArticle);
 
     // Après la suppression, cache la boîte de confirmation
@@ -159,61 +83,12 @@ suscribeButton.addEventListener("click", () => {
     isSubscribed = !isSubscribed;
 });
 
-
-plusButton.addEventListener("click", () => {
-    fileInput.click();
-});
-
-fileInput.addEventListener("change", (event) => {
-    const selectedFile = event.target.files[0];
-
-    if (selectedFile) {
-        // Créez un conteneur pour l'image et le bouton de suppression
-        const imageContainer = document.createElement("div");
-        imageContainer.className = "flex items-center";
-
-        // Créez un élément img pour afficher l'image
-        const imgElement = document.createElement("img");
-        imgElement.src = URL.createObjectURL(selectedFile);
-        imgElement.className = "w-32 h-auto"; // Ajustez la taille de l'image selon vos besoins
-
-        // Créez un bouton de suppression pour l'image
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Supprimer";
-        deleteButton.style.backgroundColor = "#ff6347"; /* Couleur de fond du bouton de suppression */
-        deleteButton.style.color = "white"; /* Couleur du texte du bouton de suppression */
-        deleteButton.style.border = "none"; /* Supprime la bordure du bouton de suppression */
-        deleteButton.style.borderRadius = "5px"; /* Coins arrondis du bouton de suppression */
-        deleteButton.style.padding = "5px 10px"; /* Espacement interne du bouton de suppression */
-        deleteButton.addEventListener("click", () => {
-            // Supprime l'image et le bouton de suppression lorsque le bouton est cliqué
-            imageContainer.remove();
-        });
-
-        // Ajoutez l'image et le bouton de suppression au conteneur
-        imageContainer.appendChild(imgElement);
-        imageContainer.appendChild(deleteButton);
-
-        // Ajoutez le conteneur à un conteneur de galerie sur votre page
-        const galleryContainer = document.querySelector("#galleryContainer");
-        galleryContainer.appendChild(imageContainer);
-    }
-});
-
 growArrow.addEventListener("click", () => {
-    if (!isEnlarged) {
-        article.style.width = "60%"; /* Largeur agrandie */
-        article.style.height = "70%"; /* Hauteur agrandie */
-    } else {
-        // Si l'article est déjà agrandi, rétrécis-le
-        article.style.width = ""; /* Réinitialise la largeur */
-        article.style.height = ""; /* Réinitialise la hauteur */
-    }
-
-    // Inverse l'état de l'agrandissement
-    isEnlarged = !isEnlarged;
+    // Bacullement sur page detail post
 });
 heartRegular.addEventListener("click", () => {
+    // add like to database
+
     if (!isEnlarged) {
         // Remplace l'image initiale par la nouvelle image
         heartRegular.src = "/html/images/heart-solid.svg";
@@ -229,6 +104,8 @@ heartRegular.addEventListener("click", () => {
 });
 
 bookmarkRegular.addEventListener("click", () => {
+    // add fav to database
+
     if (!isEnlarged) {
         // Remplace l'image initiale par la nouvelle image
         bookmarkRegular.src = "/html/images/bookmark-solid.svg";

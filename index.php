@@ -1,3 +1,3 @@
 <?php
-require 'View/homepage.php';
+echo "index";
 ?>

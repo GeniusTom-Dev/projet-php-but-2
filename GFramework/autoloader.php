@@ -10,6 +10,7 @@ require_once("database/DbUsers.php");
 require_once("utilities/GReturn.php");
 require_once("utilities/CannotDoException.php");
 require_once("searchBar/SearchParameters.php");
+require_once("../controllers/controlShowPosts.php");
 
 $db = new Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd');
 $dbConn = $db->getConnection()->getContent();

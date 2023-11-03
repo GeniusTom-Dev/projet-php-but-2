@@ -1,0 +1,154 @@
+let postCreator = document.querySelector(".postInterface");
+
+// Sélectionnez le champ de texte pour le titre par son ID
+const titleInput = postCreator.querySelector(".title-input");
+// Sélectionnez la zone de texte pour le contenu par son ID
+const contentInput = postCreator.querySelector(".content-input");
+
+let plusButton = postCreator.querySelector(".plusButton");
+let fileInput = postCreator.querySelector(".fileInput");
+
+let trashCan = postCreator.querySelector(".trashCan");
+let deleteConfirmation = postCreator.querySelector(".deleteConfirmation");
+let confirmDeleteButton = postCreator.querySelector(".confirmDeleteButton");
+let cancelDeleteButton = postCreator.querySelector(".cancelDeleteButton");
+
+// All topics related elements
+const categoryInput = postCreator.querySelector(".categoryInput");
+const addCategoryButton = postCreator.querySelector(".add-category-button");
+const categoryList = postCreator.querySelector(".category-list");
+
+// Sélectionnez l'image du paper plane par son ID
+const paperPlaneImage = postCreator.querySelector(".paperPlane");
+
+// Article gallery
+const galleryContainer = postCreator.querySelector(".galleryContainer");
+
+
+// Ajoutez un gestionnaire d'événements pour le clic sur l'image
+paperPlaneImage.addEventListener("click", () => {
+    // Retrieving post title
+    const title = titleInput.textContent;
+    // Retrieving post content
+    const content = contentInput.textContent;
+
+    // Retrieving topics names
+    var arrTopics = [];
+    const arrInputTopics = categoryList.querySelectorAll(".topicItemInput")
+    arrInputTopics.forEach(value => {
+        arrTopics.push(value.value);
+    });
+
+    // Retrieving post images url
+    var arrImg = [];
+    const arrInputImgURL = galleryContainer.querySelectorAll(".imgURLInput");
+    arrInputImgURL.forEach(value => {
+        arrImg.push(value.value);
+    });
+
+    // Query to publish post
+
+
+    // Return to index
+
+
+});
+
+
+// Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
+addCategoryButton.addEventListener("click", () => {
+    // Récupérez la valeur de la zone de texte
+    const newCategory = categoryInput.value.trim();
+
+    if (newCategory !== "") {
+        // Créez un élément li pour la nouvelle catégorie
+        const categoryItem = document.createElement("li");
+        const categoryItemInput = document.createElement("input");
+        categoryItem.className = "bg-purple-500 text-white rounded-md px-2 py-1 m-2";
+        categoryItem.textContent = newCategory;
+        // Hidden input
+        categoryItemInput.type = "hidden";
+        categoryItemInput.name = "topic" + categoryList.length;
+        categoryItemInput.value = newCategory;
+        categoryItemInput.className = "topicItemInput";
+
+        // Créez un bouton pour supprimer la catégorie
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Supprimer";
+        deleteButton.className = "bg-red-500 text-white rounded-md px-2 py-1 m-2";
+        deleteButton.addEventListener("click", () => {
+            categoryItem.remove(); // Supprime la catégorie lorsque le bouton "Supprimer" est cliqué
+        });
+
+        // Ajoutez la catégorie et le bouton de suppression à la liste
+        categoryItem.appendChild(deleteButton);
+        categoryItem.appendChild(categoryItemInput);
+        categoryList.appendChild(categoryItem);
+
+        // Effacez le champ de texte
+        categoryInput.value = "";
+    }
+});
+
+
+trashCan.addEventListener("click", () => {
+    // Affiche la boîte de confirmation
+    deleteConfirmation.style.display = "block";
+});
+
+confirmDeleteButton.addEventListener("click", () => {
+    location.href = "index.php";
+});
+
+cancelDeleteButton.addEventListener("click", () => {
+    // Annule la suppression lorsque le bouton d'annulation est cliqué
+    // Cache la boîte de confirmation
+    deleteConfirmation.style.display = "none";
+});
+
+plusButton.addEventListener("click", () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", (event) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+        // Créez un conteneur pour l'image et le bouton de suppression
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "flex items-center";
+
+        // Créez un élément img pour afficher l'image
+        const imgElement = document.createElement("img");
+        imgElement.src = URL.createObjectURL(selectedFile);
+        imgElement.className = "w-32 h-auto"; // Ajustez la taille de l'image selon vos besoins
+
+        // Créez un bouton de suppression pour l'image
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Supprimer";
+        deleteButton.style.backgroundColor = "#ff6347"; /* Couleur de fond du bouton de suppression */
+        deleteButton.style.color = "white"; /* Couleur du texte du bouton de suppression */
+        deleteButton.style.border = "none"; /* Supprime la bordure du bouton de suppression */
+        deleteButton.style.borderRadius = "5px"; /* Coins arrondis du bouton de suppression */
+        deleteButton.style.padding = "5px 10px"; /* Espacement interne du bouton de suppression */
+        deleteButton.addEventListener("click", () => {
+            // Supprime l'image et le bouton de suppression lorsque le bouton est cliqué
+            imageContainer.remove();
+        });
+
+        // Create hidden input for image url
+        const imgURLInput = document.createElement("input")
+        imgURLInput.type = "hidden";
+        imgURLInput.name = "img" + galleryContainer.length;
+        imgURLInput.value = imgElement.src;
+        imgURLInput.className = "imgURLInput";
+
+        // Ajoutez l'image et le bouton de suppression au conteneur
+        imageContainer.appendChild(imgElement);
+        imageContainer.appendChild(deleteButton);
+        imageContainer.appendChild(imgURLInput);
+
+        // Ajoutez le conteneur à un conteneur de galerie sur votre page
+        galleryContainer.appendChild(imageContainer);
+    }
+});

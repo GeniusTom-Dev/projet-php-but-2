@@ -137,6 +137,34 @@ class DbComments
     }
 
     /**
+     * Retrieve a specific comment from the database by its ID.
+     *
+     * @param int $comment_id
+     * @return GReturn
+     */
+    public function selectByID(int $comment_id): GReturn
+    {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE COMMENT_ID = $comment_id";
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_assoc($result));
+    }
+
+    /**
+     * Retrieve all comments from the database by their post id.
+     *
+     * @param int $comment_id
+     * @return array
+     */
+    public function getPostComments(int $post_id): array
+    {
+        $request = "SELECT * FROM $this->dbName";
+        $request .= " WHERE POST_ID = $post_id";
+        $result = $this->conn->query($request);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    /**
      * Add a new comment to the database.
      *
      * @param int $post_id
