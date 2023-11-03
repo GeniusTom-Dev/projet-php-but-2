@@ -3,7 +3,7 @@
 function getTopicsFilters($isAdmin): void
 {
     if ($isAdmin) { ?>
-        <div class="flex flex-lign items-center mb-2">
+        <div class="flex flex-row items-center mb-2">
             <label for="searchId" class="mr-2">Id&nbsp;=</label>
             <input type="number" id="searchId" name="searchId" min="1" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff]"
                 <?php if (isset($_GET['searchId'])) echo 'value=', $_GET['searchId']; ?>>
@@ -41,10 +41,8 @@ function getPostsFilters($isAdmin): void
             <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
 
     <?php } else { ?>
-        <label for="searchUser" class="mr-2">Auteur&nbsp;= </label>
         <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
-        <label for="searchTopic" class="mr-2">Entrée&nbsp;une&nbsp;catégorie&nbsp;= </label>
         <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" class="w-20 h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
 
