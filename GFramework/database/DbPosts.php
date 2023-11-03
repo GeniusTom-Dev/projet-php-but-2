@@ -48,11 +48,12 @@ class DbPosts
     public function select_SQLResult(?int $topicId=null, ?string $contentOrTitleLike=null, ?int $user_id=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
-        // Filtering results
-        $request .= " " . $this->getWhereInstruction($contentOrTitleLike, $user_id, $dateMin, $dateMax);
-        // Sorting result and limiting size for pagination
+        if ($topicId != null) {
+            $request .= " INNER JOIN belongs_to b ON " . $this->dbName . ".POST_ID=b.POST_ID";
+        }
+        $request .= " " . $this->getWhereInstruction($topicId, $contentOrTitleLike, $user_id, $dateMin, $dateMax);
         $request .= " " . $this->getSortAndLimit($limit, $page, $sort);
-
+        var_dump($request);
         $result = $this->conn->query($request);
         return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
@@ -66,8 +67,11 @@ class DbPosts
      * @param string|null $dateMax (optional)
      * @return string
      */
-    public function getWhereInstruction(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): string{
+    public function getWhereInstruction(?int $topicId, ?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
+        if (!is_null($topicId)) {
+            $conditions[] = "b.TOPIC_ID=$topicId";
+        }
         if (!is_null($contentOrTitleLike)) {
             $conditions[] = "(TITLE LIKE '%$contentOrTitleLike%' OR CONTENT LIKE '%$contentOrTitleLike%')";
         }

@@ -34,6 +34,13 @@ class DbPostsTest extends TestCase { // Completed
         $this->assertEquals("...", $result[2]["TITLE"]);
     }
 
+    public function test_select_by_topic() {
+        $result = $this->getConnection()->select_SQLResult(2)->getContent();
+        $this->assertCount(2, $result);
+        $this->assertEquals(1, $result[0]["POST_ID"]);
+        $this->assertEquals(3, $result[1]["POST_ID"]);
+    }
+
     public function test_select_by_like_title_or_content() {
         $result = $this->getConnection()->select_SQLResult(null, "mot")->getContent();
         $this->assertCount(2, $result);
