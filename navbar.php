@@ -1,12 +1,13 @@
 <?php
     require 'utils.inc.php'
 ?>
+<div id="mySidenav" class="sidenav">
+  <a id="closeBtn" href="#" class="close">&times;</a>
 <!--header -->
 <header class ="navbarheader">
-
 <?php
 /* tab : tableau avec les différente rubrique de la navbar*/
-$tab = ["accueil","story","publication","profil","déconnexion"];
+$tab = ["accueil","publication","profil","déconnexion"];
 /*lien : tableau avec les liens vers les différentes pages*/
 $lien = ["http://localhost/Projet/projet-php-but-2/index.php", "http://localhost/TpWeb/Tp2.php","http://localhost/TpWeb/calcul.php","http://localhost/Projet/projet-php-but-2/pageProfil.php","http://localhost/TpWeb/data-processing.php"];
 /*name : Le nom de l'utilisateur*/ 
@@ -73,33 +74,13 @@ $Follow = "320";
         </div>
   </nav>
 </header>
-<script>
-      // function to set a given theme/color-scheme
-      function setTheme(themeName) {
-            localStorage.setItem('theme', themeName);
-            document.documentElement.className = themeName;
-        }
+</div>
 
-        // function to toggle between light and dark theme
-        function toggleTheme() {
-            if (localStorage.getItem('theme') === 'theme-dark') {
-                setTheme('theme-light');
-            } else {
-                setTheme('theme-dark');
-            }
-        }
-
-        // Immediately invoked function to set the theme on initial load
-        (function () {
-            if (localStorage.getItem('theme') === 'theme-dark') {
-                setTheme('theme-dark');
-            } else {
-                setTheme('theme-light');
-            }
-        })();
-</script>
-
-
-
-
-
+<a href="#" id="openBtn">
+  <span class="burger-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+</a>
+<script src="/Projet/projet-php-but-2/html/styles/theme.js"></script>

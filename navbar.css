@@ -1,26 +1,69 @@
-.navbarheader
-{
-  position:fixed;
+/* Sidenav menu */
+.test{
+  background-color: var();
+}
+.sidenav {
+  height: 98%;
   width: 20%;
-  top: 0;
-  left: 0;
-  height: 99%;
+  position: fixed;
+  z-index: 1;
+  top: 1%;
+  left: -300px;
+  padding-top: 60px;
+  text-align: center;
+  align-items: center;
+  transition: left 0.5s ease;
   border-radius: 20px;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.5);
   background: var(--color-secondary);
- 
-}
-nav
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    align-items: center;
-    
 }
 
+.sidenav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Sidenav menu links */
+.sidenav a {
+  padding: 5%;
+  text-decoration: none;
+  font-size: 24px;
+  color: var(--font-color);
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav .close:hover {
+  color: var(--color-primary);
+}
+
+/* Active class */
+.sidenav.active {
+  left: 0;
+}
+
+/* Close btn */
+.sidenav .close {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+}
+
+.burger-icon span {
+  display: block;
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 6px;
+
+}
+.burger-icon{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
 /*image profil*/
 .container {
   position: relative;
@@ -30,8 +73,9 @@ nav
 
 .image {
   display: block;
-  width: 100%;
+  width: 50%;
   border-radius: 50%;
+  margin: 0 auto; /* Centrer horizontalement */
 }
 
 .overlay {
@@ -41,10 +85,11 @@ nav
   right: 0;
   background: var(--color-secondary);
   overflow: hidden;
-  width: 100%;
+  width: 50%;
   height: 0;
   transition: .5s ease;
   opacity: 70%;
+  margin: 0 auto; /* Centrer horizontalement */
 }
 
 .container:hover .overlay {
@@ -67,25 +112,11 @@ nav
   color :var(--font-color);
 }
 /*Navbar*/
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    
-  }
   
   li a, .dropbtn {
-    display: inline-block;
-    color: var(--font-color);
-    padding: 5% 0px;
     margin: 5% auto;
     border: 1px solid;
-    text-decoration: none;
-    
-    width: 99%;
-    font-size: 25px;
-    
+    width: 60%;
   }
 
   li a:hover, .dropdown:hover .dropbtn {
@@ -119,6 +150,7 @@ nav
   --color-secondary: black;  
   --color-accent: #fd6f53;
   --font-color:#ffffff;
+  
 }
 .theme-dark {
   --color-primary:white ;
