@@ -78,6 +78,7 @@ class controlGeneratePosts
                             <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
+                    <p><?= $this->dbLikes->countPostLike($postID) ?></p>
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
