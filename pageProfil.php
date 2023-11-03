@@ -1,4 +1,6 @@
 <?php
+require_once("/Projet/projet-php-but-2/GFramework/database/DbUsers.php");
+require_once("/Projet/projet-php-but-2/GFramework/database/DbFollows.php");
 function start_page($title): void
 {
 ?><!DOCTYPE html>
@@ -25,11 +27,21 @@ function start_page($title): void
         <?php
         }
         
-        $name = "Zoro_13";
-        /*Follow représente le nombre de profil qui suivent l'utilisateur(lien avec la BD) */
-        $Follow = 320;
-        $abonnement = 800;
-        $dernierConnenxion = "02/11/2023";
+        // Créer une instance de la classe DbUsers
+$dbUsers = new DbUsers($dbConn);
+
+// Utiliser la méthode appropriée pour récupérer les données de l'utilisateur, par exemple en utilisant un identifiant d'utilisateur (remplacez '1' par l'identifiant approprié)
+$userData = $dbUsers->selectById(int $id) ->getContent()
+
+// Assurez-vous que les données ont été récupérées avec succès
+if ($userData) {
+    // Utilisez les données de l'utilisateur pour remplacer les valeurs statiques dans votre code HTML
+    $name = $userData['USERNAME'];
+    $Follow = $userData['follows'];
+    $abonnement = 0;
+    $dernierConnenxion = $userData['USER_LAST_CONNECTION'];
+    $userBio = $userData['USER_BIO'];
+}
 
 ?>
 <div class="flex">
