@@ -45,7 +45,7 @@ class DbPosts
      * @param string|null $sort (optional)
      * @return GReturn
      */
-    public function select_SQLResult(?string $contentOrTitleLike, ?int $user_id, ?string $dateMin, ?string $dateMax, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?int $topicId=null, ?string $contentOrTitleLike=null, ?int $user_id=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
         // Filtering results

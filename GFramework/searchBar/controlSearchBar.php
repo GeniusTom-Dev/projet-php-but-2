@@ -42,7 +42,7 @@ function getPostsResults($dbPosts)
         $user_id = (empty($_GET['searchUserId']) === false) ? $_GET['searchUserId'] : null;
         $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
         $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
-        $results = $dbPosts->select_SQLResult($contentOrTitleLike, $user_id, $dateMin, $dateMax)->getContent();
+        $results = $dbPosts->select_SQLResult(null, $contentOrTitleLike, $user_id, $dateMin, $dateMax)->getContent();
     }
     return $results;
 }
