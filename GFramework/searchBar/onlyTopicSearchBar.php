@@ -80,7 +80,6 @@ $dbTopics = new DbTopics($dbConn);
             topicsList.style.display = 'none';
         }
     });
-    console.log("ok")
 </script>
 </body>
 </html>
