@@ -1,6 +1,18 @@
 <?php
-require_once("/Projet/projet-php-but-2/GFramework/database/DbUsers.php");
-require_once("/Projet/projet-php-but-2/GFramework/database/DbFollows.php");
+require_once 'initValues.php';
+
+$userID = 1; // L'user dont on regarde la page de profil        // Pour Tester -> a remplacer plus tard par $_SESSION jsp quoi
+$userIDConnected = 1; // L'user qui est connecté
+
+$userData = $dbUsers->selectById($userID) ->getContent();
+
+$name = $userData['USERNAME'];
+$nbFollower = $dbFollows->countFollower($userID);
+$nbFollowed = $dbFollows->countFollowed($userID);
+$dernierConnexion = $userData['USER_LAST_CONNECTION'];
+$userBio = $userData['USER_BIO'];
+
+
 function start_page($title): void
 {
 ?><!DOCTYPE html>
@@ -8,41 +20,18 @@ function start_page($title): void
     <head>
         <title><?php echo $title; ?></title>
         <script src="https://cdn.tailwindcss.com"></script>
-        
-        
     </head>
     <body >
         <?php
         }
-        ?>
-        <?php
-        start_page('Projet');
-        ?>
 
-        <?php
+        start_page('Projet');
         function end_page($title): void
         {
         ?>
             <hr><br><strong><?php echo $title; ?></strong><br><hr>
         <?php
         }
-        
-        // Créer une instance de la classe DbUsers
-$dbUsers = new DbUsers($dbConn);
-
-// Utiliser la méthode appropriée pour récupérer les données de l'utilisateur, par exemple en utilisant un identifiant d'utilisateur (remplacez '1' par l'identifiant approprié)
-$userData = $dbUsers->selectById(int $id) ->getContent()
-
-// Assurez-vous que les données ont été récupérées avec succès
-if ($userData) {
-    // Utilisez les données de l'utilisateur pour remplacer les valeurs statiques dans votre code HTML
-    $name = $userData['USERNAME'];
-    $Follow = $userData['follows'];
-    $abonnement = 0;
-    $dernierConnenxion = $userData['USER_LAST_CONNECTION'];
-    $userBio = $userData['USER_BIO'];
-}
-
 ?>
 <div class="flex">
     <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
@@ -60,9 +49,9 @@ if ($userData) {
                 <!-- Informations de profil -->
                 <div class="pl-64">
                     <p class="text-xl font-bold"><?php echo $name; ?></p>
-                    <p class="mb-2"><?php echo "Follow ". $Follow ;?></p>
-                    <p class="mb-2"><?php echo "Abonnement ".$abonnement; ?></p>
-                    <p class="mb-2"><?php echo "Dernière connexion : ". $dernierConnenxion; ?></p>
+                    <p class="mb-2"><?php echo "Follow ". $nbFollower ;?></p>
+                    <p class="mb-2"><?php echo "Abonnement ".$nbFollowed; ?></p>
+                    <p class="mb-2"><?php echo "Dernière connexion : ". $dernierConnexion; ?></p>
                     <!-- Section de la biographie et du formulaire de modification -->
 <div class="bio" id="bioContainer">
     <h1>Ma Biographie :</h1>
@@ -80,7 +69,6 @@ if ($userData) {
 
 <!-- Bouton pour modifier la biographie -->
 <button id="editButton">Modifier Ma Biographie</button>
-
             </header>
             <!-- Section principale de l'article -->
             <main class="border-2 border-[#b2a5ff]-500 p-0.5 px-14 flex items-center justify-between flex-col">
