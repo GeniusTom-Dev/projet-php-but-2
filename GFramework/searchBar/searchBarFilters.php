@@ -37,34 +37,73 @@ function getUsersFilters($isAdmin): void
 function getPostsFilters($isAdmin): void
 {
     if ($isAdmin) { ?>
-        <label for="searchId">Id = </label>
-        <input type="number" id="searchId" name="searchId" min="1" style="width: 50px" <?php if (isset($_GET['searchId'])) echo 'value=', $_GET['searchId']; ?>>
-        <label for="searchUserId">User Id = </label>
-        <input type="number" id="searchUserId" name="searchUserId" min="1" style="width: 50px" <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
+        <div class="flex flex-lign items-center mb-2">
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchId" class="mr-2">Id&nbsp;= </label>
+                <input type="number" id="searchId" name="searchId" min="1" class="mr-2"
+                    <?php if (isset($_GET['searchId'])) echo 'value=', $_GET['searchId']; ?>>
+            </div>
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchUserId" class="mr-2">User&nbsp;Id&nbsp;= </label>
+                <input type="number" id="searchUserId" name="searchUserId" min="1" class="mr-2"
+                    <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
+            </div>
+        </div>
     <?php } else { ?>
-        <label for="searchUser">Auteur = </label>
-        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
-        <label for="searchTopic">Entrée une catégorie = </label>
-        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
+        <div class="flex flex-lign items-center mb-2">
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchUser" class="mr-2">Auteur&nbsp;= </label>
+                <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="mr-2"
+                    <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
+            </div>
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchTopic" class="mr-2">Entrée&nbsp;une&nbsp;catégorie&nbsp;= </label>
+                <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" class="mr-2"
+                    <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
+            </div>
+        </div>
     <?php } ?>
-    <label for="searchDateMin">De : </label>
-    <input type="date" id="searchDateMin" name="searchDateMin" <?php if (isset($_GET['searchDateMin'])) echo 'value=', $_GET['searchDateMin']; ?>>
-    <label for="searchDateMax">A : </label>
-    <input type="date" id="searchDateMax" name="searchDateMax" <?php if (isset($_GET['searchDateMax'])) echo 'value=', $_GET['searchDateMax']; ?>>
+    <div class="flex flex-lign items-center mb-2">
+        <div class="flex flex-lign items-center mb-2">
+            <label for="searchDateMin">De&nbsp;: </label>
+            <input type="date" id="searchDateMin" name="searchDateMin" <?php if (isset($_GET['searchDateMin'])) echo 'value=', $_GET['searchDateMin']; ?>>
+        </div>
+        <div class="flex flex-lign items-center mb-2">
+            <label for="searchDateMax">A&nbsp;: </label>
+            <input type="date" id="searchDateMax" name="searchDateMax" <?php if (isset($_GET['searchDateMax'])) echo 'value=', $_GET['searchDateMax']; ?>>
+        </div>
+    </div>
 <?php }
 
 function getCommentsFilters($isAdmin): void
 {
     if ($isAdmin) { ?>
-        <label for="searchPostId">Post Id = </label>
-        <input type="number" id="searchPostId" name="searchPostId" min="1" style="width: 50px" <?php if (isset($_GET['searchPostId'])) echo 'value=', $_GET['searchPostId']; ?>>
-        <label for="searchUserId">User Id = </label>
-        <input type="number" id="searchUserId" name="searchUserId" min="1" style="width: 50px" <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
+        <div class="flex flex-lign items-center mb-2">
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchPostId" class="mr-2">Post&nbsp;Id&nbsp;= </label>
+                <input type="number" id="searchPostId" name="searchPostId" min="1" class="mr-2"
+                    <?php if (isset($_GET['searchPostId'])) echo 'value=', $_GET['searchPostId']; ?>>
+            </div>
+            <div class="flex flex-lign items-center mb-2">
+                <label for="searchUserId" class="mr-2">User&nbsp;Id&nbsp;= </label>
+                <input type="number" id="searchUserId" name="searchUserId" min="1" class="mr-2"
+                    <?php if (isset($_GET['searchUserId'])) echo 'value=', $_GET['searchUserId']; ?>>
+            </div>
+        </div>
     <?php } else { ?>
-        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
+        <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="mr-2"
+            <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
     <?php } ?>
-    <label for="searchDateMin">De : </label>
-    <input type="date" id="searchDateMin" name="searchDateMin" <?php if (isset($_GET['searchDateMin'])) echo 'value=', $_GET['searchDateMin']; ?>>
-    <label for="searchDateMax">A : </label>
-    <input type="date" id="searchDateMax" name="searchDateMax" <?php if (isset($_GET['searchDateMax'])) echo 'value=', $_GET['searchDateMax']; ?>>
+    <div class="flex flex-lign items-center mb-2">
+        <div class="flex flex-lign items-center mb-2">
+            <label for="searchDateMin" class="mr-2">De&nbsp;: </label>
+            <input type="date" id="searchDateMin" name="searchDateMin" class="mr-2"
+                <?php if (isset($_GET['searchDateMin'])) echo 'value=', $_GET['searchDateMin']; ?>>
+        </div>
+        <div class="flex flex-lign items-center mb-2">
+            <label for="searchDateMax" class="mr-2">A&nbsp;: </label>
+            <input type="date" id="searchDateMax" name="searchDateMax" class="mr-2"
+                <?php if (isset($_GET['searchDateMax'])) echo 'value=', $_GET['searchDateMax']; ?>>
+        </div>
+    </div>
 <?php }
