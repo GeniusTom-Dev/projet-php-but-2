@@ -28,7 +28,7 @@ echo $controller->getFullPostHTML($_GET['detailsPost']);
 
 ?>
 
-<script src="/html/script/scriptShowPostFull.js"></script>
+<script src="/html/script/scriptShowPost.js"></script>
 </body>
 </html>
 
