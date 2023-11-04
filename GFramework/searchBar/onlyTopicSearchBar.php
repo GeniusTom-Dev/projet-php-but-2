@@ -1,15 +1,15 @@
-<?php require_once '../autoloader.php';
+<?php require_once __DIR__ .'/../autoloader.php';
 $db = new Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd');
 $dbConn = $db->getConnection()->getContent();
 $dbTopics = new DbTopics($dbConn);
 
 ?>
 
-<input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off"
+<input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off" class="categoryInput border border-[#b2a5ff] rounded-md"
     <?php if (isset($_GET['searchInputTopic'])) echo ' value=', $_GET['searchInputTopic']; ?>>
-<ul id='topicsList'>
+<ul id='topicsList' class="hidden absolute border border-gray-300 max-h-24 overflow-y-auto w-28 p-0 list-none mt-2 bg-white">
     <?php
-    foreach ($dbTopics->select_SQLResult()->getContent() as &$topic) { ?>
+    foreach ($dbTopics->select_SQLResult()->getContent() as $topic) { ?>
         <li> <?php echo $topic['NAME'] ?></li>
     <?php } ?>
 </ul>
@@ -31,7 +31,6 @@ $dbTopics = new DbTopics($dbConn);
 
             searchInput.value = optionItems[i].textContent.trim();
             topicsList.style.display = 'none';
-            console.log("clicker")
         });
     }
 

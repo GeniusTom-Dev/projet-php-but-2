@@ -14,7 +14,7 @@ $controller->checkCreatePost();
     <title>Création de Post</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="/html/styles/index.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-200">
 
