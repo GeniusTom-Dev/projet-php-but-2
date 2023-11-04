@@ -15,30 +15,16 @@ else {
     checkSearch();
     checkPage();
 
-    // Système de conservation d'élément de GET précédents qui n'ont pas été envoyés via la nouvelle requête mais sont présents et doivent être mentionnés.
-//    if(http_build_query($_GET) == ''){
-//        $url = '/projet-php-but-2/View/homeAdmin.php';
-//        if($_SERVER['REQUEST_URI'] != $url){
-//            header('Location: ' . $url);
-////            die();
-//        }
-//    }
-//    else {
-//        $url = '/projet-php-but-2/View/homeAdmin.php?' . http_build_query($_GET);
-//        if($_SERVER['REQUEST_URI'] != $url){
-//            header('Location: ' . $url);
-////            die();
-//        }
-//    }
+    require_once '../GFramework/utilities/utils.inc.php';
+    start_page("Gestion Admin");
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestion Admin</title>
-</head>
-<body>
-    <header></header>
+
+    <header class="flex flex-lign items-center mb-2 bg-purple-800 p-2">
+        <div class="w-100 h-100">
+            <img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+        </div>
+    </header>
+
     <?php require 'admin_views/nav-admin.php';?>
 
     <section>
