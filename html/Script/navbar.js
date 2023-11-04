@@ -8,19 +8,17 @@ const menuContainer = document.getElementById('menu-container');
 const menuIcon = document.getElementById('menu-icon');
 const closeIcon = document.getElementById('close-icon');
 
-let connexion = document.querySelector("#connexion");
-// Variable pour suivre l'état actuel de l'abonnement
-let isLogIn = false;
-
   // Ajouter un écouteur d'événements pour le clic sur "Catégorie"
   categoryBtn.addEventListener('click', () => {
-    categoryDropdown.classList.toggle('hidden');
+    // categoryDropdown.classList.toggle('hidden');
+    categoryDropdown.style.display = "block";
   });
 
   // Ajouter un écouteur d'événements pour masquer le menu déroulant lorsqu'on clique ailleurs
   document.addEventListener('click', (event) => {
     if (event.target !== categoryBtn) {
-      categoryDropdown.classList.add('hidden');
+      // categoryDropdown.classList.add('hidden');
+      categoryDropdown.style.display = "none";
     }
   });
 
@@ -69,23 +67,11 @@ menuIcon.addEventListener('click', () => {
     menuIcon.classList.add('hidden'); // Masque l'icône burger
   });
   
-  // Ajouter un écouteur d'événements pour le clic sur l'icône de fermeture
-  closeIcon.addEventListener('click', () => {
-    menuContainer.classList.add('hidden'); // Masque le menu
-    closeIcon.classList.add('hidden'); // Masque l'icône de fermeture
-    menuIcon.classList.remove('hidden'); // Affiche l'icône burger
-  });
-  //S'abonner ou se désabonner
-  connexion.addEventListener("click", () => {
-  if (!isLogIn) {
-      // Si l'utilisateur n'est pas encore abonné
-      connexion.textContent = "Connexion"; // Change le texte du bouton
-  } else {
-      // Si l'utilisateur est déjà abonné et clique pour se désabonner
-      connexion.textContent = "Déconnexion"; // Rétablit le texte d'origine
-  }
-
-  // Inverse l'état de l'abonnement
-  isLogIn= !isLogIn;
+// Ajouter un écouteur d'événements pour le clic sur l'icône de fermeture
+closeIcon.addEventListener('click', () => {
+  menuContainer.classList.add('hidden'); // Masque le menu
+  closeIcon.classList.add('hidden'); // Masque l'icône de fermeture
+  menuIcon.classList.remove('hidden'); // Affiche l'icône burger
 });
+
  

@@ -7,7 +7,7 @@ if (isset($_POST["deconnect"])){
 }
 
 ?>
-  <nav class="flex">
+  <nav class="flex left-0">
   
     <!-- Contenu principal de la page -->
     <?php
