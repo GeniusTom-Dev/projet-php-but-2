@@ -8,6 +8,7 @@ require_once '../GFramework/autoloader.php';
 
 $controllerProfile = new controlUserProfile($dbConn);
 $controllerProfile->checkNewBio();
+$controllerProfile->checkNewProfilePic();
 $controllerProfile->postController->checkAllShowActions();
 
 $controllerCreatePost = new controlCreatePosts($dbConn);

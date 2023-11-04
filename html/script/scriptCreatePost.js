@@ -11,44 +11,55 @@ let cancelDeleteButton = postCreator.querySelector(".cancelDeleteButton");
 // All topics related elements
 const categoryInput = postCreator.querySelector(".categoryInput");
 const addCategoryButton = postCreator.querySelector(".add-category-button");
-const categoryList = postCreator.querySelector(".category-list");
+//const categoryList = postCreator.querySelector(".category-list");
 
 // Article gallery
 const galleryContainer = postCreator.querySelector(".galleryContainer");
+const imageInput = document.querySelector(".fileInputPP");
 
 
 // Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
 addCategoryButton.addEventListener("click", () => {
     // Récupérez la valeur de la zone de texte
     const newCategory = categoryInput.value.trim();
+    const allTopics = document.getElementById("topicsList");
 
-    if (newCategory !== "") {
-        // Créez un élément li pour la nouvelle catégorie
-        const categoryItem = document.createElement("li");
-        const categoryItemInput = document.createElement("input");
-        categoryItem.className = "bg-purple-500 text-white rounded-md px-2 py-1 m-2";
-        categoryItem.textContent = newCategory;
-        // Hidden input
-        categoryItemInput.type = "hidden";
-        categoryItemInput.name = "topics[]";
-        categoryItemInput.value = newCategory;
-        categoryItemInput.className = "topicItemInput";
+    if (newCategory !== "" && document.getElementById("categoryList").children.length < 3) {
+        const optionItems = allTopics.getElementsByTagName('li');
+        for (let i = 0; i < optionItems.length; i++) {
+            const option = optionItems[i].textContent.toLowerCase();
+            if (option.includes(newCategory.toLowerCase())) {
+                // Créez un élément p pour la nouvelle catégorie
+                const categoryItem = document.createElement("p");
+                const categoryItemInput = document.createElement("input");
+                const categoryList = document.getElementById("categoryList");
+                categoryItem.className = "bg-purple-500 text-white rounded-md px-2 py-1 m-1 justify-start text-left inline-block";
+                categoryItem.textContent = newCategory;
 
-        // Créez un bouton pour supprimer la catégorie
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Supprimer";
-        deleteButton.className = "bg-red-500 text-white rounded-md px-2 py-1 m-2";
-        deleteButton.addEventListener("click", () => {
-            categoryItem.remove(); // Supprime la catégorie lorsque le bouton "Supprimer" est cliqué
-        });
+                // Hidden input
+                categoryItemInput.type = "hidden";
+                categoryItemInput.name = "topics[]";
+                categoryItemInput.value = newCategory;
+                categoryItemInput.className = "topicItemInput";
 
-        // Ajoutez la catégorie et le bouton de suppression à la liste
-        categoryItem.appendChild(deleteButton);
-        categoryItem.appendChild(categoryItemInput);
-        categoryList.appendChild(categoryItem);
+                // Créez un bouton pour supprimer la catégorie
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = " X ";
+                deleteButton.className = "bg-red-500 text-white rounded-md px-1 m-1";
+                deleteButton.addEventListener("click", () => {
+                    categoryItem.remove(); // Supprime la catégorie lorsque le bouton "Supprimer" est cliqué
+                });
 
-        // Effacez le champ de texte
-        categoryInput.value = "";
+                // Ajoutez la catégorie et le bouton de suppression à la liste
+                categoryItem.appendChild(deleteButton);
+                categoryItem.appendChild(categoryItemInput);
+                categoryList.appendChild(categoryItem);
+
+                // Effacez le champ de texte
+                categoryInput.value = "";
+                return;
+            }
+        }
     }
 });
 
@@ -114,3 +125,4 @@ fileInput.addEventListener("change", (event) => {
         galleryContainer.appendChild(imageContainer);
     }
 });
+
