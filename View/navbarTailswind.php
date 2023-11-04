@@ -114,5 +114,5 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/projet-php-but-2/html/script/navbar.js"></script>
+  <script src="/html/script/navbar.js"></script>
 
