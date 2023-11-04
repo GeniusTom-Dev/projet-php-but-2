@@ -43,9 +43,7 @@ function getPostsFilters($isAdmin): void
     <?php } else { ?>
         <input type="text" id="searchUser" name="searchUser" placeholder="Rechercher un utilisateur" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
             <?php if (isset($_GET['searchUser'])) echo 'value=', $_GET['searchUser']; ?>>
-        <input type="text" id="searchTopic" name="searchTopic" placeholder="Rechercher une catégorie" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
-            <?php if (isset($_GET['searchTopic'])) echo 'value=', $_GET['searchTopic']; ?>>
-
+        <?php include "onlyTopicSearchBar.php"?>
     <?php } ?>
         <label for="searchDateMin" class="mr-2">De&nbsp;: </label>
         <input type="date" id="searchDateMin" name="searchDateMin" class="h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
