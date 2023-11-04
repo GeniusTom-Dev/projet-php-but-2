@@ -43,7 +43,7 @@ class controlGenerateFullPosts
                     </div>
                 </form>
                 <form method="post">
-                    <?php if (isset($_SESSION['suid'])) { if ($this->dbFollows->doesUserFollowAnotherUser($_SESSION['suid'], $postData['USER_ID'])){ ?>
+                    <?php if (isset($_SESSION['suid']) && $postData['USER_ID'] != $_SESSION['suid']) { if ($this->dbFollows->doesUserFollowAnotherUser($_SESSION['suid'], $postData['USER_ID'])){ ?>
                         <button class="suscribe-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" name="unsubscribe" value="<?= $postData['USER_ID'] ?>">Se désabonner</button>
                     <?php } else {?>
                         <button class="suscribe-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" name="subscribe" value="<?= $postData['USER_ID'] ?>">S'abonner</button>
