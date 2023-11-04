@@ -29,13 +29,12 @@ $postController->checkAllShowActions();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Home Page");
 
-require_once "navbarTailswind.php";
 ?>
 
 <header>
 
 </header>
-
+<div class=" h-screen w-64 fixed left-0"><?php require_once "navbarTailswind.php";?></div>
 <section class="h-screen w-full center">
     <?php // Bouton page précédente
     if ($_GET['page'] > 1){ ?>
