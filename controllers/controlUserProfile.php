@@ -29,7 +29,13 @@ class controlUserProfile
 
             <!-- Image de profil utilisateur -->
             <div class="profile-picture" id="profilePicture">
-                <img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="Photo de profil" id="profileImage"  class="article-image absolute top-0 left-8 w-40 h-40 rounded-full transition-transform hover:scale-125">
+                <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
+                    echo '/projet-php-but-2/html/images/profile-removebg-preview.png';
+                }
+                else{
+                    echo $userData['USER_PROFIL_PIC'];
+                }
+                ?>" alt="Photo de profil" id="profileImage"  class="article-image absolute top-0 left-8 w-40 h-40 rounded-full transition-transform hover:scale-125">
             </div>
             <!-- Formulaire pour sélectionner un nouveau fichier de photo de profil -->
             <?php if ($owns) : ?>
@@ -81,7 +87,6 @@ class controlUserProfile
 
     public function checkNewProfilePic(): void{
         if (isset($_POST['userNewBio'])){
-//            echo 'new Bio --------------';
             if (!isset($_POST['newBio'])){
                 $this->dbUsers->updateBio($_POST['userNewBio'], null);
             }
