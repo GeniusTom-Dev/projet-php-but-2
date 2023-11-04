@@ -55,6 +55,13 @@ class controlUser
         return $userHeader;
     }
 
-
+    public function checkSubscribe(): void{
+        if (isset($_POST['subscribe'])){
+            $this->dbFollows->addFollow($_SESSION['suid'], $_POST['subscribe']);
+        }
+        else if (isset($_POST['unsubscribe'])){
+            $this->dbFollows->removeFollow($_SESSION['suid'], $_POST['unsubscribe']);
+        }
+    }
 
 }
