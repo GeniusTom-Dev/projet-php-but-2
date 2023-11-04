@@ -1,5 +1,5 @@
 <?php
-    require 'utils.inc.php'
+    require_once '../GFramework/utilities/utils.inc.php'
 ?>
 <div id="mySidenav" class="sidenav">
   <a id="closeBtn" href="#" class="close">&times;</a>

@@ -1,29 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body id="theme-container" style="background-color: white;">
-  <div class="flex">
+<?php
+require "../GFramework/autoloader.php";
+
+if (isset($_POST["deconnect"])){
+    unset($_SESSION['suid']);
+    unset($_SESSION['isAdmin']);
+}
+
+?>
+  <nav class="flex">
   
     <!-- Contenu principal de la page -->
     <?php
-    // Tableau des différentes rubriques de la navbar
-    $tab = ["Accueil", "Publication", "Profil"];
-    
-    // Tableau des liens vers les différentes pages
-    $lien = [
-      "http://localhost/Projet/projet-php-but-2/index.php",
-      "http://localhost/TpWeb/Tp2.php",
-      "http://localhost/TpWeb/calcul.php",
-    ];
-    
-    // Nom de l'utilisateur
-    $name = "Zoro_13";
-    
-    // Nombre de profils qui suivent l'utilisateur (lien avec la BD)
-    $Follow = "320";
+    if (isset($_SESSION['suid'])){
+        $userData = $dbUsers->selectById($_SESSION['suid'])->getContent();
+        $followers = $dbFollows->countFollower($_SESSION['suid']);
+    }
     ?>
     
     <div id="menu-icon" class="text-6xl cursor-pointer ml-6" style="color: #b2a5ff">
@@ -37,47 +28,77 @@
           &#10006; <!-- Caractère Unicode de l'icône de fermeture (X) -->
         </div>
         <div class="relative w-1/2 m-auto">
-          <img src="/zoro.png" alt="Avatar" class="block w-full rounded-full">
-          <div class="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-75 text-white text-center opacity-0 hover:opacity-100 transition-opacity">
-            <div class="flex items-center justify-center h-full">
-              <div class="text-2xl"><?php echo $name; ?></div>
+            <?php if(isset($_SESSION['suid'])) { ?>
+            <a href="pageProfil.php?userProfile=<?= $_SESSION['suid'] ?>">
+                <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
+                    echo '/projet-php-but-2/html/images/profile-removebg-preview.png'; // Default Profile Pic
+                }
+                else{
+                    echo $userData['USER_PROFIL_PIC']; // User specific Profile Pic
+                }?>" alt="Avatar" class="block w-100 h-100 rounded-full" id="ConnectedUserPic" width="200px" height="200px">
+                <div class="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-75 text-white text-center opacity-0 hover:opacity-100 transition-opacity">
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-2xl"><?= $userData['USERNAME'] ?></div>
+                    </div>
+                </div>
+            </a>
+            <?php } else { ?>
+            <img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="Avatar" class="block w-full rounded-full">
+            <div class="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-75 text-white text-center opacity-0 hover:opacity-100 transition-opacity">
+                <div class="flex items-center justify-center h-full">
+                    <div class="text-2xl">Invité</div>
+                </div>
             </div>
-          </div>
+            <?php } ?>
+
+
         </div>
         <!-- Affichage du nom d'utilisateur et du nombre d'abonnés -->
         <div class="info p-4 text-white text-center">
-          <?php echo $name; ?><br>
-          <?php echo  "Followers " . $Follow; ?>
+          <?php if(isset($_SESSION['suid'])) {
+              echo $userData['USERNAME'];
+              echo '<br>' . 'Followers ' . $followers;
+          }
+          else {
+              echo 'Invité';
+          } ?>
         </div>
         <!-- La liste du menu affiche les différentes sections -->
         <ul class="menu p-4 space-y-4 text-white text-center">
           <!-- Affiche si l'utilisateur est un admin -->
-        
-          <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
-                <a class="block h-full w-full" href="#" >Admin</a>
-          </li>
-         
-          <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
-          <?php for ($i = 0; $i < count($tab); ++$i) : ?>
-            <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 transition-bg transition-border">
-              <a class="block h-full w-full" href="<?php echo $lien[$i]; ?>"><?php echo $tab[$i]; ?></a>
+            <?php if (isset($_SESSION['suid']) && $_SESSION['isAdmin']){ ?>
+                <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
+                    <a class="block h-full w-full" href="homeAdmin.php">Admin</a>
+                </li>
+            <?php } ?>
+            <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
+                <a class="block h-full w-full" href="homepage.php">Accueil</a>
             </li>
-            <!-- Vérifiez si la section actuelle est 'Catégorie' pour afficher un menu déroulant -->
-            <?php if ($i === 1) : ?>
-              <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
-                <a href="#" class="dropbtn block h-full w-full" id="categoryBtn">Catégorie</a>
+            <?php if (isset($_SESSION['suid'])){ ?>
+                <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
+                    <a class="block h-full w-full" href="pageProfil.php?userProfile=<?= $_SESSION['suid'] ?>">Profil</a>
+                </li>
+                <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
+                    <form method="post">
+                        <button class="block h-full w-full" name="deconnect" value="1">Déconnexion</button>
+                    </form>
+                </li>
+            <?php } else { ?>
+                <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
+                    <a class="block h-full w-full" href="#" >Connexion</a> <!--href="login.php">-->
+                </li>
+            <?php } ?>
+          <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
+            <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 transition-bg transition-border" >
+                <a href="#" class="dropbtn block h-full w-full" id="categoryBtn">Catégories</a>
                 <div class="dropdown-content border border-gray-200 hidden absolute z-64 mt-2 space-y-4 p-6 flex flex-col" style="background-color: #b2a5ff;" id="categoryDropdown">
-                  <!-- Liens vers différentes catégories -->
-                  <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="http://localhost/dashboard">Link 1</a>
-                  <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="http://localhost/dashboard">Link 2</a>
-                  <a class="border border-gray-200 rounded-xl hover.bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="http://localhost/dashboard">Link 3</a>
+                  <?php
+                    foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic){ ?>
+                        <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="topicPage.php?name=<?= $topic['NAME'] ?>"><?= $topic['NAME'] ?></a>
+                    <?php }
+                  ?>
                 </div>
-              </li>
-            <?php endif; ?>
-          <?php endfor; ?>
-          <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
-                <a class="block h-full w-full" id="connexion" href="#" >Déconnexion</a>
-          </li>
+            </li>
         </ul>
         <!-- Bouton de changement de thème -->
         <div class="contenu text-center mt-4">
@@ -88,8 +109,7 @@
 
       </div>
     </div>
-  </div>
+  </nav>
 
-  <script src="/Projet/projet-php-but-2/navbar.js"></script>
-</body>
-</html>
+  <script src="/projet-php-but-2/html/script/navbar.js"></script>
+

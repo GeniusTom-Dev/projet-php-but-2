@@ -1,7 +1,7 @@
 <?php
 require_once '../GFramework/autoloader.php';
 
-$_GET['userProfile'] = 1;
+$_GET['userProfile'] = 2;
 $_SESSION['suid'] = 1;
 $_SESSION['isAdmin'] = true;
 
