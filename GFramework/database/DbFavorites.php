@@ -1,5 +1,7 @@
 <?php
 
+use GFramework\utilities\GReturn;
+
 /**
  * Singleton used to initialize the connection with the DbFavorites table and perform queries
  */
@@ -57,6 +59,53 @@ class DbFavorites
         $this->conn->query($query);
         return true;
     }
+
+    public function getUserFavoritePostsID(int $userID, ?int $limit, ?int $page, ?string $sort){
+        $request = "SELECT POST_ID FROM $this->dbName";
+        $request .= " WHERE USER_ID = $userID ";
+        $request .= $this->getSortAndLimit($limit, $page, $sort);
+        $result = $this->conn->query($request);
+        return new GReturn("ok", content: mysqli_fetch_all($result, MYSQLI_ASSOC));
+    }
+
+    /**
+     * Generate an SQL sorting instruction based on the specified sorting option.
+     *
+     * @param string|null $sort (optional)
+     * @return string
+     */
+    public function getSortInstruction(?string $sort): string
+    {
+        if ($sort == 'ID-User-asc') {
+            return 'ORDER BY USER_ID ASC';
+        } else if ($sort == 'ID-Post-asc') {
+            return 'ORDER BY POST_ID ASC';
+        } else if ($sort == 'recent') {
+            return 'ORDER BY POST_ID DESC';
+        }
+        return '';
+    }
+
+    /**
+     * Generate SQL sorting and pagination instructions based on optional parameters.
+     *
+     * @param int|null $limit (optional)
+     * @param int|null $page (optional)
+     * @param string|null $sort (optional)
+     * @return string
+     */
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
+        $request = '';
+        if ($sort != null) {
+            $request .= " " . $this->getSortInstruction($sort);
+        }
+        if ($limit != null && $page != null) {
+            $request .= " LIMIT " . ($page - 1) * $limit . ", $limit";
+        }
+        return $request;
+    }
+
+
 }
 
 

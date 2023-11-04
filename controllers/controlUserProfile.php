@@ -5,23 +5,19 @@ class controlUserProfile
 
     private DbUsers $dbUsers;
     private DbPosts $dbPosts;
-    private DbTopics $dbTopics;
-    private DbLikes $dbLikes;
     private DbFavorites $dbFavorites;
     private DbFollows $dbFollows;
-    private DbComments $dbComments;
+    public controlGeneratePosts $postController;
 
     private mysqli $dbConn;
 
     public function __construct($conn){
         $this->dbConn = $conn;
-        $this->dbComments = new DbComments($conn);
         $this->dbFavorites = new DbFavorites($conn);
         $this->dbFollows = new DbFollows($conn);
-        $this->dbLikes = new DbLikes($conn);
         $this->dbPosts = new DbPosts($conn);
-        $this->dbTopics = new DbTopics($conn);
         $this->dbUsers = new DbUsers($conn);
+        $this->postController = new controlGeneratePosts($conn);
     }
 
     public function getUserProfileInfo(int $userID): string{
@@ -52,10 +48,11 @@ class controlUserProfile
                 </div>
 
                 <div class="bio-form" id="bioForm" style="display: none;">
-                    <form id="editForm">
+                    <form id="editForm" method="post">
                         <textarea name="newBio" id="bioTextArea" rows="3" cols="20" placeholder="Saisissez votre biographie ici" maxlength="200"></textarea>
                         <p id="charCount">Caractères restants : 200</p>
                         <br>
+                        <input type="hidden" name="userNewBio" value="<?= $userID ?>">
                         <input type="submit" value="Enregistrer">
                     </form>
                 </div>
@@ -70,19 +67,56 @@ class controlUserProfile
         return $userHeader;
     }
 
+    public function checkNewBio(): void{
+        if (isset($_POST['userNewBio'])){
+//            echo 'new Bio --------------';
+            if (!isset($_POST['newBio'])){
+                $this->dbUsers->updateBio($_POST['userNewBio'], null);
+            }
+            else{
+                $this->dbUsers->updateBio($_POST['userNewBio'], $_POST['newBio']);
+            }
+        }
+    }
+
+    public function checkNewProfilePic(): void{
+        if (isset($_POST['userNewBio'])){
+//            echo 'new Bio --------------';
+            if (!isset($_POST['newBio'])){
+                $this->dbUsers->updateBio($_POST['userNewBio'], null);
+            }
+            else{
+                $this->dbUsers->updateBio($_POST['userNewBio'], $_POST['newBio']);
+            }
+        }
+    }
+
     public function getUserPosts(int $userID, ?int $limit, ?string $sort){
         $result = $this->dbPosts->select_SQLResult(null, null, $userID, null, null, $limit, 1, $sort)->getContent();
-        $postController = new controlGeneratePosts($this->dbConn);
         ob_start();
         foreach ($result as $post){
         ?>
-            <?= $postController->getPostHTML($post['POST_ID'])?>
+            <?= $this->postController->getPostHTML($post['POST_ID'])?>
             <br>
         <?php
         }
         $userPosts = ob_get_contents();
         ob_end_clean();
         return $userPosts;
+    }
+
+    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort){
+        $result = $this->dbFavorites->getUserFavoritePostsID($userID, $limit, 1, $sort)->getContent();
+        ob_start();
+        foreach ($result as $post){
+            ?>
+            <?= $this->postController->getPostHTML($post['POST_ID'])?>
+            <br>
+            <?php
+        }
+        $userFavs = ob_get_contents();
+        ob_end_clean();
+        return $userFavs;
     }
 
 }

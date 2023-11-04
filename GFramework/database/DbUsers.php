@@ -212,7 +212,7 @@ class DbUsers
     }
 
     /**
-     * Update a topic in the database.
+     * Update a username in the database.
      *
      * @param string $oldUsername
      * @param string $newUsername
@@ -225,6 +225,21 @@ class DbUsers
         }
         $request = "UPDATE $this->dbName SET USERNAME = '$newUsername'";
         $request .= " WHERE USERNAME = '$oldUsername';";
+        $this->conn->query($request);
+        return true;
+    }
+
+    /**
+     * Update a user's bio in the database.
+     *
+     * @param int $userID
+     * @param string $newBio
+     * @return bool True if the update was successful; false if a user with this username already exists or if the new username is empty.
+     */
+    public function updateBio(int $userID, ?string $newBio): bool
+    {
+        $request = "UPDATE $this->dbName SET USER_BIO = '$newBio'";
+        $request .= " WHERE USER_ID = $userID";
         $this->conn->query($request);
         return true;
     }

@@ -1,4 +1,4 @@
-let postCreator = document.querySelector(".postInterface");
+let postCreator = document.querySelector(".postCreationInterface");
 
 let plusButton = postCreator.querySelector(".plusButton");
 let fileInput = postCreator.querySelector(".fileInput");

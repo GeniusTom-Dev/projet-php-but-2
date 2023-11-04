@@ -27,7 +27,7 @@ class controlCreatePosts
     function getCreatePost(): string {
         ob_start();?>
 
-        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
+        <article class="postCreationInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <form method="post" action="" class="postPublisher">
                 <input name="createPost" type="hidden" value="1">
             <main class="max-h-60 overflow-y-auto">
