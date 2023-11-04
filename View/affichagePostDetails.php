@@ -15,7 +15,7 @@ $controller->checkAllShowActions();
 <head>
     <title>Page Post Full</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" type="text/css" href="/html/styles/index.css">
+<!--    <link rel="stylesheet" type="text/css" href="/html/styles/index.css">-->
 
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-200">
