@@ -39,7 +39,9 @@ $postController = new controlGeneratePosts($dbConn);
 $postController->checkAllShowActions();
 
 require_once '../GFramework/utilities/utils.inc.php';
-start_page("Home Page");
+start_page($_GET['name']);
+
+require_once "enTete.php";
 
 require_once "navbarTailswind.php";
 ?>

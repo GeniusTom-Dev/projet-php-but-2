@@ -1,5 +1,5 @@
 <nav>
-    <form action="../../index.php">
+    <form action="homepage.php">
         <button onclick="submit()">Quitter mode admin.</button>
     </form>
     <form method="get">
