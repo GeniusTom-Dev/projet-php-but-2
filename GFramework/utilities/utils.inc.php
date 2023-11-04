@@ -2,15 +2,15 @@
 function start_page($title): void
 {
 ?><!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class ="theme-light">
     <head>
         <title><?php echo $title; ?></title>
         <link rel="stylesheet" href="/Projet/projet-php-but-2/navbar.css"/>
         <script src="https://cdn.tailwindcss.com"></script>
-        
+
         
     </head>
-    <body >
+    <body>
         <?php
         }
         ?>
