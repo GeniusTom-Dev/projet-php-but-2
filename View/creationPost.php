@@ -17,11 +17,13 @@ require_once "enTete.php";
     <?php require_once "navbarTailswind.php";?>
 </div>
 
-<?php
+<div class="flex items-center justify-center">
+    <?php
 
-echo $controller->getCreatePost();
+    echo $controller->getCreatePost();
 
-?>
+    ?>
+</div>
 
 <script src="/projet-php-but-2/html/script/scriptCreatePost.js"></script>
 </body>
