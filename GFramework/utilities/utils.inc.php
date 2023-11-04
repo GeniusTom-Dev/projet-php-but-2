@@ -11,15 +11,15 @@ function start_page($title): void
 <!--        <script src="https://cdn.tailwindcss.com"></script>-->
 <!--        <script src="/projet-php-but-2/html/styles/theme.js"></script>-->
     </head>
-    <body id="theme-container" style="background-color: white;" class="flex justify-center items-center min-h-screen bg-gray-200">
-<?php
+<!--    <body id="theme-container" style="background-color: white;" class="flex justify-center items-center min-h-screen bg-gray-200">
+--><?php
 }
 
 function end_page(): void
 {
 ?>
-    </body>
-</html>
+<!--    </body>
+--></html>
 <?php
 }
 ?>

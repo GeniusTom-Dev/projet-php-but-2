@@ -1,5 +1,5 @@
 <?php
-require_once '../GFramework/autoloader.php';
+require_once __DIR__ . '/../autoloader.php';
 if (empty($_GET["selectDb"])){
     $_GET["selectDb"] = "Topics";
 }
