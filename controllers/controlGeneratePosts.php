@@ -30,7 +30,9 @@ class controlGeneratePosts
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
-                    <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+                    <div class="w-100 h-100 border border-gray-400">
+                        <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+                    </div>
                 </form>
                 <div class="flex flex-col mr-1">
                     <p>@<?= $userData['USERNAME'] ?></p>
