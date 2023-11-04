@@ -94,7 +94,7 @@ if (isset($_POST["deconnect"])){
           <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
             <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 transition-bg transition-border" >
                 <a href="#" class="dropbtn block h-full w-full" id="categoryBtn">Catégories</a>
-                <div class="dropdown-content border border-gray-200 hidden absolute z-64 mt-2 space-y-4 p-6 flex flex-col" style="background-color: #b2a5ff;" id="categoryDropdown">
+                <div class="dropdown-content border border-gray-200 absolute z-64 mt-2 space-y-4 p-6 flex flex-col" style="background-color: #b2a5ff; display: none" id="categoryDropdown">
                   <?php
                     foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic){ ?>
                         <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="topicPage.php?name=<?= $topic['NAME'] ?>"><?= $topic['NAME'] ?></a>

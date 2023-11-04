@@ -13,6 +13,7 @@ $_SESSION['suid'] = 2;
 $_SESSION['isAdmin'] = true;
 $limitNbPosts = 10;
 
+// Restore page or save
 if (isset($_GET['page'])) {
     $_SESSION['page'] = $_GET['page'];
 }
@@ -21,6 +22,17 @@ else {
         $_SESSION['page'] = 1;
     }
     $_GET['page'] = $_SESSION['page'];
+}
+// Restore selected topic or save
+if (isset($_GET['name'])) {
+    $_SESSION['topicName'] = $_GET['name'];
+}
+else {
+    if (!isset($_SESSION['topicName'])){
+        header('Location: homepage.php');
+        die();
+    }
+    $_GET['name'] = $_SESSION['topicName'];
 }
 
 $postController = new controlGeneratePosts($dbConn);
@@ -47,20 +59,19 @@ require_once "navbarTailswind.php";
     <?php }
 
     // Affichage répétitif des posts
-    $posts = $dbPosts->select_SQLResult(null, null, null, null, null, $limitNbPosts, $_GET['page'], 'recent')->getContent();
+    $posts = $dbPosts->select_SQLResult($dbTopics->selectByName($_GET['name'])->getContent()['TOPIC_ID'], null, null, null, null, $limitNbPosts, $_GET['page'], 'recent')->getContent();
     foreach ($posts as $post){
         echo $postController->getPostHTML($post['POST_ID']);
         echo PHP_EOL;
     }
 
-     // Bouton page suivante
-    $max = $dbPosts->getTotal(null, null, null, null);
+    // Bouton page suivante
+    $max = count($posts);
     if ($max%$limitNbPosts != 0){
         $max = (int)($max / $limitNbPosts) + 1;
-        echo $max;
     }
     else{
-        $max = (int) ($max / $limitNbPosts);
+        $max = (int)($max / $limitNbPosts);
     }
     if ($_GET['page'] < $max){ ?>
         <div>
