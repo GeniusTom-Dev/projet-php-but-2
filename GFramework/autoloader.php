@@ -14,6 +14,7 @@ require_once(__DIR__ . "/../controllers/controlGeneratePosts.php");
 require_once(__DIR__ . "/../controllers/controlGenerateFullPosts.php");
 require_once(__DIR__ . "/../controllers/controlCreatePosts.php");
 require_once(__DIR__ . "/../controllers/controlUserProfile.php");
+require_once(__DIR__ . "/../controllers/controlUser.php");
 
 $db = new Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd');
 $dbConn = $db->getConnection()->getContent();

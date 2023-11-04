@@ -29,7 +29,7 @@ class controlGeneratePosts
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
-                    <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
+                    <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
                     <div class="w-100 h-100">
                         <?php
                         if (is_null($userData['USER_PROFIL_PIC'])) {
