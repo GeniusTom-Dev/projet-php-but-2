@@ -23,6 +23,7 @@ class controlUser
     {
         $userData = $this->dbUsers->selectById($userID)->getContent();
         ob_start(); ?>
+<!--        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">-->
         <section class="userProfileSimple flex flex-lign items-center mb-2">
             <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                 <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
@@ -48,7 +49,7 @@ class controlUser
                 <?php }} ?>
             </form>
         </section>
-
+<!--        </article>-->
 
         <?php $userHeader = ob_get_contents();
         ob_end_clean();
