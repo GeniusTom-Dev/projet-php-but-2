@@ -9,7 +9,7 @@ let confirmDeleteButton = postCreator.querySelector(".confirmDeleteButton");
 let cancelDeleteButton = postCreator.querySelector(".cancelDeleteButton");
 
 // All topics related elements
-const categoryInput = postCreator.querySelector(".categoryInput");
+const categoryInput = postCreator.querySelector(".searchInputTopic");
 const addCategoryButton = postCreator.querySelector(".add-category-button");
 //const categoryList = postCreator.querySelector(".category-list");
 

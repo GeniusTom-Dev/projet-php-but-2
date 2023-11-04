@@ -5,7 +5,7 @@ $dbTopics = new DbTopics($dbConn);
 
 ?>
 
-<input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off" class="categoryInput border border-[#b2a5ff] rounded-md"
+<input type="text" name="searchInputTopic" id='searchInputTopic' placeholder="Cliquez pour rechercher..." autocomplete="off" class="searchInputTopic h-8 rounded-md bg-gray-100 border border-[#b2a5ff] mr-2"
     <?php if (isset($_GET['searchInputTopic'])) echo ' value=', $_GET['searchInputTopic']; ?>>
 <ul id='topicsList' class="hidden absolute border border-gray-300 max-h-24 overflow-y-auto w-28 p-0 list-none mt-2 bg-white">
     <?php
