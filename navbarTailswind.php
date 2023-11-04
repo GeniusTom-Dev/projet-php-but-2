@@ -76,7 +76,7 @@
             <?php endif; ?>
           <?php endfor; ?>
           <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
-                <a class="block h-full w-full" id="connexion" href="#" >Connexion</a>
+                <a class="block h-full w-full" id="connexion" href="#" >Déconnexion</a>
           </li>
         </ul>
         <!-- Bouton de changement de thème -->
