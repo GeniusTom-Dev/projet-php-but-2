@@ -30,7 +30,7 @@ class controlGeneratePosts
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
-                    <div class="w-100 h-100 border border-gray-400">
+                    <div class="w-100 h-100">
                         <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
                     </div>
                 </form>
@@ -75,10 +75,10 @@ class controlGeneratePosts
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" onclick="submit()">
+                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
+                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
                 </div>
