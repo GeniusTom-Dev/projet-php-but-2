@@ -1,5 +1,5 @@
 <?php
-require_once '../autoloader.php';
+require_once '../GFramework/autoloader.php';
 if (empty($_GET["selectDb"])){
     $_GET["selectDb"] = "Topics";
 }
@@ -24,7 +24,7 @@ if (empty($_GET["selectDb"]) === false) {
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!--div class="max-w-3xl mx-auto p-4"-->
-    <form method="GET" id="searchForm" class="space-y-4">
+    <form action="search.php" method="GET" id="searchForm" class="space-y-4">
         <div class="flex flex-col mb-2">
             <div class="flex flex-lign items-center mb-2">
                 <select id="selectDb" name="selectDb" class="h-8 bg-gray-100 p-2 border border-[#b2a5ff] rounded-md mr-4 pt-1 pb-1">

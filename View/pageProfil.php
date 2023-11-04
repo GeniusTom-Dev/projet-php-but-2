@@ -17,6 +17,8 @@ $controllerCreatePost->checkCreatePost();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Profil Utilisateur");
 
+require_once "enTete.php";
+
 require_once "navbarTailswind.php";
 ?>
 

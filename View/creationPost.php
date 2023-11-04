@@ -10,6 +10,8 @@ $controller->checkCreatePost();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Créer un Post");
 
+require_once "enTete.php";
+
 require_once "navbarTailswind.php";
 ?>
 

@@ -12,12 +12,10 @@ $controller->checkAllShowActions();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Post Détaillé");
 
+require_once "enTete.php";
+
 require_once "navbarTailswind.php";
 ?>
-
-<header>
-
-</header>
 
 <?php
 
