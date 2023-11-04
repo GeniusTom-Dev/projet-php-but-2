@@ -1,11 +1,11 @@
 <?php
+session_start();
 require_once '../GFramework/autoloader.php';
 
-$_GET['userProfile'] = 2;
-$_SESSION['suid'] = 1;
-$_SESSION['isAdmin'] = true;
+//$_GET['userProfile'] = 2;
+//$_SESSION['suid'] = 2;
+//$_SESSION['isAdmin'] = true;
 
-//
 $controllerProfile = new controlUserProfile($dbConn);
 $controllerProfile->checkNewBio();
 $controllerProfile->postController->checkAllShowActions();
@@ -13,16 +13,15 @@ $controllerProfile->postController->checkAllShowActions();
 $controllerCreatePost = new controlCreatePosts($dbConn);
 $controllerCreatePost->checkCreatePost();
 
-?>
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <title>Profil d'utilisateur</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body >
-    <hr><br><strong>Profil d'utilisateur</strong><br><hr>
+require_once '../GFramework/utilities/utils.inc.php';
+start_page("Profil Utilisateur");
 
+require_once "navbarTailswind.php";
+?>
+
+<header>
+
+</header>
 
 <div class="flex">
     <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
