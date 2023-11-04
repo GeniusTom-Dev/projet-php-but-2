@@ -2,7 +2,7 @@
 session_start();
 require_once "../GFramework/autoloader.php";
 
-//$_SESSION['suid'] = 1;
+$_SESSION['suid'] = 1;
 
 $controller = new controlCreatePosts($dbConn);
 $controller->checkCreatePost();

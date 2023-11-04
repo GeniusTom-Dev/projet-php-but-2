@@ -2,9 +2,9 @@
 session_start();
 require_once '../GFramework/autoloader.php';
 
-//$_GET['userProfile'] = 2;
-//$_SESSION['suid'] = 2;
-//$_SESSION['isAdmin'] = true;
+$_GET['userProfile'] = 2;
+$_SESSION['suid'] = 2;
+$_SESSION['isAdmin'] = true;
 
 $controllerProfile = new controlUserProfile($dbConn);
 $controllerProfile->checkNewBio();
