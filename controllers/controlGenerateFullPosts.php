@@ -22,16 +22,23 @@ class controlGenerateFullPosts
 
     function getFullPostHTML(int $postID): string{
         $postData = $this->dbPosts->selectByID($postID)->getContent();
-        $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID'] );
+        $userData = $this->dbUsers->selectById($postData['USER_ID'])->getContent();
+        $owns = (isset($_SESSION['suid']) && ($_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID']));
         ob_start();?>
 
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
-                    <input type="hidden" name="userProfile" value="<?= $this->dbUsers->selectById($postData['USER_ID'])->getContent()['USERNAME'] ?>">
-                    <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+                    <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
+                    <?php
+                    if (is_null($userData['USER_PROFIL_PIC'])) {
+                        echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                    } else {
+                        echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                    }
+                    ?>
                     <div class="flex flex-col mr-1">
-                        <p>@<?= $this->dbUsers->selectById($postData['USER_ID'])->getContent()['USERNAME'] ?></p>
+                        <p>@<?= $userData['USERNAME'] ?></p>
                         <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
                     </div>
                 </form>
