@@ -4,7 +4,7 @@ require_once 'controlSearchBar.php';
 require_once 'searchBarFilters.php';
 
 $results = [];
-if (empty($_GET["selectDb"]) === false) {
+/*if (empty($_GET["selectDb"]) === false) {
     if ($_GET["selectDb"] == "Topics") $results = getTopicsResults($dbTopics);
     else if ($_GET["selectDb"] == "Users") $results = getUsersResults($dbUsers);
     else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts, $dbTopics);
@@ -14,7 +14,8 @@ if (empty($_GET["selectDb"]) === false) {
         $_GET['selectDb'] = "Topics";
     }
     $results = getTopicsResults($dbTopics);
-}
+}*/
+$_GET['selectDb'] = "Posts";
 ?>
 <script>
     let results = <?php echo json_encode($results); ?>;

@@ -20,14 +20,14 @@ require '../autoloader.php';
         </ul>
     </form>
 </nav>
-<!--<ul>
+<ul>
     <table id="table">
     </table>
     <script src="SQLResultToTable.js"></script>
     <script>
-        let selectedDb = <?php /*echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; */?>;
+        let selectedDb = <?php echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; ?>;
         generateTable(selectedDb, document.getElementById("table"));
     </script>
-</ul>-->
+</ul>
 </body>
 </html>

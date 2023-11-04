@@ -22,30 +22,31 @@ class controlGeneratePosts
 
     function getPostHTML(int $postID): string{
         $postData = $this->dbPosts->selectByID($postID)->getContent();
+        $userData = $this->dbUsers->selectById($postData['USER_ID'])->getContent();
         $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID'] );
         ob_start();?>
 
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
-                    <input type="hidden" name="userProfile" value="<?= $this->dbUsers->selectById($postData['USER_ID'])->getContent()['USERNAME'] ?>">
+                    <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
                 </form>
-                    <div class="flex flex-col mr-1">
-                        <p>@<?= $this->dbUsers->selectById($postData['USER_ID'])->getContent()['USERNAME'] ?></p>
-                        <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
-                    </div>
+                <div class="flex flex-col mr-1">
+                    <p>@<?= $userData['USERNAME'] ?></p>
+                    <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
+                </div>
 
                 <form action="affichagePostDetails.php" method="get"> <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postID ?>">
-                    <img src="/html/images/fleches.svg" alt="growArrow" class="growArrow w-8 h-auto transition-transform duration-300 hover:scale-125 ml-auto" onclick="submit()">
+                    <img src="/html/images/fleches.svg" alt="growArrow" class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-auto" onclick="submit()">
                 </form>
             </header>
             <main class="max-h-60 overflow-y-auto">
                 <div class="flex flex-lign items-center mb-2">
                     <h1 class="mr-2 font-bold text-xl"><?= $postData['TITLE'] ?></h1>
                     <?php if ($owns){?>
-                    <img src="/html/images/trash-can-solid.svg" alt="trashCan" class="trashCan w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
+                        <img src="/html/images/trash-can-solid.svg" alt="trashCan" class="trashCan w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto">
                     <?php } ?>
                 </div>
                 <p><?= $postData['CONTENT'] ?></p>
@@ -58,15 +59,6 @@ class controlGeneratePosts
                 <?php } ?>
             </main>
             <footer>
-                <div class="comment-section p-4 max-h-40 overflow-y-auto">
-                    <h2 class="mb-4 font-bold text-xl">Commentaires</h2>
-                    <div class="flex items-center mb-2">
-                        <form method="post">
-                            <textarea name="content" placeholder="Ajoutez un commentaire..." class="comment-input w-full p-2 border border-[#b2a5ff] rounded-md"></textarea>
-                            <button name="createComment" class="comment-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?> value="<?= $postID ?>">Poster</button>
-                        </form>
-                    </div>
-                </div>
                 <div>
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
@@ -105,8 +97,6 @@ class controlGeneratePosts
     
     public function checkAllShowActions(): void{
         $this->checkDeletePost();
-        $this->checkCreateComment();
-        $this->checkDeleteComment();
         $this->checkLike();
         $this->checkDislike();
         $this->checkMark();
@@ -117,16 +107,6 @@ class controlGeneratePosts
     private function checkDeletePost(): void{
         if (isset($_POST['deletePost'])){
             $this->dbPosts->deletePost($_POST['deletePost']);
-        }
-    }
-    private function checkCreateComment(): void{
-        if (isset($_POST['createComment']) && isset($_POST['content'])){
-            $this->dbComments->addComment($_POST['createComment'], $_SESSION['suid'], $_POST['content'], date('Y-m-d'));
-        }
-    }
-    private function checkDeleteComment(): void{
-        if (isset($_POST['deleteComment']) && isset($_POST['content'])){
-            $this->dbComments->deleteComment($_POST['deleteComment']);
         }
     }
     private function checkLike(): void{
