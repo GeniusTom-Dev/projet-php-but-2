@@ -245,6 +245,19 @@ class DbUsers
     }
 
     /**
+     * Update a user's profil pic in the database.
+     *
+     * @param int $userId
+     * @param string|null $newProfilPic
+     * @return void
+     */
+    public function updateProfilPic(int $userId, ?string $newProfilPic) : void {
+        $request = "UPDATE $this->dbName SET USER_PROFIL_PIC = '$newProfilPic'";
+        $request .= " WHERE USER_ID = $userId";
+        $this->conn->query($request);
+    }
+
+    /**
      * Delete a user from the database by its ID.
      *
      * @param int $id

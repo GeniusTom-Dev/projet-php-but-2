@@ -5,9 +5,9 @@ $_GET['userProfile'] = 1;
 $_SESSION['suid'] = 1;
 $_SESSION['isAdmin'] = true;
 
-//
 $controllerProfile = new controlUserProfile($dbConn);
 $controllerProfile->checkNewBio();
+$controllerProfile->checkNewProfilePic();
 $controllerProfile->postController->checkAllShowActions();
 
 $controllerCreatePost = new controlCreatePosts($dbConn);

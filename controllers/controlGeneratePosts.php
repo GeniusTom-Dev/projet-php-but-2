@@ -45,7 +45,7 @@ class controlGeneratePosts
                     <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
                 </div>
 
-                <form action="../../View/affichagePostDetails.php" method="get"> <!-- Affichage page détail post -->
+                <form action="../View/affichagePostDetails.php" method="get"> <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postID ?>">
                     <img src="/html/images/fleches.svg" alt="growArrow" class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-auto" onclick="submit()">
                 </form>

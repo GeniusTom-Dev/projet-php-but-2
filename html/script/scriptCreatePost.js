@@ -15,6 +15,7 @@ const categoryList = postCreator.querySelector(".category-list");
 
 // Article gallery
 const galleryContainer = postCreator.querySelector(".galleryContainer");
+const imageInput = document.querySelector(".fileInputPP");
 
 
 // Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
@@ -114,3 +115,4 @@ fileInput.addEventListener("change", (event) => {
         galleryContainer.appendChild(imageContainer);
     }
 });
+
