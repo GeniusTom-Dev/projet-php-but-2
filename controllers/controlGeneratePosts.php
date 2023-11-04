@@ -26,17 +26,13 @@ class controlGeneratePosts
         $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID'] );
         ob_start();?>
 
-        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
+        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
-                    <?php
-                    if (is_null($userData['USER_PROFIL_PIC'])) {
-                        echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
-                    } else {
-                        echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
-                    }
-                    ?>
+                    <div class="w-100 h-100 border border-gray-400">
+                        <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+                    </div>
                 </form>
                 <div class="flex flex-col mr-1">
                     <p>@<?= $userData['USERNAME'] ?></p>
@@ -65,24 +61,24 @@ class controlGeneratePosts
                 <?php } ?>
             </main>
             <footer>
-                <div>
+                <div class="flex flex-lign items-center mb-2">
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="dislikePost" value="<?= $postID ?>">
-                            <img src="/html/images/heart-solid.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
+                            <img src="/html/images/heart-solid.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="likePost" value="<?= $postID ?>">
-                            <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
+                            <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
                     <p><?= $this->dbLikes->countPostLike($postID) ?></p>
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
+                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
+                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
                 </div>
