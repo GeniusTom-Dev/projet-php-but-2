@@ -1,24 +1,21 @@
 <?php
 session_start();
-$_SESSION['suid'] = 1;
-
 require_once "../GFramework/autoloader.php";
+
+$_SESSION['suid'] = 1;
 
 $controller = new controlCreatePosts($dbConn);
 $controller->checkCreatePost();
 
+require_once '../GFramework/utilities/utils.inc.php';
+start_page("Créer un Post");
+
+require_once "navbarTailswind.php";
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Création de Post</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-<!--    <link rel="stylesheet" type="text/css" href="/html/styles/index.css">-->
 
-</head>
-<body class="flex justify-center items-center min-h-screen bg-gray-200">
+<header>
 
-<div class="bg-[#b2a5ff] h-screen w-64 fixed left-0"></div>
+</header>
 
 <?php
 
@@ -26,7 +23,7 @@ echo $controller->getCreatePost();
 
 ?>
 
-<script src="/html/script/scriptCreatePost.js"></script>
+<script src="/projet-php-but-2/html/script/scriptCreatePost.js"></script>
 </body>
 </html>
 
