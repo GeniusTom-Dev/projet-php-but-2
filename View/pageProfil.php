@@ -16,13 +16,13 @@ $controllerCreatePost->checkCreatePost();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Profil Utilisateur");
 
-require_once "navbarTailswind.php";
+
 ?>
 
 <header>
 
 </header>
-
+<div class=" h-screen w-64 fixed left-0"><?php require_once "navbarTailswind.php";?></div>
 <div class="flex">
     <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
         <!-- Conteneur principal de la page -->

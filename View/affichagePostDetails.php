@@ -12,13 +12,13 @@ $controller->checkAllShowActions();
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Post Détaillé");
 
-require_once "navbarTailswind.php";
+
 ?>
 
 <header>
 
 </header>
-
+<div class=" h-screen w-64 fixed left-0"><?php require_once "navbarTailswind.php";?></div>
 <?php
 
 echo $controller->getFullPostHTML($_GET['detailsPost']);
