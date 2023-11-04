@@ -1,6 +1,6 @@
 <?php
 require_once 'initValues.php';
-//include 'navbarTailswind.php'; // Inclure le fichier navbarTailswind
+// Inclure le fichier navbarTailswind
 $userID = 1; // L'user dont on regarde la page de profil        // Pour Tester -> a remplacer plus tard par $_SESSION jsp quoi
 $userIDConnected = 1; // L'user qui est connecté
 
@@ -12,7 +12,6 @@ $nbFollowed = $dbFollows->countFollowed($userID);
 $dernierConnexion = $userData['USER_LAST_CONNECTION'];
 $userBio = $userData['USER_BIO'];
 
-
 function start_page($title): void
 {
 ?><!DOCTYPE html>
@@ -21,7 +20,7 @@ function start_page($title): void
         <title><?php echo $title; ?></title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body >
+    <body class="flex justify-center items-center min-h-screen bg-gray-200">
         <?php
         }
 
@@ -33,7 +32,7 @@ function start_page($title): void
         <?php
         }
 ?>
-
+<div class=" h-screen w-64 fixed left-0"><?php include 'navbarTailswind.php';?></div>
     <div class="min-h-screen flex-1 flex items-center justify-center ">
         <!-- Conteneur principal de la page -->
         <div class="article w-2/4 h-100 bg-gray-100 rounded-xl p-6 shadow-xl">
@@ -70,7 +69,7 @@ function start_page($title): void
                     </div>
                     <?php if ($userID == $userIDConnected) : ?>
                   <!-- Bouton pour modifier la biographie -->
-                  <button id="editButton">Modifier ma Biographie</button>
+                  <button id="editButton">Modifier Ma Biographie</button>
                   <?php endif; ?> 
                 </header>
                   <!-- Section principale de l'article -->
@@ -95,7 +94,6 @@ function start_page($title): void
                     </main>
             </div>
     </div>
-</div>
 </div>
 <!-- Inclusion d'un fichier JavaScript pour gérer les fonctionnalités interactives -->
 <script src="/Projet/projet-php-but-2/html/Script/script.js"></script>
