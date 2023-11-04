@@ -90,6 +90,6 @@
     </div>
   </div>
 
-  <script src="/Projet/projet-php-but-2/test.js"></script>
+  <script src="/Projet/projet-php-but-2/navbar.js"></script>
 </body>
 </html>
