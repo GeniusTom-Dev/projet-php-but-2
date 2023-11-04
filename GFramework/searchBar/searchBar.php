@@ -1,5 +1,8 @@
 <?php
 require_once '../autoloader.php';
+if (empty($_GET["selectDb"])){
+    $_GET["selectDb"] = "Topics";
+}
 require_once 'controlSearchBar.php';
 require_once 'searchBarFilters.php';
 
@@ -7,7 +10,7 @@ $results = [];
 if (empty($_GET["selectDb"]) === false) {
     if ($_GET["selectDb"] == "Topics") $results = getTopicsResults($dbTopics);
     else if ($_GET["selectDb"] == "Users") $results = getUsersResults($dbUsers);
-    else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts);
+    else if ($_GET["selectDb"] == "Posts") $results = getPostsResults($dbPosts, $dbTopics);
     else if ($_GET["selectDb"] == "Comments") $results = getCommentsResults($dbComments);
 } else {
     $results = getTopicsResults($dbTopics);

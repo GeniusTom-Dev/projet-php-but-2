@@ -5,7 +5,7 @@ $_SESSION['userid'] = 1;
 $_SESSION['isAdmin'] = true;
 //unset($_SESSION['isAdmin']);
 if (! (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'])){
-    header('Location: ../index.php');
+    header('Location: homepage.php');
     die();
 }
 else {
@@ -40,11 +40,7 @@ else {
 <body>
     <header></header>
     <?php require 'admin_views/nav-admin.php';?>
-    <?php //echo '<p>', $_SERVER['REQUEST_URI'], '</p>'; ?>
-    <?php //echo '<p>', http_build_query($_GET), '</p>'; ?>
-    <?php //echo '<p>', $_SESSION['userid'], '</p>'; ?>
-    <?php //$_SERVER['REQUEST_URI'] = '/projet-php-but-2/homeAdmin.php?' . http_build_query($_GET); ?>
-    <?php //echo '<p>', $_SERVER['REQUEST_URI'], '</p>'; ?>
+
     <section>
         <?php homeReload();?>
     </section>
