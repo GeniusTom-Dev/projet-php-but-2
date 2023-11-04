@@ -31,7 +31,13 @@ class controlGeneratePosts
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <div class="w-100 h-100">
-                        <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+                        <?php
+                        if (is_null($userData['USER_PROFIL_PIC'])) {
+                            echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        } else {
+                            echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        }
+                        ?>
                     </div>
                 </form>
                 <div class="flex flex-col mr-1">
