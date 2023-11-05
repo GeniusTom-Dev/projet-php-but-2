@@ -27,7 +27,7 @@ if (isset($_POST["deconnect"])){
     <div id="menu-container" class="w-3/10 h-screen rounded-xl shadow-2xl hidden" style="background-color: #b2a5ff;">
       <!-- Contenu du menu latéral gauche -->
       <div class="mx-auto  p-4">
-        <div id="close-icon" class="text-2xl cursor-pointer hidden" style="color: black">
+        <div id="close-icon" class="text-2xl cursor-pointer hidden" >
           &#10006; <!-- Caractère Unicode de l'icône de fermeture (X) -->
         </div>
         <div class="relative w-1/2 m-auto">

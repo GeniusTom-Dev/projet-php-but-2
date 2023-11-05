@@ -38,7 +38,6 @@ function toggleTheme() {
     // Appliquer le thème jaune menu
     menuContainer.style.backgroundColor = "black";
     menuIcon.style.color ="black";
-    closeIcon.style.color ="#b2a5ff";
     
     // Changer les classes de texte en fonction du thème
     const textElements = document.querySelectorAll('.text-green');
@@ -51,7 +50,6 @@ function toggleTheme() {
     // Appliquer le thème vert au menu
     menuContainer.style.backgroundColor = "#b2a5ff";
     menuIcon.style.color ="#b2a5ff";
-    closeIcon.style.color ="black";
     // Changer les classes de texte en fonction du thème
     const textElements = document.querySelectorAll('.text-yellow');
     textElements.forEach((element) => {
