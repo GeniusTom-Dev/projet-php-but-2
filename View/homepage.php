@@ -35,7 +35,7 @@ require_once "enTete.php";
     <?php require_once "navbarTailswind.php";?>
 </div>
 
-<section class="h-screen w-full center">
+<section class="h-screen w-full flex flex-col  items-center">
     <?php // Bouton page précédente
     if ($_GET['page'] > 1){ ?>
         <div>
