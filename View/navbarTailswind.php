@@ -32,7 +32,7 @@ if (isset($_POST["deconnect"])){
         </div>
         <div class="relative w-1/2 m-auto">
             <?php if(isset($_SESSION['suid'])) { ?>
-            <a href="pageProfil.php?userProfile=<?= $_SESSION['suid'] ?>">
+            <a href="pageProfil.php?userProfile=<?= $userData['USERNAME'] ?>">
                 <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
                     echo '/projet-php-but-2/html/images/profile-removebg-preview.png'; // Default Profile Pic
                 }

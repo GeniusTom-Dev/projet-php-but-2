@@ -28,8 +28,8 @@ class controlGenerateFullPosts
 
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <header class="flex flex-lign items-center mb-2">
-                <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
-                    <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
+                <form action="pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
+                    <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <?php
                     if (is_null($userData['USER_PROFIL_PIC'])) {
                         echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
@@ -122,7 +122,7 @@ class controlGenerateFullPosts
         $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $userID );
         ob_start();?>
         <div class="flex items-center mb-2">
-            <img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
+            <a href="pageProfil.php?userProfile=<?= $userID ?>"><img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1"></a>
             <p>@<?= $this->dbUsers->selectById($userID)->getContent()['USERNAME'] ?></p>
             <p class="w-full p-2 border border-[#b2a5ff] rounded-md"><?= $content ?></p>
             <?php if ($owns){?>

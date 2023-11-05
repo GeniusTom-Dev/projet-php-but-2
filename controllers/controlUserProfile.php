@@ -20,9 +20,9 @@ class controlUserProfile
         $this->postController = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
     }
 
-    public function getUserProfileInfo(int $userID): string{
-        $userData = $this->dbUsers->selectById($userID)->getContent();
-        $owns = isset($_SESSION['suid']) && ($_SESSION['suid'] == $userID);
+    public function getUserProfileInfo(string $username): string{
+        $userData = $this->dbUsers->selectByUsername($username)->getContent();
+        $owns = isset($_SESSION['suid']) && ($_SESSION['suid'] == $userData['USER_ID']);
         ob_start();?>
 
         <header class="article-header relative mb-8">
@@ -41,14 +41,14 @@ class controlUserProfile
             <?php if ($owns) : ?>
             <form method="post" enctype="multipart/form-data">
                 <input type="file" id="fileInputPP" name="fileInputPP" style="display: none" accept="image/*" onchange="this.form.submit()">
-                <input type="hidden" name="userIdPP" value="<?= $userID ?>">
+                <input type="hidden" name="userIdPP" value="<?= $userData['USER_ID'] ?>">
             </form>
             <?php endif; ?>
             <!-- Informations de profil -->
             <div class="pl-64">
                 <p class="text-xl font-bold"><?= $userData['USERNAME'] ?></p>
-                <p class="mb-2">Follow <?= $this->dbFollows->countFollower($userID) ?></p>
-                <p class="mb-2">Abonnement <?= $this->dbFollows->countFollowed($userID) ?></p>
+                <p class="mb-2">Follow <?= $this->dbFollows->countFollower($userData['USER_ID']) ?></p>
+                <p class="mb-2">Abonnement <?= $this->dbFollows->countFollowed($userData['USER_ID']) ?></p>
                 <p class="mb-2">Dernière connexion : <?= $userData['USER_LAST_CONNECTION'] ?></p>
                 <!-- Section de la biographie et du formulaire de modification -->
                 <div class="bio" id="bioContainer">
@@ -61,7 +61,7 @@ class controlUserProfile
                         <textarea name="newBio" id="bioTextArea" rows="3" cols="20" placeholder="Saisissez votre biographie ici" maxlength="200"></textarea>
                         <p id="charCount">Caractères restants : 200</p>
                         <br>
-                        <input type="hidden" name="userIdBio" value="<?= $userID ?>">
+                        <input type="hidden" name="userIdBio" value="<?= $userData['USER_ID'] ?>">
                         <input type="submit" value="Enregistrer">
                     </form>
                 </div>
@@ -98,7 +98,8 @@ class controlUserProfile
         }
     }
 
-    public function getUserPosts(int $userID, ?int $limit, ?string $sort): string{
+    public function getUserPosts(string $username, ?int $limit, ?string $sort): string{
+        $userID = $this->dbUsers->selectByUsername($username)->getContent()['USER_ID'];
         $result = $this->dbPosts->select_SQLResult(null, null, $userID, null, null, $limit, 1, $sort)->getContent();
         ob_start();
         foreach ($result as $post){
@@ -112,7 +113,8 @@ class controlUserProfile
         return $userPosts;
     }
 
-    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort): string{
+    public function getUserBookmarks(string $username, ?int $limit, ?string $sort): string{
+        $userID = $this->dbUsers->selectByUsername($username)->getContent()['USER_ID'];
         $result = $this->dbFavorites->getUserFavoritePostsID($userID, $limit, 1, $sort)->getContent();
         ob_start();
         foreach ($result as $post){
