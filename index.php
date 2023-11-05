@@ -65,10 +65,11 @@ switch ($page){
         $newSearch = $_GET['newSearch'] ?? "";
         $selectOption = $_GET['selectOption'] ?? "";
         $searchText = $_GET['searchText'] ?? "";
+        $isAdmin = $_SESSION["isAdmin"] ?? false;
         if(empty($newSearch) === false || empty($selectOption) === false || empty($searchText) === false){
-            (new \gui\views\ViewHome($layout, "Accueil | Echo", array("newSearch" => $newSearch, "selectOption" => $selectOption, "searchText" => $searchText), $_SESSION["isAdmin"] == true))->render();
+            (new \gui\views\ViewHome($layout, "Accueil | Echo",true, array("newSearch" => $newSearch, "selectOption" => $selectOption, "searchText" => $searchText), $isAdmin == true))->render();
         }else{
-            (new \gui\views\ViewHome($layout, "Accueil | Echo"))->render();
+            (new \gui\views\ViewHome($layout, "Accueil | Echo", true))->render();
         }
         break;
 }
