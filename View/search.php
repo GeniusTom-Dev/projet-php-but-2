@@ -37,14 +37,11 @@ if ($_GET['page'] > 1) { ?>
 
 <?php
 $max = getTotal($dbComments, $dbPosts, $dbTopics, $dbUsers);
-if ($max%$limitRows != 0){
+if ($max % $limitRows != 0) {
     $max = (int)($max / $limitRows) + 1;
-}
-else{
+} else {
     $max = (int)($max / $limitRows);
 }
-//var_dump($max);
-//var_dump($_GET['page']);
 
 if ($_GET['page'] < $max) { ?>
     <div>

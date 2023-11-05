@@ -12,6 +12,7 @@ require_once(__DIR__ . "/utilities/CannotDoException.php");
 require_once(__DIR__ . "/utilities/restoreGET.php");
 require_once("searchBar/SearchParameters.php");
 require_once(__DIR__ . "/../controllers/controlGeneratePosts.php");
+require_once(__DIR__ . "/../controllers/controlGenerateComments.php");
 require_once(__DIR__ . "/../controllers/controlGenerateFullPosts.php");
 require_once(__DIR__ . "/../controllers/controlCreatePosts.php");
 require_once(__DIR__ . "/../controllers/controlUserProfile.php");

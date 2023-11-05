@@ -1,8 +1,11 @@
 <?php
 require_once __DIR__ . '/../autoloader.php';
+require_once __DIR__ . '/../../controllers/controlTopic.php';
+require_once __DIR__ . '/../../controllers/controlUser.php';
+require_once __DIR__ . '/../../controllers/controlGeneratePosts.php';
 
 
-function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, ?int $limit = null, ?int $page = null, ?string $sort = null)
+function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, ?int $limit = null, ?int $page = null, ?string $sort = null): void
 {
     $results = [];
     if (empty($_GET["selectDb"]) === false) {

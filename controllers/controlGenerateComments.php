@@ -1,35 +1,34 @@
 <?php
 
-class controlGeneratePosts
-{
-    private DbUsers $dbUsers;
-    private DbPosts $dbPosts;
-    private DbTopics $dbTopics;
-    private DbLikes $dbLikes;
-    private DbFavorites $dbFavorites;
-    private DbFollows $dbFollows;
-    private DbComments $dbComments;
+namespace controllers;
 
-    public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers)
+use DbPosts;
+use DbUsers;
+use DbComments;
+
+class controlGenerateComments
+{
+    private DbComments $dbComments;
+    private DbPosts $dbPosts;
+    private DbUsers $dbUsers;
+    private \DbFollows $dbFollows;
+
+    public function __construct($dbComments, $dbPosts, $dbUsers)
     {
         $this->dbComments = $dbComments;
-        $this->dbFavorites = $dbFavorites;
-        $this->dbFollows = $dbFollows;
-        $this->dbLikes = $dbLikes;
         $this->dbPosts = $dbPosts;
-        $this->dbTopics = $dbTopics;
         $this->dbUsers = $dbUsers;
     }
 
-    function getPostHTML(int $postID): string
+    function getCommentHTML(int $commentId): string
     {
-        $postData = $this->dbPosts->selectByID($postID)->getContent();
-        $userData = $this->dbUsers->selectById($postData['USER_ID'])->getContent();
+        $commentData = $this->dbComments->selectByID($commentId);
+        $postData = $this->dbPosts->selectByID($commentId['POST_ID'])->getContent();
+        $userData = $this->dbUsers->selectById($commentId['USER_ID'])->getContent();
         $owns = isset($_SESSION['suid']) && ($_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID']);
         ob_start(); ?>
-
         <article
-                class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
+                class="commentInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
                 <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
