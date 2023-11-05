@@ -9,26 +9,30 @@ require __DIR__ . '/../../autoloads/adminAutoloader.php';
 $controller = new controlAdminPosts($dbConn);
 ?>
 
-<?php
-try{
-    $controller->checkDeletedPost();
+<div class="flex flex-col mb-2">
+    <div class="mb-4">
+        <?php
+        try{
+            $controller->checkDeletedPost();
 
-} catch (\utilities\CannotDoException $e){
-    $report = $e->getReport();
-    $report = str_replace( '\n', '<br />', $report );
-    echo '<p>', $report , '</p>';
-}
-?>
+        } catch (\utilities\CannotDoException $e){
+            $report = $e->getReport();
+            $report = str_replace( '\n', '<br />', $report );
+            echo '<p>', $report , '</p>';
+        }
+        ?>
+    </div>
 
-    <table>
-        <tr>
-            <td>Identifiant</td>
-            <td>Affichage</td>
-            <td>Utilisateur</td>
-            <td>Date de création</td>
-            <td>Supprimer</td>
+    <table class="border border-gray-200">
+        <tr class="border border-gray-200">
+            <th class="border border-gray-200">Identifiant</th>
+            <th class="border border-gray-200">Affichage</th>
+            <th class="border border-gray-200">Utilisateur</th>
+            <th class="border border-gray-200">Date de création</th>
+            <th class="border border-gray-200">Supprimer</th>
         </tr>
         <?= $controller->getTableContent(); ?>
     </table>
+</div>
 
 <?= $controller->getPageInterface() ?>

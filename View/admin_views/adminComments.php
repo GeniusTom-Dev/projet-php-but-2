@@ -9,26 +9,30 @@ require __DIR__ . '/../../autoloads/adminAutoloader.php';
 $controller = new controlAdminComments($dbConn);
 ?>
 
-<?php
-try{
-    $controller->checkDeletedComment();
-} catch (\utilities\CannotDoException $e){
-    $report = $e->getReport();
-    $report = str_replace( '\n', '<br />', $report );
-    echo '<p>', $report , '</p>';
-}
-?>
+<div class="flex flex-col mb-2">
+    <div class="mb-4">
+        <?php
+        try{
+            $controller->checkDeletedComment();
+        } catch (\utilities\CannotDoException $e){
+            $report = $e->getReport();
+            $report = str_replace( '\n', '<br />', $report );
+            echo '<p>', $report , '</p>';
+        }
+        ?>
+    </div>
 
-    <table>
-        <tr>
-            <td>Identifiant</td>
-            <td>Contenu</td>
-            <td>Date de création</td>
-            <td>Post</td>
-            <td>Utilisateur</td>
-            <td>Supprimer</td>
+    <table class="border border-gray-200">
+        <tr class="border border-gray-200">
+            <th class="border border-gray-200">Identifiant</th>
+            <th class="border border-gray-200">Contenu</th>
+            <th class="border border-gray-200">Date de création</th>
+            <th class="border border-gray-200">Post</th>
+            <th class="border border-gray-200">Utilisateur</th>
+            <th class="border border-gray-200">Supprimer</th>
         </tr>
         <?= $controller->getTableContent(); ?>
     </table>
+</div>
 
 <?= $controller->getPageInterface() ?>

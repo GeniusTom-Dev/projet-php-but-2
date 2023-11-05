@@ -9,29 +9,34 @@ require __DIR__ . '/../../autoloads/adminAutoloader.php';
 $controller = new controlAdminUsers($dbConn);
 ?>
 
-<?php
-try{
-    $controller->checkDeletedUser();
-    $controller->checkActivationDeactivationUser();
-} catch (\utilities\CannotDoException $e){
-    $report = $e->getReport();
-    $report = str_replace( '\n', '<br/>', $report );
-    echo '<p>', $report , '</p>';
-}
-?>
-    <table>
-        <tr>
-            <td>Identifiant</td>
-            <td>Username</td>
-            <td>Email</td>
-            <td>Biographie</td>
-            <td>Première connection</td>
-            <td>Dernière connection</td>
-            <td>Admin</td>
-            <td>Désactiver / Activer</td>
-            <td>Supprimer</td>
+<div class="flex flex-col mb-2">
+    <div class="mb-4">
+        <?php
+        try{
+            $controller->checkDeletedUser();
+            $controller->checkActivationDeactivationUser();
+        } catch (\utilities\CannotDoException $e){
+            $report = $e->getReport();
+            $report = str_replace( '\n', '<br/>', $report );
+            echo '<p>', $report , '</p>';
+        }
+        ?>
+    </div>
+
+    <table class="border border-gray-200">
+        <tr class="border border-gray-200">
+            <th class="border border-gray-200">Identifiant</th>
+            <th class="border border-gray-200">Username</th>
+            <th class="border border-gray-200">Email</th>
+            <th class="border border-gray-200">Biographie</th>
+            <th class="border border-gray-200">Première connection</th>
+            <th class="border border-gray-200">Dernière connection</th>
+            <th class="border border-gray-200">Admin</th>
+            <th class="border border-gray-200">Désactiver / Activer</th>
+            <th class="border border-gray-200">Supprimer</th>
         </tr>
         <?= $controller->getTableContent(); ?>
     </table>
+</div>
 
 <?= $controller->getPageInterface() ?>

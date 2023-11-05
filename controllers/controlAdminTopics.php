@@ -116,11 +116,11 @@ class controlAdminTopics
                 ob_start();
                 foreach ($result as $row)
                 { ?>
-                    <tr>
-                        <td> <?= $row['TOPIC_ID']?></td>
-                        <td> <?= $row['NAME']?></td>
-                        <td> <?= $row['DESCRIPTION']?></td>
-                        <td>
+                    <tr class="border border-gray-200">
+                        <td class="border border-gray-200"> <?= $row['TOPIC_ID']?></td>
+                        <td class="border border-gray-200"> <?= $row['NAME']?></td>
+                        <td class="border border-gray-200"> <?= $row['DESCRIPTION']?></td>
+                        <td class="border border-gray-200">
                             <form method="post">
                                 <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button><br>
                                 <label>Nouveau Nom : </label>
@@ -129,7 +129,7 @@ class controlAdminTopics
                                 <input type="text" name="newInfo">
                             </form>
                         </td>
-                        <td><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
+                        <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
                     </tr>
                 <?php }
             }

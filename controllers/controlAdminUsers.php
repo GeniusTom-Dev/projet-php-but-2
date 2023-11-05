@@ -133,15 +133,15 @@ class controlAdminUsers
                 ob_start();
                foreach ($result as $row)
                 { ?>
-            <tr>
-                <td> <?= $row['USER_ID']?></td>
-                <td> <?= $row['USERNAME']?></td>
-                <td> <?= $row['USER_EMAIL']?></td>
-                <td> <?= $row['USER_BIO']?></td>
-                <td> <?= $row['USER_CREATED']?></td>
-                <td> <?= $row['USER_LAST_CONNECTION']?></td>
-                <td> <?= $row['IS_ADMIN']?></td>
-                <td><form method="post"><button name="<?php
+            <tr class="border border-gray-200">
+                <td class="border border-gray-200"> <?= $row['USER_ID']?></td>
+                <td class="border border-gray-200"> <?= $row['USERNAME']?></td>
+                <td class="border border-gray-200"> <?= $row['USER_EMAIL']?></td>
+                <td class="border border-gray-200"> <?= $row['USER_BIO']?></td>
+                <td class="border border-gray-200"> <?= $row['USER_CREATED']?></td>
+                <td class="border border-gray-200"> <?= $row['USER_LAST_CONNECTION']?></td>
+                <td class="border border-gray-200"> <?= $row['IS_ADMIN']?></td>
+                <td class="border border-gray-200"><form method="post"><button name="<?php
                         if ($row['IS_ACTIVATED'] == 1){
                             echo 'deactivate';
                         }
@@ -158,7 +158,7 @@ class controlAdminUsers
                             }
                             ?></button></form>
                 </td>
-                <td><form method="post"><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
+                <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['USER_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }

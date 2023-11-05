@@ -82,15 +82,15 @@ class controlAdminPosts
                 ob_start();
                 foreach ($result as $row)
                 { ?>
-            <tr>
-                <td rowspan="2"><?= $row['POST_ID']?></td>
-                <td><?= $row['TITLE']?></td>
-                <td rowspan="2"><?= $row['USER_ID']?></td>
-                <td rowspan="2"><?= $row['DATE_POSTED']?></td>
-                <td rowspan="2"><form method="post"><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
+            <tr class="border border-gray-200">
+                <td class="border border-gray-200" rowspan="2"><?= $row['POST_ID']?></td>
+                <td class="border border-gray-200"><?= $row['TITLE']?></td>
+                <td class="border border-gray-200" rowspan="2"><?= $row['USER_ID']?></td>
+                <td class="border border-gray-200" rowspan="2"><?= $row['DATE_POSTED']?></td>
+                <td class="border border-gray-200" rowspan="2"><form method="post"><button name="Delete" value="<?=$row['POST_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
-            <tr>
-                <td><?= $row['CONTENT']?></td>
+            <tr class="border border-gray-200">
+                <td class="border border-gray-200"><?= $row['CONTENT']?></td>
             </tr>
                 <?php }
             }
