@@ -1,4 +1,5 @@
 <?php
-echo "index";
-include 'view/homepage.php';
+session_start();
+header('Location: View/homepage.php');
+die();
 ?>
