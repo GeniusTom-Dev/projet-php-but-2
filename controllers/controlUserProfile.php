@@ -7,17 +7,17 @@ class controlUserProfile
     private DbPosts $dbPosts;
     private DbFavorites $dbFavorites;
     private DbFollows $dbFollows;
+
     public controlGeneratePosts $postController;
 
-    private mysqli $dbConn;
+    public function __construct(DbComments $dbComments, DbFavorites $dbFavorites, DbFollows $dbFollows, DbLikes $dbLikes,
+                                DbPosts $dbPosts, DbTopics $dbTopics, DbUsers $dbUsers){
+        $this->dbFavorites = $dbFavorites;
+        $this->dbFollows = $dbFollows;
+        $this->dbPosts = $dbPosts;
+        $this->dbUsers = $dbUsers;
 
-    public function __construct($conn){
-        $this->dbConn = $conn;
-        $this->dbFavorites = new DbFavorites($conn);
-        $this->dbFollows = new DbFollows($conn);
-        $this->dbPosts = new DbPosts($conn);
-        $this->dbUsers = new DbUsers($conn);
-        $this->postController = new controlGeneratePosts($conn);
+        $this->postController = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
     }
 
     public function getUserProfileInfo(int $userID): string{

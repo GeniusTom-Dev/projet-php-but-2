@@ -65,6 +65,7 @@ class controlCreatePosts
                     <button class="confirmDeleteButton px-4 py-2 bg-red-500 text-white rounded-md ml-2">Confirmer</button>
                     <button class="cancelDeleteButton px-4 py-2 bg-[#b2a5ff] rounded-md ml-2">Annuler</button>
                 </div>
+            </form>
         </article>
 
 

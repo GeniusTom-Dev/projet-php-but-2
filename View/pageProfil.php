@@ -6,7 +6,19 @@ $_GET['userProfile'] = 2;
 $_SESSION['suid'] = 2;
 $_SESSION['isAdmin'] = true;
 
-$controllerProfile = new controlUserProfile($dbConn);
+// Restore selected userProfile or save
+if (isset($_GET['userProfile'])) {
+    $_SESSION['userProfile'] = $_GET['userProfile'];
+}
+else {
+    if (!isset($_SESSION['userProfile'])){
+        header('Location: homepage.php');
+        die();
+    }
+    $_GET['userProfile'] = $_SESSION['userProfile'];
+}
+
+$controllerProfile = new controlUserProfile($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
 $controllerProfile->checkNewBio();
 $controllerProfile->checkNewProfilePic();
 $controllerProfile->postController->checkAllShowActions();
