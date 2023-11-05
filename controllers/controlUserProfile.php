@@ -98,7 +98,7 @@ class controlUserProfile
         }
     }
 
-    public function getUserPosts(int $userID, ?int $limit, ?string $sort){
+    public function getUserPosts(int $userID, ?int $limit, ?string $sort): string{
         $result = $this->dbPosts->select_SQLResult(null, null, $userID, null, null, $limit, 1, $sort)->getContent();
         ob_start();
         foreach ($result as $post){
@@ -112,7 +112,7 @@ class controlUserProfile
         return $userPosts;
     }
 
-    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort){
+    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort): string{
         $result = $this->dbFavorites->getUserFavoritePostsID($userID, $limit, 1, $sort)->getContent();
         ob_start();
         foreach ($result as $post){

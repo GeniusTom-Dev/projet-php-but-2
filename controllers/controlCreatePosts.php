@@ -11,7 +11,9 @@ class controlCreatePosts
         $this->dbTopics = new DbTopics($conn);
     }
 
-    function publishPost($title, $content, $arrayTopics, $arrayImg): void{
+    function publishPost($title, $content, $arrayTopics, $arrayImg = null): void{
+        $title = str_replace('\'', '\'\'', $title);
+        $content = str_replace('\'', '\'\'', $content);
         // Publish the post
         $postID = $this->dbPosts->addPost($_SESSION['suid'], $title, $content, date('Y-m-d'));
         // Link the post to the associated topics
@@ -76,8 +78,13 @@ class controlCreatePosts
 
     public function checkCreatePost(): void{
         if (isset($_POST['createPost'])){
-            if (! (empty($_POST['title']) && empty($_POST['content'])) && empty($_POST['img'])){
-                $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
+            if (! (empty($_POST['title']) && empty($_POST['content']))){
+                if (empty($_POST['img'])){
+                    $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics']);
+                }
+                else{
+                    $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
+                }
             }
         }
 

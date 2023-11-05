@@ -58,7 +58,7 @@ require_once "enTete.php";
                     </div>
                     <!-- Affiche les publications selon vos besoins -->
                     <div>
-                        <?= $controllerProfile->getUserPosts($_GET['userProfile'], 15, 'recent') ?>
+                        <?= $controllerProfile->getUserPosts($_GET['userProfile'], 10, 'recent') ?>
                         <script src="/projet-php-but-2/html/Script/scriptShowPost.js"></script>
                     </div>
                 </section>
@@ -67,7 +67,7 @@ require_once "enTete.php";
                         <h1 class="text-2xl font-semibold">Favoris</h1>
                         <!-- Affiche les publications selon vos besoins -->
                         <div>
-                            <?= $controllerProfile->getUserBookmarks($_GET['userProfile'], 15, 'recent') ?>
+                            <?= $controllerProfile->getUserBookmarks($_GET['userProfile'], 10, 'recent') ?>
                         </div>
                     </section>
                 <?php } ?>
