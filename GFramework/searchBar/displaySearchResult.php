@@ -3,6 +3,7 @@ require_once __DIR__ . '/../autoloader.php';
 require_once __DIR__ . '/../../controllers/controlTopic.php';
 require_once __DIR__ . '/../../controllers/controlUser.php';
 require_once __DIR__ . '/../../controllers/controlGeneratePosts.php';
+require_once __DIR__ . '/../../controllers/controlGenerateComments.php';
 
 
 function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, ?int $limit = null, ?int $page = null, ?string $sort = null): void
@@ -16,7 +17,7 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
         } else if ($_GET["selectDb"] == "Posts") {
             displayPosts(getPostsResults($dbPosts, $dbTopics, $limit, $page, $sort), $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
         } else if ($_GET["selectDb"] == "Comments") {
-            $results = getCommentsResults($dbComments, $limit, $page, $sort);
+            displayComments(getCommentsResults($dbComments, $limit, $page, $sort), $dbComments, $dbPosts, $dbUsers);
         }
     } else {
         if (!isset($_GET['selectDb'])) {
@@ -24,6 +25,18 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
             displayTopic(getTopicsResults($dbTopics, $limit, $page, $sort), $dbTopics);
         }
     }
+}
+
+function displayComments($searchResult, $dbComments, $dbPosts, $dbUsers): void
+{
+
+    $controller = new \controllers\controlGenerateComments($dbComments, $dbPosts, $dbUsers);
+    $controller->checkAllShowActions();
+    $htmlCode = "";
+    foreach ($searchResult as $comment) {
+        $htmlCode .= '<tr>' . $controller->getCommentHTML($comment["COMMENT_ID"]) . '</tr>';
+    }
+    echo $htmlCode;
 }
 
 function displayPosts($searchResult, $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers): void
