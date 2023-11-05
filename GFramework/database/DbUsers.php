@@ -289,7 +289,7 @@ class DbUsers
      * @param string $username
      * @return bool True if the username is already used, false otherwise.
      */
-    private function isUsernameAlreadyUsed(string $username): bool
+    public function isUsernameAlreadyUsed(string $username): bool
     {
         $request = "SELECT * FROM $this->dbName WHERE USERNAME = '$username'";
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));
@@ -301,10 +301,39 @@ class DbUsers
      * @param string $email
      * @return bool True if the email is already used, false otherwise.
      */
-    private function isEmailAlreadyUsed(string $email): bool
+    public function isEmailAlreadyUsed(string $email): bool
     {
         $request = "SELECT * FROM $this->dbName WHERE USER_EMAIL = '$email'";
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));
+    }
+
+    public function getPasswordFromLogin(string $login, string $typeConnection): string
+    {
+        if ($typeConnection === "login") {
+            $request = "SELECT USER_PWD FROM $this->dbName WHERE USERNAME = '$login'";
+        } else {
+            $request = "SELECT USER_PWD FROM $this->dbName WHERE USER_EMAIL = '$login'";
+        }
+        $result = $this->conn->query($request);
+        return mysqli_fetch_assoc($result)["USER_PWD"];
+    }
+
+    public function getUserIdFromLogin(string $login, string $typeConnection): int
+    {
+        if ($typeConnection === "login") {
+            $request = "SELECT USER_ID FROM $this->dbName WHERE USERNAME = '$login'";
+        } else {
+            $request = "SELECT USER_ID FROM $this->dbName WHERE USER_EMAIL = '$login'";
+        }
+        $result = $this->conn->query($request);
+        return mysqli_fetch_assoc($result)["USER_ID"];
+    }
+
+    public function isAdminFromId(string $user_id): bool
+    {
+        $request = "SELECT IS_ADMIN FROM $this->dbName WHERE USER_ID = $user_id";
+        $result = $this->conn->query($request);
+        return mysqli_fetch_assoc($result)["IS_ADMIN"];
     }
 
 
