@@ -8,11 +8,9 @@ class controlGeneratePosts
     private DbLikes $dbLikes;
     private DbFavorites $dbFavorites;
     private DbFollows $dbFollows;
-    private DbComments $dbComments;
 
     public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers)
     {
-        $this->dbComments = $dbComments;
         $this->dbFavorites = $dbFavorites;
         $this->dbFollows = $dbFollows;
         $this->dbLikes = $dbLikes;
