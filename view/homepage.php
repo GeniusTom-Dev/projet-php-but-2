@@ -34,6 +34,7 @@ require_once "enTete.php";
 </div>
 
 <section class="h-screen w-full flex flex-col  items-center">
+    <p>Les posts les plus récents : </p>
 <?php
     // Affichage répétitif des posts
     $posts = $dbPosts->select_SQLResult(null, null, null, null, null, $limitNbPosts, $_GET['page'], 'recent')->getContent();
