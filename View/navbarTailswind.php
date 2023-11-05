@@ -38,7 +38,7 @@ if (isset($_POST["deconnect"])){
                 }
                 else{
                     echo $userData['USER_PROFIL_PIC']; // User specific Profile Pic
-                }?>" alt="Avatar" class="block w-100 h-100 rounded-full" id="ConnectedUserPic" width="200px" height="200px">
+                }?>" alt="Avatar" class="w-72 h-auto rounded-full transition-transform duration-300 hover:scale-125 mr-1" id="ConnectedUserPic" >
                 <div class="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-75 text-white text-center opacity-0 hover:opacity-100 transition-opacity">
                     <div class="flex items-center justify-center h-full">
                         <div class="text-2xl"><?= $userData['USERNAME'] ?></div>
