@@ -11,7 +11,9 @@ class View{
         $this->layout = $layout;
         $this->documentTitle = $documentTitle;
         if(empty($fileName) === false){
-            $this->content = file_get_contents(__DIR__ . "/templates/" . $fileName);
+            ob_start();
+            require_once __DIR__ . "/templates/" . $fileName;
+            $this->content = ob_get_clean();
         }
 
 
@@ -24,5 +26,13 @@ class View{
 
     public function setContent(string $content): void{
         $this->content = $content;
+    }
+
+    public function addContentBefore(string $content): void{
+        $this->content = $content . $this->content;
+    }
+
+    public function addContentAfter(string $content): void{
+        $this->content .= $content;
     }
 }

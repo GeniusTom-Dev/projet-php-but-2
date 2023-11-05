@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="4638add0-d618-49d2-95aa-3af3c6dc4140" name="echo" url="http://ftp-echo.alwaysdata.net">
+        <fileTransfer host="ftp-echo.alwaysdata.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

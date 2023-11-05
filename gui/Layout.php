@@ -19,11 +19,15 @@ class Layout{
     }
 
     public function getHeaderPage(): string{
-        return file_get_contents(__DIR__ . "/templates/header.html");
+        ob_start();
+        require_once __DIR__ . "/templates/header.html";
+        return ob_get_clean();
     }
 
     public function getFooterPage(): string{
-        return file_get_contents(__DIR__ . "/templates/footer.html");
+        ob_start();
+        require_once __DIR__ . "/templates/footer.html";
+        return ob_get_clean();
 
     }
 }

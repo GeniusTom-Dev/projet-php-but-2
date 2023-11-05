@@ -62,7 +62,13 @@ switch ($page){
         header("Location: /");
         break;
     default:
-//        $view = new \gui\views\View($layout, "Accueil");
-        var_dump($_SESSION);
+        $newSearch = $_GET['newSearch'] ?? "";
+        $selectOption = $_GET['selectOption'] ?? "";
+        $searchText = $_GET['searchText'] ?? "";
+        if(empty($newSearch) === false || empty($selectOption) === false || empty($searchText) === false){
+            (new \gui\views\ViewHome($layout, "Accueil | Echo", array("newSearch" => $newSearch, "selectOption" => $selectOption, "searchText" => $searchText), $_SESSION["isAdmin"] == true))->render();
+        }else{
+            (new \gui\views\ViewHome($layout, "Accueil | Echo"))->render();
+        }
         break;
 }
