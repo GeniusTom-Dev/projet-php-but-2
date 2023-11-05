@@ -29,7 +29,7 @@ class controlGenerateFullPosts
         <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
             <header class="flex flex-lign items-center mb-2">
                 <form action="pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
-                    <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
+                    <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <?php
                     if (is_null($userData['USER_PROFIL_PIC'])) {
                         echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
