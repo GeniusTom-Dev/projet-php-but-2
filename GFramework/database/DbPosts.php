@@ -192,7 +192,13 @@ class DbPosts
 
     public function getLastID(): int{
         $query = "SELECT MAX(POST_ID) AS MAXIMUM FROM " . $this->dbName;
-        return $this->conn->query($query)->fetch_assoc()['MAXIMUM'];
+        $id = $this->conn->query($query)->fetch_assoc()['MAXIMUM'];
+        if (empty($id)){
+            return 0;
+        }
+        else{
+            return $id;
+        }
     }
 
     /**
