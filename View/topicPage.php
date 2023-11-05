@@ -43,14 +43,16 @@ start_page($_GET['name']);
 
 require_once "enTete.php";
 
-require_once "navbarTailswind.php";
+
 ?>
 
 <header>
 
 </header>
-
-<section class="h-screen w-full center">
+<div class=" h-screen w-64 fixed left-0">
+    <?php require_once "navbarTailswind.php";?>
+</div>
+<section class="h-screen w-full center flex flex-col  items-center">
     <?php // Bouton page précédente
     if ($_GET['page'] > 1){ ?>
         <div>
