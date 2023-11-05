@@ -1,5 +1,5 @@
 <?php
 session_start();
-header('Location: View/homepage.php');
+header('Location: view/homepage.php');
 die();
 ?>

@@ -26,7 +26,7 @@ class controlCreatePosts
                 }
             }
         }
-        // Link images to the post
+        /*// Link images to the post
         if (!empty($arrayImg)){
             foreach ($arrayImg as $img){
                 if ($img['error'] === UPLOAD_ERR_OK) {
@@ -41,7 +41,7 @@ class controlCreatePosts
                     }
                 }
             }
-        }
+        }*/
         return $postID;
     }
 
@@ -58,14 +58,12 @@ class controlCreatePosts
                     </div>
                     <textarea name="content" placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
                     <div class="imageContainer mt-4">
-                        <form method="post" enctype="multipart/form-data">
                         <button type="button" class="plusImgButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
                             <!-- Input de type "file" caché -->
                             <input type="file" id="fileInput" name="fileInput" class="fileInput" accept="image/*"  style="display: none">
                             <p id="fileUploadName"></p>
-                        </form>
                     </div>
                     <div class="galleryContainer mt-4"></div>
                     <table class="w-full">
@@ -99,20 +97,17 @@ class controlCreatePosts
     public function checkCreatePost(): void{
         if (isset($_POST['createPost'])){
             if (! (empty($_POST['title']) && empty($_POST['content']))){
-//                echo 'Content valid    ';
                 if (empty($_FILES['img'])){
                     $_FILES['img'] = null;
-//                    echo 'Img empty    ';
                 }
                 if (empty ($_POST['topics'])) {
                     $_POST['topics'] = null;
-//                    echo 'Topics empty    ';
                 }
-                $postID = $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_FILES['img']);
-                if ( isset($_FILES['fileInputPP'])) {
-                    if ($_FILES['fileInputPP']['error'] === UPLOAD_ERR_OK) {
-                        $fileName = $_FILES['fileInputPP']['name'];
-                        $image_source = file_get_contents($_FILES['fileInputPP']['tmp_name']);
+                $postID = $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics']);
+                if ( isset($_FILES['fileInput'])) {
+                    if ($_FILES['fileInput']['error'] === UPLOAD_ERR_OK) {
+                        $fileName = $_FILES['fileInput']['name'];
+                        $image_source = file_get_contents($_FILES['fileInput']['tmp_name']);
                         $this->dbPostMedia->addAnImageToPost($postID, $this->uploadImage($fileName, $image_source));
                     }
                 }

@@ -68,15 +68,7 @@ class controlGenerateFullPosts
                 <?php } ?>
             </main>
             <footer>
-                <div class="comment-sender p-4 max-h-40 overflow-y-auto">
-                    <h2 class="mb-4 font-bold text-xl">Commenter</h2>
-                    <div class="flex items-center mb-2">
-                        <form name="createCommentForm" method="post">
-                            <textarea name="content" placeholder="Ajoutez un commentaire..." class="comment-input w-full p-2 border border-[#b2a5ff] rounded-md"></textarea>
-                            <button name="createComment" class="comment-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?> value="<?= $postID ?>">Poster</button>
-                        </form>
-                    </div>
-                </div>
+
                 <div class="flex items-center">
                     <form name="LikeForm" method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
@@ -97,6 +89,15 @@ class controlGenerateFullPosts
                             <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
+                </div>
+                <div class="comment-sender p-4 max-h-40 overflow-y-auto">
+                    <h2 class="mb-4 font-bold text-xl">Commenter</h2>
+                    <div class="flex items-center mb-2">
+                        <form name="createCommentForm" method="post" class="flex items-center">
+                            <textarea name="content" placeholder="Ajoutez un commentaire..." class="comment-input w-full p-2 border border-[#b2a5ff] rounded-md"></textarea>
+                            <button name="createComment" class="comment-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?> value="<?= $postID ?>">Poster</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="comment-section p-4 max-h-40 overflow-y-auto">
                     <h2 class="mb-4 font-bold text-xl">Commentaires</h2>

@@ -32,7 +32,7 @@ class DbPostMedia
      */
     public function addAnImageToPost(int $postId, string $imgURL) : void {
         $request = "INSERT INTO $this->dbName";
-        $request .= " VALUES ($postId, '$imgURL');";
+        $request .= " (`POST_ID`, `IMAGE_URL`) VALUES ('$postId','$imgURL');";
         $this->conn->query($request);
     }
 
