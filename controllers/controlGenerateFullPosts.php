@@ -32,9 +32,9 @@ class controlGenerateFullPosts
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <?php
                     if (is_null($userData['USER_PROFIL_PIC'])) {
-                        echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        echo '<img src="/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                     } else {
-                        echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                     }
                     ?>
                     <div class="flex flex-col mr-1">
