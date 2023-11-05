@@ -2,7 +2,6 @@
 
 class controlCreatePosts
 {
-
     private DbPosts $dbPosts;
     private DbTopics $dbTopics;
     private DbPostMedia $dbPostMedia;
@@ -59,11 +58,14 @@ class controlCreatePosts
                     </div>
                     <textarea name="content" placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
                     <div class="imageContainer mt-4">
+                        <form method="post" enctype="multipart/form-data">
                         <button type="button" class="plusImgButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
-                        <!-- Input de type "file" caché -->
-                        <input type="file" class="fileInput" accept="image/*" style="display: none;">
+                            <!-- Input de type "file" caché -->
+                            <input type="file" id="fileInput" name="fileInput" class="fileInput" accept="image/*"  style="display: none">
+                            <p id="fileUploadName"></p>
+                        </form>
                     </div>
                     <div class="galleryContainer mt-4"></div>
                     <table class="w-full">
@@ -73,11 +75,9 @@ class controlCreatePosts
                                 <button type="button" class="add-category-button bg-[#b2a5ff] text-white rounded-md px-2 py-1 m-2">Ajouter Catégorie</button>
                             </td>
                             <td id="categoryList" class="justify-content">
-                                <!--<p id="topicsList" class="bg-purple-500 text-white rounded-md px-2 py-1 m-2 text-left inline-block"><?php /*echo "Cuisine"; */?></p>-->
                             </td>
                         </tr>
                     </table>
-                    <!--<ul class="category-list"></ul>-->
                 </main>
                 <footer>
                     <img id="paperPlane" src="/html/images/paper-plane-solid.svg" alt="paperPlane" class="paperPlane w-4 h-auto transition-transform duration-300 hover:scale-125 ml-auto" onclick="submit()">
@@ -109,11 +109,17 @@ class controlCreatePosts
 //                    echo 'Topics empty    ';
                 }
                 $postID = $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_FILES['img']);
+                if ( isset($_FILES['fileInputPP'])) {
+                    if ($_FILES['fileInputPP']['error'] === UPLOAD_ERR_OK) {
+                        $fileName = $_FILES['fileInputPP']['name'];
+                        $image_source = file_get_contents($_FILES['fileInputPP']['tmp_name']);
+                        $this->dbPostMedia->addAnImageToPost($postID, $this->uploadImage($fileName, $image_source));
+                    }
+                }
                 header('Location: affichagePostDetails.php?detailsPost=' . $postID);
                 die();
             }
         }
-
     }
 
     public function uploadImage($fileName, $image_source) : string|null {

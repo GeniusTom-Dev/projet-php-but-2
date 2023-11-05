@@ -101,7 +101,6 @@ class controlUserProfile
     public function getUserPosts(string $username, ?int $limit, ?string $sort): string{
         $userID = $this->dbUsers->selectByUsername($username)->getContent()['USER_ID'];
         $result = $this->dbPosts->select_SQLResult(null, null, (int) $userID, null, null, $limit, 1, $sort)->getContent();
-//        var_dump($result);
         ob_start();
         foreach ($result as $post){
         ?>
@@ -111,7 +110,6 @@ class controlUserProfile
         }
         $userPosts = ob_get_contents();
         ob_end_clean();
-//        var_dump($userPosts);
         return $userPosts;
     }
 

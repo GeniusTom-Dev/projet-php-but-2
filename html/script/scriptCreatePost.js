@@ -16,6 +16,10 @@ const addCategoryButton = postCreator.querySelector(".add-category-button");
 const galleryContainer = postCreator.querySelector(".galleryContainer");
 const imageInput = document.querySelector(".fileInputPP");
 
+// affiche le nom de l'image upload pdt la création de post
+document.getElementById('fileInput').addEventListener('change', function () {
+    document.getElementById('fileUploadName').textContent = this.files[0].name;
+});
 
 // Ajoutez un gestionnaire d'événement pour le bouton "Ajouter Catégorie"
 addCategoryButton.addEventListener("click", () => {
