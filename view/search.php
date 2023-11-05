@@ -24,7 +24,7 @@ if ($max % $limitRows != 0) {
 <div class=" h-screen w-64 fixed left-0">
     <?php require_once "navbarTailswind.php";?>
 </div>
-<div class="flex flex-col items-center mb-8">
+<div class="flex flex-col items-center mb-8 w-1/2 ml-[50%] -translate-x-1/2">
     <h2>Resultats de la recherche :</h2>
     <table id="table">
         <?php whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limitRows, $_GET['page'], 'recent'); ?>
