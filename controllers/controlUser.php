@@ -26,7 +26,7 @@ class controlUser
         ob_start(); ?>
         <section
                 class="userProfileSimple flex flex-lign items-center w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
-            <form action="../View/pageProfil.php" onclick="submit()" method="get">
+            <form action="../view/pageProfil.php" onclick="submit()" method="get">
                 <!-- Affichage page profil utilisateur -->
                 <input type="hidden" name="userProfile" value="<?= $userData['USER_NAME'] ?>">
                 <div class="w-100 h-100">

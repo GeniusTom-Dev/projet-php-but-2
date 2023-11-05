@@ -69,7 +69,7 @@ trashCan.addEventListener("click", () => {
 });
 
 confirmDeleteButton.addEventListener("click", () => {
-    location.href = "View/homepage.php";
+    location.href = "../../view/homepage.php";
 });
 
 cancelDeleteButton.addEventListener("click", () => {

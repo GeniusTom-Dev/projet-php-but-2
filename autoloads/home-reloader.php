@@ -132,19 +132,19 @@ function checkPage(): void{
  */
 function homeReload(): void{
     if ($_GET['tab'] == 'categories') {
-        require '../View/admin_views/adminCategories.php';
+        require '../view/admin_views/adminCategories.php';
         //echo '<p>Categorie loadée</p>';
     }
     else if ($_GET['tab'] == 'utilisateurs') {
-        require '../View/admin_views/adminUsers.php';
+        require '../view/admin_views/adminUsers.php';
 //            echo '<p>', $_GET['utilisateurs'], '</p>';
     }
     else if ($_GET['tab'] == 'posts') {
-        require '../View/admin_views/adminPosts.php';
+        require '../view/admin_views/adminPosts.php';
 //            echo '<p>', $_GET['posts'], '</p>';
     }
     else if ($_GET['tab'] == 'commentaires') {
-        require '../View/admin_views/adminComments.php';
+        require '../view/admin_views/adminComments.php';
 //            echo '<p>', $_GET['commentaires'], '</p>';
     }
     else {

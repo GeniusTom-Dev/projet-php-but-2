@@ -28,6 +28,4 @@ require_once "enTete.php";
     </div>
 </div>
 
-<script src="/projet-php-but-2/html/script/scriptShowPost.js"></script>
-</body>
-</html>
+<script src="/html/script/scriptShowPost.js"></script>

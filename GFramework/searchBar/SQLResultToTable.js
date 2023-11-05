@@ -107,7 +107,7 @@ function updateTableContent(selectedDb, columns, table) {
 
 function addModificationColumn(row, cmp) {
     let cell = row.insertCell(cmp);
-    cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
+    cell.innerHTML = '<form method="post" action="/projet-php-but-2/view/homeAdmin.php">\n' +
         '<input type="text" id="newName" name="newName" placeholder="Nouveau Nom">\n' +
         '<br>\n' +
         '<input type="text" id="newInfo" name="newInfo" placeholder="Nouvelle Description">\n' +
@@ -117,14 +117,14 @@ function addModificationColumn(row, cmp) {
 
 function addDeleteColumn(row, cmp) {
     let cell = row.insertCell(cmp);
-    cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
+    cell.innerHTML = '<form method="post" action="/projet-php-but-2/view/homeAdmin.php">\n' +
         '<button name="Delete" value="TOPIC_ID">X</button>\n' +
         '</form>';
 }
 
 function addDesactivateActivateColumn(row, cmp) {
     let cell = row.insertCell(cmp);
-    cell.innerHTML = '<form method="post" action="/projet-php-but-2/View/homeAdmin.php">\n' +
+    cell.innerHTML = '<form method="post" action="/projet-php-but-2/view/homeAdmin.php">\n' +
         '<button name="action" value="<?=$row[\'USER_ID\']?>" onclick="submit()">\n' +
         '<?php\n' + 'if ($row[\'IS_ACTIVATED\'] == 1){\n' +
         'echo \'Désactiver\';\n' + '}\n' +

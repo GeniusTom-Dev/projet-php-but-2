@@ -32,7 +32,7 @@ class controlGenerateComments
         <article
                 class="commentInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
-                <form action="/View/pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
+                <form action="/view/pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <div class="w-100 h-100">
                         <?php
@@ -49,7 +49,7 @@ class controlGenerateComments
                     <p>Follow | <?= $this->dbFollows->countFollower($commentData['USER_ID']) ?> followers</p>
                 </div>
 
-                <form action="/View/affichagePostDetails.php" method="get">
+                <form action="/view/affichagePostDetails.php" method="get">
                     <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postData['POST_ID'] ?>">
                     <img src="/html/images/fleches.svg" alt="growArrow"
