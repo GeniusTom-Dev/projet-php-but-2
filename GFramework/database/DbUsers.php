@@ -3,6 +3,7 @@
 namespace GFramework\database;
 
 use GFramework\utilities\GReturn;
+use mysqli;
 
 /**
  * Singleton used to initialize the connection with the DbUsers table and perform queries
@@ -10,7 +11,7 @@ use GFramework\utilities\GReturn;
 class DbUsers
 {
     private string $dbName = "users";
-    private \mysqli $conn;
+    private mysqli $conn;
     private array|string $dbColumns = ["USERNAME", "USER_EMAIL", "USER_PWD", "IS_ACTIVATED", "IS_ADMIN", "USER_CREATED", "USER_LAST_CONNECTION", "USER_PROFIL_PIC", "USER_BIO"];
 
     public function __construct($conn)
@@ -44,7 +45,7 @@ class DbUsers
      * @return GReturn
      * Used when you need to filter the table according to several non-unique key attributes
      */
-    public function select_SQLResult(?string $usernameLike=null, ?bool $isAdmin=null, ?bool $isActivated=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?string $usernameLike = null, ?bool $isAdmin = null, ?bool $isActivated = null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
         // Filtering result
@@ -64,7 +65,8 @@ class DbUsers
      * @param bool|null $isActivated (optional)
      * @return string
      */
-    public function getWhereInstruction(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): string{
+    public function getWhereInstruction(?string $usernameLike, ?bool $isAdmin, ?bool $isActivated): string
+    {
         $conditions = [];
         if (!is_null($usernameLike)) {
             $conditions[] = "USERNAME LIKE '$usernameLike%'";
@@ -77,8 +79,7 @@ class DbUsers
         }
         if (!empty($conditions)) {
             $query = " WHERE " . implode(" AND ", $conditions);
-        }
-        else{
+        } else {
             $query = "";
         }
         return $query;
@@ -112,7 +113,8 @@ class DbUsers
      * @param string|null $sort (optional)
      * @return string
      */
-    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string
+    {
         $request = '';
         if ($sort != null) {
             $request .= " " . $this->getSortInstruction($sort);
@@ -251,7 +253,8 @@ class DbUsers
      * @param string|null $newProfilPic
      * @return void
      */
-    public function updateProfilPic(int $userId, ?string $newProfilPic) : void {
+    public function updateProfilPic(int $userId, ?string $newProfilPic): void
+    {
         $request = "UPDATE $this->dbName SET USER_PROFIL_PIC = '$newProfilPic'";
         $request .= " WHERE USER_ID = $userId";
         $this->conn->query($request);
@@ -293,27 +296,30 @@ class DbUsers
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
 
-    public function getPasswordFromLogin(string $login, string $typeConnection): string{
-        if($typeConnection === "login"){
+    public function getPasswordFromLogin(string $login, string $typeConnection): string
+    {
+        if ($typeConnection === "login") {
             $request = "SELECT USER_PWD FROM $this->dbName WHERE USERNAME = '$login'";
-        }else{
+        } else {
             $request = "SELECT USER_PWD FROM $this->dbName WHERE USER_EMAIL = '$login'";
         }
         $result = $this->conn->query($request);
         return mysqli_fetch_assoc($result)["USER_PWD"];
     }
 
-    public function getUserIdFromLogin(string $login, string $typeConnection): int{
-        if($typeConnection === "login"){
+    public function getUserIdFromLogin(string $login, string $typeConnection): int
+    {
+        if ($typeConnection === "login") {
             $request = "SELECT USER_ID FROM $this->dbName WHERE USERNAME = '$login'";
-        }else{
+        } else {
             $request = "SELECT USER_ID FROM $this->dbName WHERE USER_EMAIL = '$login'";
         }
         $result = $this->conn->query($request);
         return mysqli_fetch_assoc($result)["USER_ID"];
     }
 
-    public function isAdminFromId(string $user_id): bool{
+    public function isAdminFromId(string $user_id): bool
+    {
         $request = "SELECT IS_ADMIN FROM $this->dbName WHERE USER_ID = $user_id";
         $result = $this->conn->query($request);
         return mysqli_fetch_assoc($result)["IS_ADMIN"];

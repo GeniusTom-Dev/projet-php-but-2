@@ -1,17 +1,17 @@
 <?php
 
-namespace controllers;
-/*use utilities\GReturn;*/
-use DbComments;
+namespace GFramework\utilities;
+
+use GFramework\database;
 
 class controlAdminComments
 {
-
-    private DbComments $dbComments;
+    private \GFramework\database\DbComments $dbComments;
     private int $limitSelect = 10;
 
-    public function __construct($conn){
-        $this->dbComments = new DbComments($conn);
+    public function __construct($conn)
+    {
+        $this->dbComments = new \GFramework\database\DbComments($conn);
     }
 
     /* *********************************************************** *
@@ -23,7 +23,8 @@ class controlAdminComments
      * Also execute a count query with the same 'where' instruction but without any selection limit.
      * @return array Returns an array containing the result of the search request with limit, page and sort (queryResult), and the total of rows for this request without any selection limit (total).
      */
-    public function getSearchResult(): array{
+    public function getSearchResult(): array
+    {
         $container = [];
 
         $post_id = (empty($_GET['searchPostId']) === false) ? $_GET['searchPostId'] : null;
@@ -48,8 +49,9 @@ class controlAdminComments
      * SQL request to delete the post by using the id stored in the associated $_POST field.
      * @return void
      */
-    public function checkDeletedComment(): void{
-        if (isset($_POST['Delete'])){
+    public function checkDeletedComment(): void
+    {
+        if (isset($_POST['Delete'])) {
             $id = $_POST['Delete'];
             $this->dbComments->deleteComment($id);
         }
@@ -72,27 +74,27 @@ class controlAdminComments
      * </ul>
      * @return string The HTML Code corresponding to the content of the comment table
      */
-    public function getTableContent(): string{
+    public function getTableContent(): string
+    {
         $result = $this->getSearchResult()['queryResult'];
-        if (!$result)
-        {
+        if (!$result) {
             echo 'Impossible d\'exécuter la requête...';
-        }
-        else
-        {
-            if (count($result) != 0)
-            {
+        } else {
+            if (count($result) != 0) {
                 ob_start();
-                foreach ($result as &$row)
-                { ?>
-            <tr class="border border-gray-200">
-                <td class="border border-gray-200"><?= $row['COMMENT_ID']?></td>
-                <td class="border border-gray-200"><?= $row['CONTENT']?></td>
-                <td class="border border-gray-200"><?= $row['DATE_POSTED']?></td>
-                <td class="border border-gray-200"><?= $row['POST_ID']?></td>
-                <td class="border border-gray-200"><?= $row['USER_ID']?></td>
-                <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
-            </tr>
+                foreach ($result as &$row) { ?>
+                    <tr class="border border-gray-200">
+                        <td class="border border-gray-200"><?= $row['COMMENT_ID'] ?></td>
+                        <td class="border border-gray-200"><?= $row['CONTENT'] ?></td>
+                        <td class="border border-gray-200"><?= $row['DATE_POSTED'] ?></td>
+                        <td class="border border-gray-200"><?= $row['POST_ID'] ?></td>
+                        <td class="border border-gray-200"><?= $row['USER_ID'] ?></td>
+                        <td class="border border-gray-200">
+                            <form method="post">
+                                <button name="Delete" value="<?= $row['COMMENT_ID'] ?>" onclick="submit()">X</button>
+                            </form>
+                        </td>
+                    </tr>
                 <?php }
             }
         }
@@ -101,9 +103,9 @@ class controlAdminComments
         return $table;
     }
 
-   /* *********************************************************** *
-    * ******************** PAGE SELECT INTERFACE **************** *
-    * *********************************************************** */
+    /* *********************************************************** *
+     * ******************** PAGE SELECT INTERFACE **************** *
+     * *********************************************************** */
 
     /**
      * Calculate the maximum number of pages possible for the search request using Euclidean division and modulo.
@@ -111,10 +113,11 @@ class controlAdminComments
      * In the case where the total of rows is not divisible by the limit, there will be a rest of rows that will never be showed so the int following the maximum is returned instead in this case.
      * @return int The maximum number of pages possible for the search request used in the filling of a table.
      */
-    public function getMaxNumPage(): int{
+    public function getMaxNumPage(): int
+    {
         $total = $this->getSearchResult()['total'];
-        $max = (int) floor($total / $this->limitSelect);
-        if ($total % $this->limitSelect != 0){
+        $max = (int)floor($total / $this->limitSelect);
+        if ($total % $this->limitSelect != 0) {
             $max += 1;
         }
         return $max;
@@ -132,16 +135,19 @@ class controlAdminComments
      * When a button is clicked, the page will be reloaded with the number of the new page.
      * @return string The HTML Code corresponding to the page interface
      */
-    public function getPageInterface(): string{
+    public function getPageInterface(): string
+    {
         $max = $this->getMaxNumPage();
         ob_start(); ?>
         <form method="get">
             <table>
                 <tr>
-                    <td><button name="page" value="1" onclick="submit()">Début</button></td>
+                    <td>
+                        <button name="page" value="1" onclick="submit()">Début</button>
+                    </td>
                     <td>
                         <?php
-                        for ($numPage = 1; $numPage <= $max && $numPage < 4 && $numPage < $_GET['page'] - 1; ++$numPage){
+                        for ($numPage = 1; $numPage <= $max && $numPage < 4 && $numPage < $_GET['page'] - 1; ++$numPage) {
                             ?>
                             <button name="page" value="<?= $numPage ?>" onclick="submit()"><?= $numPage ?></button>
                             <?php
@@ -150,14 +156,19 @@ class controlAdminComments
                     </td>
                     <td>...</td>
                     <td>
-                        <?php if ($_GET['page'] - 1 > 0){ ?><button name="page" value="<?= $_GET['page'] - 1 ?>" onclick="submit()"><?= $_GET['page'] - 1?></button><?php } ?>
-                        <button name="page" value="<?= $_GET['page']?>" onclick="submit()"><?= $_GET['page']?></button>
-                        <?php if ($_GET['page'] + 1 <= $max){ ?><button name="page" value="<?= $_GET['page'] + 1 ?>" onclick="submit()"><?= $_GET['page'] + 1?></button><?php } ?>
+                        <?php if ($_GET['page'] - 1 > 0) { ?>
+                            <button name="page" value="<?= $_GET['page'] - 1 ?>"
+                                    onclick="submit()"><?= $_GET['page'] - 1 ?></button><?php } ?>
+                        <button name="page" value="<?= $_GET['page'] ?>"
+                                onclick="submit()"><?= $_GET['page'] ?></button>
+                        <?php if ($_GET['page'] + 1 <= $max) { ?>
+                            <button name="page" value="<?= $_GET['page'] + 1 ?>"
+                                    onclick="submit()"><?= $_GET['page'] + 1 ?></button><?php } ?>
                     </td>
                     <td>...</td>
                     <td>
                         <?php
-                        for ($numPage = $max - 2; $numPage <= $max; ++$numPage){
+                        for ($numPage = $max - 2; $numPage <= $max; ++$numPage) {
                             if ($numPage <= $_GET['page'] + 1) continue;
                             ?>
                             <button name="page" value="<?= $numPage ?>" onclick="submit()"><?= $numPage ?></button>
@@ -165,7 +176,9 @@ class controlAdminComments
                         }
                         ?>
                     </td>
-                    <td><button name="page" value="<?= $max ?>" onclick="submit()">Fin</button></td>
+                    <td>
+                        <button name="page" value="<?= $max ?>" onclick="submit()">Fin</button>
+                    </td>
                 </tr>
             </table>
         </form>

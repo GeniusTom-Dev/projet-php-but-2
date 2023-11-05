@@ -63,7 +63,9 @@ switch ($page) {
 
     case 'search':
         $controller = new controllers\searchResultController();
-        (new \gui\views\ViewSearch($layout, "Search | Echo", $controller, $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limitRows, $_GET['page'], 'recent'))->render();
+        (new \gui\views\ViewSearch($layout, "Search | Echo", $controller, $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, 10, $_GET['pageNb'], 'recent'))->render();
+        break;
+
     case "logout":
         session_unset();
         session_destroy();

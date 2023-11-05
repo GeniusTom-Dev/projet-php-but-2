@@ -1,6 +1,9 @@
 <?php
+
 namespace GFramework\database;
+
 use GFramework\utilities\GReturn;
+use mysqli;
 
 /**
  * Singleton used to initialize the connection with the DbTopics table and perform queries
@@ -9,6 +12,7 @@ class DbTopics
 {
     private string $dbName = "topics";
     private mysqli $conn;
+
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -23,7 +27,7 @@ class DbTopics
     public function getTotal(?string $nameOrDescriptionLike = null): int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM " . $this->dbName;
-        if ($nameOrDescriptionLike != null){
+        if ($nameOrDescriptionLike != null) {
             $query .= " WHERE (NAME LIKE '%$nameOrDescriptionLike%' OR DESCRIPTION LIKE '%$nameOrDescriptionLike%')";
         }
         return $this->conn->query($query)->fetch_assoc()['TOTAL'];
@@ -78,7 +82,8 @@ class DbTopics
      * @param string|null $sort (optional)
      * @return string
      */
-    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string
+    {
         $request = '';
         if ($sort != null) {
             $request .= " " . $this->getSortInstruction($sort);

@@ -34,7 +34,7 @@ class searchResultController
     function displayComments($searchResult, $dbComments, $dbPosts, $dbUsers, $dbFollows): string
     {
 
-        $controller = new \controllers\controlGenerateComments($dbComments, $dbPosts, $dbUsers, $dbFollows);
+        $controller = new \GFramework\utilities\controlGenerateComments($dbComments, $dbPosts, $dbUsers, $dbFollows);
         $controller->checkAllShowActions();
         $htmlCode = "";
         foreach ($searchResult as $comment) {
@@ -45,7 +45,7 @@ class searchResultController
 
     function displayPosts($searchResult, $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers): string
     {
-        $controller = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
+        $controller = new \GFramework\utilities\controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
         $controller->checkAllShowActions();
         $htmlCode = "";
         foreach ($searchResult as $post) {
@@ -56,7 +56,7 @@ class searchResultController
 
     function displayUsers($searchResult, $dbFollows, $dbUsers): string
     {
-        $controller = new \controllers\controlUser($dbFollows, $dbUsers);
+        $controller = new \GFramework\utilities\controlUser($dbFollows, $dbUsers);
         $controller->checkSubscribe();
         $htmlCode = "";
         foreach ($searchResult as $user) {
@@ -67,7 +67,7 @@ class searchResultController
 
     function displayTopic($searchResult, $dbTopics): string
     {
-        $controller = new \controllers\controlTopic($dbTopics);
+        $controller = new \GFramework\utilities\controlTopic($dbTopics);
         $htmlCode = "";
         foreach ($searchResult as $topic) {
             $htmlCode .= '<tr>' . $controller->getTopic($topic['TOPIC_ID']) . '</tr>';

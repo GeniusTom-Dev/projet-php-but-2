@@ -1,17 +1,15 @@
 <?php
 
-namespace controllers;
-
-use DbTopics;
+namespace GFramework\utilities;
 
 class controlAdminTopics
 {
-    private DbTopics $dbTopics;
+    private \GFramework\database\DbTopics $dbTopics;
     private int $limitSelect = 5;
 
     public function __construct($conn)
     {
-        $this->dbTopics = new DbTopics($conn);
+        $this->dbTopics = new \GFramework\database\DbTopics($conn);
     }
 
     /* *********************************************************** *
@@ -23,7 +21,8 @@ class controlAdminTopics
      * Also execute a count query with the same 'where' instruction but without any selection limit.
      * @return array Returns an array containing the result of the search request with limit, page and sort (queryResult), and the total of rows for this request without any selection limit (total).
      */
-     public function getSearchResult(): array{
+    public function getSearchResult(): array
+    {
         $container = [];
         if (empty($_GET["searchId"]) === false) {
             $results = [$this->dbTopics->selectById($_GET["searchId"])->getContent()];
@@ -38,9 +37,9 @@ class controlAdminTopics
         return $container;
     }
 
-     /* *********************************************************** *
-     * ************************* CHECKS ************************** *
-     * *********************************************************** */
+    /* *********************************************************** *
+    * ************************* CHECKS ************************** *
+    * *********************************************************** */
 
     /**
      * Verifies if a topic creation form was sent through the method "POST" and realize the necessary
@@ -105,31 +104,31 @@ class controlAdminTopics
     public function getTableContent(): string
     {
         $result = $this->getSearchResult()['queryResult'];
-        if (!$result)
-        {
+        if (!$result) {
             echo 'Impossible d\'exécuter la requête...';
-        }
-        else
-        {
-            if (count($result) != 0)
-            {
+        } else {
+            if (count($result) != 0) {
                 ob_start();
-                foreach ($result as $row)
-                { ?>
+                foreach ($result as $row) { ?>
                     <tr class="border border-gray-200">
-                        <td class="border border-gray-200"> <?= $row['TOPIC_ID']?></td>
-                        <td class="border border-gray-200"> <?= $row['NAME']?></td>
-                        <td class="border border-gray-200"> <?= $row['DESCRIPTION']?></td>
+                        <td class="border border-gray-200"> <?= $row['TOPIC_ID'] ?></td>
+                        <td class="border border-gray-200"> <?= $row['NAME'] ?></td>
+                        <td class="border border-gray-200"> <?= $row['DESCRIPTION'] ?></td>
                         <td class="border border-gray-200">
                             <form method="post">
-                                <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button><br>
+                                <button name="Change" value="<?= $row['TOPIC_ID'] ?>" onclick="submit()">Modif</button>
+                                <br>
                                 <label>Nouveau Nom : </label>
                                 <input type="text" name="newName"><br>
                                 <label>Description de la catégorie : </label>
                                 <input type="text" name="newInfo">
                             </form>
                         </td>
-                        <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
+                        <td class="border border-gray-200">
+                            <form method="post">
+                                <button name="Delete" value="<?= $row['TOPIC_ID'] ?>" onclick="submit()">X</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php }
             }

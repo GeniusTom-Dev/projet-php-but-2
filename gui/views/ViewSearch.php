@@ -18,6 +18,6 @@ class ViewSearch extends View
     {
         $fileName = "search.php";
         parent::__construct($layout, $documentTitle, $fileName);
-        $this->content . $this->setContent($this->content . str_replace("{results}", $controller->whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limitRows, $pageNb, $sort)));
+        $this->setContent(str_replace("{results}", $controller->whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limitRows, $pageNb, $sort), $this->content));
     }
 }

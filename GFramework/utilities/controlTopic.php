@@ -1,14 +1,10 @@
 <?php
 
-namespace controllers;
-
-use controlGeneratePosts;
-
-use DbTopics;
+namespace GFramework\utilities;
 
 class controlTopic
 {
-    private DbTopics $dbTopics;
+    private \GFramework\database\DbTopics $dbTopics;
 
 
     public function __construct($dbTopics)

@@ -12,7 +12,7 @@ class ViewHome extends View
     {
         $fileName = "search.php";
         parent::__construct($layout, $documentTitle, $fileName, $showNavbar, $filters, $isAdmin);
-        $this->content . $this->setContent($this->content . str_replace("{results}", whatToDisplay()));
+        //$this->content . $this->setContent($this->content . str_replace("{results}", whatToDisplay()));
     }
 
 }
