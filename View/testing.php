@@ -3,9 +3,9 @@ session_start();
 $_SESSION['suid'] = 1;
 $_SESSION['isAdmin'] = true;
 
-require_once "../GFramework/autoloader.php";
+require_once __DIR__ . "/../GFramework/autoloader.php";
 
-$controller = new \controllers\controlUser($dbConn);
+$controller = new \controllers\controlUser($dbFollows, $dbUsers);
 $controller->checkSubscribe();
 ?>
 <!DOCTYPE html>

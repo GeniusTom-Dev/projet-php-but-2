@@ -13,18 +13,17 @@ class controlUser
     private DbUsers $dbUsers;
     private DbFollows $dbFollows;
 
-    public function __construct($conn)
+    public function __construct($dbFollows,$dbUsers)
     {
-        $this->dbFollows = new DbFollows($conn);
-        $this->dbUsers = new DbUsers($conn);
+        $this->dbFollows = $dbFollows;
+        $this->dbUsers = $dbUsers;
     }
 
     public function getUserProfileSimple(int $userID): string
     {
         $userData = $this->dbUsers->selectById($userID)->getContent();
         ob_start(); ?>
-<!--        <article class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">-->
-        <section class="userProfileSimple flex flex-lign items-center mb-2">
+        <section class="userProfileSimple flex flex-lign items-center w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <form action="userProfile.php" method="get"> <!-- Affichage page profil utilisateur -->
                 <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
                     <div class="w-100 h-100">
@@ -41,7 +40,7 @@ class controlUser
                 <p>@<?= $userData['USERNAME'] ?></p>
                 <p>Follow | <?= $this->dbFollows->countFollower($userID) ?> followers</p>
             </div>
-            <form method="post">
+            <form method="post" class="ml-auto">
                 <?php if (isset($_SESSION['suid']) && $userID != $_SESSION['suid']) { if ($this->dbFollows->doesUserFollowAnotherUser($_SESSION['suid'], $userID)){ ?>
                     <button class="suscribe-button ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" name="unsubscribe" value="<?= $userID ?>">Se désabonner</button>
                 <?php } else {?>
