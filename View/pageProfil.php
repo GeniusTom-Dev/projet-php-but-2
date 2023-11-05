@@ -24,7 +24,7 @@ require_once "enTete.php";
 </div>
 
 <div class="flex">
-    <div class="min-h-screen flex-1 flex items-center justify-center bg-gray-200">
+    <div class="min-h-screen flex-1 flex items-center justify-center ">
         <!-- Conteneur principal de la page -->
         <div class="article w-2/4 h-100 bg-gray-100 rounded-xl p-6 shadow-xl">
             <!-- En-tête de l'article (profil utilisateur) -->

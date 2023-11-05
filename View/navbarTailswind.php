@@ -7,6 +7,9 @@ if (isset($_POST["deconnect"])){
 }
 
 ?>
+<body id="theme-container">
+  
+
   <nav class="flex left-0">
   
     <!-- Contenu principal de la page -->
@@ -94,7 +97,7 @@ if (isset($_POST["deconnect"])){
           <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
             <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 transition-bg transition-border" >
                 <a href="#" class="dropbtn block h-full w-full" id="categoryBtn">Catégories</a>
-                <div class="dropdown-content border border-gray-200 absolute z-64 mt-2 space-y-4 p-6 flex flex-col" style="background-color: #b2a5ff; display: none" id="categoryDropdown">
+                <div class="dropdown-content border border-gray-200 absolute z-64 mt-2 space-y-2 p-6 flex flex-col" style="background-color: #b2a5ff;" id="categoryDropdown">
                   <?php
                     foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic){ ?>
                         <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="topicPage.php?name=<?= $topic['NAME'] ?>"><?= $topic['NAME'] ?></a>
@@ -114,5 +117,5 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/html/Script/navbar.js"></script>
-
+  <script src="/projet-php-but-2/html/Script/navbar.js"></script>
+  </body>
