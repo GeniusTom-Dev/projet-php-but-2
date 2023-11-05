@@ -38,11 +38,11 @@ require_once "enTete.php";
                         <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $_GET['userProfile']){
                             echo $controllerCreatePost->getCreatePost(); ?>
                         <script src="/projet-php-but-2/html/Script/scriptCreatePost.js"></script>
-                        <?php } ?>
                         <button id="plusButton" class="showCreationPostButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <!-- Image de bouton "plus" -->
                             <img src="/projet-php-but-2/html/images/plus-solid.svg" alt="plus">
                         </button>
+                        <?php } ?>
                     </div>
                     <!-- Affiche les publications selon vos besoins -->
                     <div>

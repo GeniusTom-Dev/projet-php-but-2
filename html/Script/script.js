@@ -7,8 +7,6 @@ let plusButtonCreation = document.querySelector(".showCreationPostButton");
 const profilePicture = document.getElementById("profilePicture");
 let fileInputPP = document.querySelector("#fileInputPP");
 
-let suscribeButton = document.querySelector("#suscribe-button");
-
 // Variable bouton supprimer, et biographie
 // let trashCan = document.querySelector("#trashCan");
 const bioContainer = document.getElementById("bioContainer");
@@ -19,13 +17,15 @@ const bioContainer = document.getElementById("bioContainer");
     const bioTextArea = document.getElementById("bioTextArea");
 
 
-plusButtonCreation.addEventListener("click", () => {
-    if (postCreatorInterface.style.display == "none"){
+plusButtonCreation.addEventListener("click", (e) => {
+
+    if (postCreatorInterface.style.display === "none"){
         postCreatorInterface.style.display = "block";
     }
     else{
         postCreatorInterface.style.display = "none";
     }
+
 });
 
  // Fonction pour gérer l'état de modification

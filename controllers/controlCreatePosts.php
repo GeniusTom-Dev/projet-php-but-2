@@ -28,7 +28,7 @@ class controlCreatePosts
         ob_start();?>
 
         <article class="postCreationInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
-            <form method="post" action="" class="postPublisher">
+            <form method="post" class="postPublisher">
                 <input name="createPost" type="hidden" value="1">
                 <main class="max-h-60 overflow-y-auto">
                     <div class="flex flex-lign items-center mb-2">
@@ -65,6 +65,7 @@ class controlCreatePosts
                     <button class="confirmDeleteButton px-4 py-2 bg-red-500 text-white rounded-md ml-2">Confirmer</button>
                     <button class="cancelDeleteButton px-4 py-2 bg-[#b2a5ff] rounded-md ml-2">Annuler</button>
                 </div>
+            </form>
         </article>
 
 
