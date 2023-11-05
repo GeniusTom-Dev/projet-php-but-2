@@ -1,17 +1,21 @@
 <?php
 
+namespace GFramework\utilities;
+
+use GFramework\database;
+
 class controlUserProfile
 {
 
-    private DbUsers $dbUsers;
-    private DbPosts $dbPosts;
-    private DbFavorites $dbFavorites;
-    private DbFollows $dbFollows;
+    private \GFramework\database\DbUsers $dbUsers;
+    private \GFramework\database\DbPosts $dbPosts;
+    private \GFramework\database\DbFavorites $dbFavorites;
+    private \GFramework\database\DbFollows $dbFollows;
 
     public controlGeneratePosts $postController;
 
-    public function __construct(DbComments $dbComments, DbFavorites $dbFavorites, DbFollows $dbFollows, DbLikes $dbLikes,
-                                DbPosts $dbPosts, DbTopics $dbTopics, DbUsers $dbUsers){
+    public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers)
+    {
         $this->dbFavorites = $dbFavorites;
         $this->dbFollows = $dbFollows;
         $this->dbPosts = $dbPosts;
@@ -20,29 +24,31 @@ class controlUserProfile
         $this->postController = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
     }
 
-    public function getUserProfileInfo(int $userID): string{
+    public function getUserProfileInfo(int $userID): string
+    {
         $userData = $this->dbUsers->selectById($userID)->getContent();
         $owns = isset($_SESSION['suid']) && ($_SESSION['suid'] == $userID);
-        ob_start();?>
+        ob_start(); ?>
 
         <header class="article-header relative mb-8">
 
             <!-- Image de profil utilisateur -->
             <div class="profile-picture" id="profilePicture">
-                <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
+                <img src="<?php if (empty($userData['USER_PROFIL_PIC'])) {
                     echo '/projet-php-but-2/html/images/profile-removebg-preview.png';
-                }
-                else{
+                } else {
                     echo $userData['USER_PROFIL_PIC'];
                 }
-                ?>" alt="Photo de profil" id="profileImage"  class="article-image absolute top-0 left-8 w-40 h-40 rounded-full transition-transform hover:scale-125">
+                ?>" alt="Photo de profil" id="profileImage"
+                     class="article-image absolute top-0 left-8 w-40 h-40 rounded-full transition-transform hover:scale-125">
             </div>
             <!-- Formulaire pour sélectionner un nouveau fichier de photo de profil -->
             <?php if ($owns) : ?>
-            <form method="post" enctype="multipart/form-data">
-                <input type="file" id="fileInputPP" name="fileInputPP" style="display: none" accept="image/*" onchange="this.form.submit()">
-                <input type="hidden" name="userIdPP" value="<?= $userID ?>">
-            </form>
+                <form method="post" enctype="multipart/form-data">
+                    <input type="file" id="fileInputPP" name="fileInputPP" style="display: none" accept="image/*"
+                           onchange="this.form.submit()">
+                    <input type="hidden" name="userIdPP" value="<?= $userID ?>">
+                </form>
             <?php endif; ?>
             <!-- Informations de profil -->
             <div class="pl-64">
@@ -58,7 +64,8 @@ class controlUserProfile
 
                 <div class="bio-form" id="bioForm" style="display: none;">
                     <form id="editForm" method="post">
-                        <textarea name="newBio" id="bioTextArea" rows="3" cols="20" placeholder="Saisissez votre biographie ici" maxlength="200"></textarea>
+                        <textarea name="newBio" id="bioTextArea" rows="3" cols="20"
+                                  placeholder="Saisissez votre biographie ici" maxlength="200"></textarea>
                         <p id="charCount">Caractères restants : 200</p>
                         <br>
                         <input type="hidden" name="userIdBio" value="<?= $userID ?>">
@@ -76,19 +83,20 @@ class controlUserProfile
         return $userHeader;
     }
 
-    public function checkNewBio(): void{
-        if (isset($_POST['userIdBio'])){
+    public function checkNewBio(): void
+    {
+        if (isset($_POST['userIdBio'])) {
 //            echo 'new Bio --------------';
-            if (!isset($_POST['newBio'])){
+            if (!isset($_POST['newBio'])) {
                 $this->dbUsers->updateBio($_POST['userIdBio'], null);
-            }
-            else{
+            } else {
                 $this->dbUsers->updateBio($_POST['userIdBio'], $_POST['newBio']);
             }
         }
     }
 
-    public function checkNewProfilePic(): void{
+    public function checkNewProfilePic(): void
+    {
         if (isset($_POST['userIdPP']) && isset($_FILES['fileInputPP'])) {
             if ($_FILES['fileInputPP']['error'] === UPLOAD_ERR_OK) {
                 $fileName = $_FILES['fileInputPP']['name'];
@@ -98,26 +106,28 @@ class controlUserProfile
         }
     }
 
-    public function getUserPosts(int $userID, ?int $limit, ?string $sort): string{
+    public function getUserPosts(int $userID, ?int $limit, ?string $sort): string
+    {
         $result = $this->dbPosts->select_SQLResult(null, null, $userID, null, null, $limit, 1, $sort)->getContent();
         ob_start();
-        foreach ($result as $post){
-        ?>
-            <?= $this->postController->getPostHTML($post['POST_ID'])?>
+        foreach ($result as $post) {
+            ?>
+            <?= $this->postController->getPostHTML($post['POST_ID']) ?>
             <br>
-        <?php
+            <?php
         }
         $userPosts = ob_get_contents();
         ob_end_clean();
         return $userPosts;
     }
 
-    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort): string{
+    public function getUserBookmarks(int $userID, ?int $limit, ?string $sort): string
+    {
         $result = $this->dbFavorites->getUserFavoritePostsID($userID, $limit, 1, $sort)->getContent();
         ob_start();
-        foreach ($result as $post){
+        foreach ($result as $post) {
             ?>
-            <?= $this->postController->getPostHTML($post['POST_ID'])?>
+            <?= $this->postController->getPostHTML($post['POST_ID']) ?>
             <br>
             <?php
         }
@@ -126,7 +136,8 @@ class controlUserProfile
         return $userFavs;
     }
 
-    public function uploadImage($fileName, $image_source) : string|null {
+    public function uploadImage($fileName, $image_source): string|null
+    {
         $IMGUR_CLIENT_ID = "d50e66f2514dc6e"; // client id for the website -> do not modify
         $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
 

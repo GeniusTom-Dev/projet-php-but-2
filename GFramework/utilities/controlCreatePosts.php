@@ -6,7 +6,7 @@ class controlCreatePosts
     private DbPosts $dbPosts;
     private DbTopics $dbTopics;
 
-    public function __construct(\GFramework\database\DbPosts $dbPosts, \GFramework\database\DbTopics $dbTopics){
+    public function __construct($conn){
         $this->dbPosts = new DbPosts($conn);
         $this->dbTopics = new DbTopics($conn);
     }

@@ -1,14 +1,16 @@
 <?php
 
+namespace GFramework\utilities;
+
 class controlGeneratePosts
 {
-    private DbUsers $dbUsers;
-    private DbPosts $dbPosts;
-    private DbTopics $dbTopics;
-    private DbLikes $dbLikes;
-    private DbFavorites $dbFavorites;
-    private DbFollows $dbFollows;
-    private DbComments $dbComments;
+    private \GFramework\database\DbUsers $dbUsers;
+    private \GFramework\database\DbPosts $dbPosts;
+    private \GFramework\database\DbTopics $dbTopics;
+    private \GFramework\database\DbLikes $dbLikes;
+    private \GFramework\database\DbFavorites $dbFavorites;
+    private \GFramework\database\DbFollows $dbFollows;
+    private \GFramework\database\DbComments $dbComments;
 
     public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers)
     {
