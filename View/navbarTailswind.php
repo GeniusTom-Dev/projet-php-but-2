@@ -97,7 +97,7 @@ if (isset($_POST["deconnect"])){
           <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
           <li class="relative border border-gray-200 rounded-xl transition-bg transition-border">
                 <a class="block h-full w-full cursor-pointer" id="categoryBtn">Catégories</a>
-                <ul class="absolute left-0 w-44 max-h-full overflow-y-auto bg-[#b2a5ff] shadow-lg py-2 mt-2 space-y-2 text-black border border-gray-200 rounded-xl hidden" id="categoryDropdown">
+                <ul class="absolute left-0 w-full h-44 overflow-y-auto bg-[#b2a5ff] shadow-lg py-2 mt-2 space-y-2  text-black border border-gray-200 rounded-xl hidden" id="categoryDropdown">
                     <?php
                     foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic) { ?>
                         <li class="px-6 hover:bg-blue-200 cursor-pointer"><?php echo $topic['NAME']; ?></li>
@@ -117,5 +117,5 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/projet-php-but-2/html/Script/navbar.js"></script>
+  <script src="/html/Script/navbar.js"></script>
   </body>
