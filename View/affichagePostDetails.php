@@ -18,11 +18,15 @@ require_once "enTete.php";
     <?php require_once "navbarTailswind.php";?>
 </div>
 
-<?php
+<div class="flex">
+    <div class="min-h-screen flex-1 flex items-center justify-center ">
+        <?php
 
-echo $controller->getFullPostHTML($_GET['detailsPost']);
+        echo $controller->getFullPostHTML($_GET['detailsPost']);
 
-?>
+        ?>
+    </div>
+</div>
 
 <script src="/projet-php-but-2/html/script/scriptShowPost.js"></script>
 </body>
