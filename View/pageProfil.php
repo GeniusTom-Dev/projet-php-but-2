@@ -2,8 +2,8 @@
 session_start();
 require_once '../GFramework/autoloader.php';
 
-//$_GET['userProfile'] = 1;
-//$_SESSION['suid'] = 2;
+$_GET['userProfile'] = "Utilisateur 4";
+$_SESSION['suid'] = 2;
 //$_SESSION['isAdmin'] = true;
 
 // Restore selected userProfile or save
@@ -47,14 +47,15 @@ require_once "enTete.php";
                     <h1 class="text-2xl font-semibold">Posts</h1>
                     <!-- Affiche l'interface de publication de post -->
                     <div class="flex items-center space-x-4">
-                        <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $_GET['userProfile']){
+                        <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $dbUsers->selectByUsername($_GET['userProfile'])->getContent()['USER_ID']){
                             echo $controllerCreatePost->getCreatePost(); ?>
                         <script src="/projet-php-but-2/html/Script/scriptCreatePost.js"></script>
-                        <?php } ?>
                         <button id="plusButton" class="showCreationPostButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <!-- Image de bouton "plus" -->
                             <img src="/projet-php-but-2/html/images/plus-solid.svg" alt="plus">
                         </button>
+                        <?php } ?>
+
                     </div>
                     <!-- Affiche les publications selon vos besoins -->
                     <div>
@@ -62,7 +63,7 @@ require_once "enTete.php";
                         <script src="/projet-php-but-2/html/Script/scriptShowPost.js"></script>
                     </div>
                 </section>
-                <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $_GET['userProfile']){ ?>
+                <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $dbUsers->selectByUsername($_GET['userProfile'])->getContent()['USER_ID']){ ?>
                     <section>
                         <h1 class="text-2xl font-semibold">Favoris</h1>
                         <!-- Affiche les publications selon vos besoins -->
