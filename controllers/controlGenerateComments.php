@@ -24,9 +24,9 @@ class controlGenerateComments
 
     function getCommentHTML(int $commentId): string
     {
-        $commentData = $this->dbComments->selectByID($commentId);
-        $postData = $this->dbPosts->selectByID($commentId['POST_ID'])->getContent();
-        $userData = $this->dbUsers->selectById($commentId['USER_ID'])->getContent();
+        $commentData = $this->dbComments->selectByID($commentId)->getContent();
+        $postData = $this->dbPosts->selectByID($commentData['POST_ID'])->getContent();
+        $userData = $this->dbUsers->selectById($commentData['USER_ID'])->getContent();
         $owns = isset($_SESSION['suid']) && ($_SESSION['isAdmin'] || $_SESSION['suid'] == $postData['USER_ID']);
         ob_start(); ?>
         <article
