@@ -7,7 +7,7 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
     $results = [];
     if (empty($_GET["selectDb"]) === false) {
         if ($_GET["selectDb"] == "Topics") {
-            $results = getTopicsResults($dbTopics, $limit, $page, $sort);
+            displayTopic(getTopicsResults($dbTopics, $limit, $page, $sort), $dbTopics);
         } else if ($_GET["selectDb"] == "Users") {
             displayUsers(getUsersResults($dbUsers, $limit, $page, $sort), $dbFollows, $dbUsers);
         } else if ($_GET["selectDb"] == "Posts") {
@@ -18,8 +18,8 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
     } else {
         if (!isset($_GET['selectDb'])) {
             $_GET['selectDb'] = "Topics";
+            displayTopic(getTopicsResults($dbTopics, $limit, $page, $sort), $dbTopics);
         }
-        $results = getTopicsResults($dbTopics);
     }
 }
 
@@ -41,6 +41,16 @@ function displayUsers($searchResult, $dbFollows, $dbUsers): void
     $htmlCode = "";
     foreach ($searchResult as $user) {
         $htmlCode .= '<tr>' . $controller->getUserProfileSimple($user["USER_ID"]) . '</tr>';
+    }
+    echo $htmlCode;
+}
+
+function displayTopic($searchResult, $dbTopics): void
+{
+    $controller = new \controllers\controlTopic($dbTopics);
+    $htmlCode = "";
+    foreach ($searchResult as $topic) {
+        $htmlCode .= '<tr>' . $controller->getTopic($topic['TOPIC_ID']) . '</tr>';
     }
     echo $htmlCode;
 }

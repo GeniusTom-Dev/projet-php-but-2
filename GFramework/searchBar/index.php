@@ -1,5 +1,6 @@
+<!--A SUPPRIMER -->
 <?php require_once __DIR__ . '/../autoloader.php';
-require_once __DIR__ .'/displaySearchResult.php';
+require_once __DIR__ . '/displaySearchResult.php';
 ?>
 
 <!DOCTYPE html>
@@ -34,12 +35,13 @@ require_once __DIR__ .'/displaySearchResult.php';
 
     <h2>Resultats de la recherche :</h2>
     <!--<ul>
-    -->    <table id="table">
-            <?php whatToDisplay(); ?>
-        </table>
-        <!--<script src="SQLResultToTable.js"></script>
+    -->
+    <table id="table">
+        <?php whatToDisplay(); ?>
+    </table>
+    <!--<script src="SQLResultToTable.js"></script>
         <script>
-            let selectedDb = <?php /*echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; */?>;
+            let selectedDb = <?php /*echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; */ ?>;
             //generateTable(selectedDb, document.getElementById("table"));
         </script>-->
     <!--</ul>-->
@@ -48,3 +50,4 @@ require_once __DIR__ .'/displaySearchResult.php';
 <script src="/html/script/scriptShowPost.js"></script>
 </body>
 </html>
+

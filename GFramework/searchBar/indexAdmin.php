@@ -1,3 +1,5 @@
+<!--A SUPPRIMER -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +23,18 @@ require '../autoloader.php';
     <nav class="mb-4">
         <form method="get">
             <ul class="flex space-x-4">
-                <li><button name="tab" id="categories" value="categories" onclick="submit()">Catégories</button></li>
-                <li><button name="tab" id="utilisateurs" value="utilisateurs" onclick="submit()">Utilisateurs</button></li>
-                <li><button name="tab" id="posts" value="posts" onclick="submit()">Posts / Billets</button></li>
-                <li><button name="tab" id="commentaires" value="commentaires" onclick="submit()">Commentaires</button></li>
+                <li>
+                    <button name="tab" id="categories" value="categories" onclick="submit()">Catégories</button>
+                </li>
+                <li>
+                    <button name="tab" id="utilisateurs" value="utilisateurs" onclick="submit()">Utilisateurs</button>
+                </li>
+                <li>
+                    <button name="tab" id="posts" value="posts" onclick="submit()">Posts / Billets</button>
+                </li>
+                <li>
+                    <button name="tab" id="commentaires" value="commentaires" onclick="submit()">Commentaires</button>
+                </li>
             </ul>
         </form>
     </nav>
@@ -34,7 +44,7 @@ require '../autoloader.php';
     </table>
     <script src="SQLResultToTable.js"></script>
     <script>
-        let selectedDb = <?php /*echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; */?>;
+        let selectedDb = <?php /*echo (isset($_GET['selectDb'])) ? "'" . $_GET['selectDb'] . "'" : "'Topics'"; */ ?>;
         generateTable(selectedDb, document.getElementById("table"));
     </script>
 </ul>-->

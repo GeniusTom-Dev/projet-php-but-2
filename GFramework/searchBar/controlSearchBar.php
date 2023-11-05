@@ -57,8 +57,6 @@ function getPostsResults($dbPosts, $dbTopics, ?int $limit = null, ?int $page = n
         $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
         $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
         $results = $dbPosts->select_SQLResult($topicId, $contentOrTitleLike, $user, $dateMin, $dateMax, $limit, $page, $sort)->getContent();
-        var_dump("limit = " . $limit);
-        var_dump("result : " . sizeof($results));
     }
     return $results;
 }
