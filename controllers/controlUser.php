@@ -57,8 +57,6 @@ class controlUser
                 } ?>
             </form>
         </section>
-        <!--        </article>-->
-
         <?php $userHeader = ob_get_contents();
         ob_end_clean();
         return $userHeader;

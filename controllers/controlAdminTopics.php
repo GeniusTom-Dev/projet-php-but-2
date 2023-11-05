@@ -117,19 +117,19 @@ class controlAdminTopics
                 foreach ($result as $row)
                 { ?>
                     <tr class="border border-gray-200">
-                        <td class="border border-gray-200"> <?= $row['TOPIC_ID']?></td>
+                        <td class="border border-gray-200" class="justify-center items-center"> <?= $row['TOPIC_ID']?></td>
                         <td class="border border-gray-200"> <?= $row['NAME']?></td>
                         <td class="border border-gray-200"> <?= $row['DESCRIPTION']?></td>
                         <td class="border border-gray-200">
                             <form method="post">
-                                <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()">Modif</button><br>
+                                <button name="Change" value="<?=$row['TOPIC_ID']?>" onclick="submit()" class="w-20 h-8 pb-1 pt-1 bg-purple-300 text-white p-2 rounded-md hover:bg-purple-400">Modif</button><br>
                                 <label>Nouveau Nom : </label>
-                                <input type="text" name="newName"><br>
+                                <input type="text" name="newName" class="border border-gray-300 rounded-md"><br>
                                 <label>Description de la catégorie : </label>
-                                <input type="text" name="newInfo">
+                                <input type="text" name="newInfo" class="border border-gray-300 rounded-md">
                             </form>
                         </td>
-                        <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()">X</button></form></td>
+                        <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['TOPIC_ID']?>" onclick="submit()" class="w-5 h-8 pb-1 mx-6 pt-1 bg-red-300 text-white py-2 px-2 rounded-md hover:bg-red-400">X </button></form></td>
                     </tr>
                 <?php }
             }

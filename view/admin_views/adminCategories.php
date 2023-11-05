@@ -14,10 +14,10 @@ $controller = new controlAdminTopics($dbConn);
     <div class="mb-4">
         <form id="newCate" method="post">
             <label for="newCateNameId">Nom de la Nouvelle catégorie : </label>
-            <input type="text" id="newCateNameId" name="newCateName"><br>
+            <input type="text" id="newCateNameId" name="newCateName" class="border border-gray-300 rounded-md"><br>
             <label for="newCateInfoId">Description de la catégorie : </label>
-            <input type="text" id="newCateInfoId" name="newCateInfo">
-            <button onclick="submit()">+</button>
+            <input type="text" id="newCateInfoId" name="newCateInfo" class="border border-gray-300 rounded-md">
+            <button onclick="submit()" class="w-10 h-8 pb-1 pt-1 bg-purple-300 text-white p-2 rounded-md hover:bg-purple-400">+</button>
         </form>
         <?php
         $controller->checkNewTopic();

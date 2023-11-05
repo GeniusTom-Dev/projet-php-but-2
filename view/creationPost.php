@@ -29,7 +29,6 @@ echo $controller->getCreatePost();
 </div>
 
 <script src="/html/script/scriptCreatePost.js"></script>
-</body>
-</html>
+
 
 

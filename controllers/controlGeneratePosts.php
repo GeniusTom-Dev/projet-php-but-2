@@ -34,7 +34,7 @@ class controlGeneratePosts
                     <div class="w-100 h-100">
                         <?php
                         if (is_null($userData['USER_PROFIL_PIC'])) {
-                            echo '<img src="/projet-php-but-2/html/images/defaultProfilePicture.png" onclick="submit()" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                            echo '<img src="/html/images/defaultProfilePicture.png" onclick="submit()" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
                         } else {
                             echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         }
@@ -46,10 +46,10 @@ class controlGeneratePosts
                     <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
                 </div>
 
-                <form action="/projet-php-but-2/View/affichagePostDetails.php" method="get">
+                <form action="/view/affichagePostDetails.php" method="get">
                     <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postID ?>">
-                    <img src="/projet-php-but-2/html/images/fleches.svg" alt="growArrow"
+                    <img src="/html/images/fleches.svg" alt="growArrow"
                          class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-auto"
                          onclick="submit()">
                 </form>
@@ -76,12 +76,12 @@ class controlGeneratePosts
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)) { ?>
                             <input type="hidden" name="dislikePost" value="<?= $postID ?>">
-                            <img src="/projet-php-but-2/html/images/heart-solid.svg" alt="heart"
+                            <img src="/html/images/heart-solid.svg" alt="heart"
                                  class="heart w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2"
                                  onclick="submit()">
                         <?php } else { ?>
                             <input type="hidden" name="likePost" value="<?= $postID ?>">
-                            <img src="/projet-php-but-2/html/images/heart-regular.svg" alt="heart"
+                            <img src="/html/images/heart-regular.svg" alt="heart"
                                  class="heart w-8 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"'; ?>>
                         <?php } ?>
                     </form>
@@ -89,12 +89,12 @@ class controlGeneratePosts
                     <form method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)) { ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
-                            <img src="/projet-php-but-2/html/images/bookmark-solid.svg" alt="bookmark"
+                            <img src="/html/images/bookmark-solid.svg" alt="bookmark"
                                  class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2"
                                  onclick="submit()">
                         <?php } else { ?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
-                            <img src="/projet-php-but-2/html/images/bookmark-regular.svg" alt="bookmark"
+                            <img src="/html/images/bookmark-regular.svg" alt="bookmark"
                                  class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"'; ?>>
                         <?php } ?>
                     </form>
