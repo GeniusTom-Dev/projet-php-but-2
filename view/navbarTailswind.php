@@ -100,7 +100,7 @@ if (isset($_POST["deconnect"])){
                 <ul class="absolute left-0 w-full h-44 overflow-y-auto bg-[#b2a5ff] shadow-lg py-2 mt-2 space-y-2  text-black border border-gray-200 rounded-xl hidden" id="categoryDropdown">
                     <?php
                     foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic) { ?>
-                        <li class="px-6 hover:bg-blue-200 cursor-pointer"><?php echo $topic['NAME']; ?></li>
+                        <li class="px-6 hover:bg-blue-200 cursor-pointer"><a href="topicPage.php?name=<?= $topic['NAME'] ?>"><?= $topic['NAME'] ?></a></li>
                     <?php }
                     ?>
                     </ul>

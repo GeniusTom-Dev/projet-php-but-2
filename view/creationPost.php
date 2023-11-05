@@ -2,8 +2,13 @@
 session_start();
 require_once "../GFramework/autoloader.php";
 
-$_SESSION['suid'] = 10;
+//$_SESSION['suid'] = 10;
 //$_SESSION['isAdmin'] = true;
+
+if (empty($_SESSION['suid'])){
+    header('Location: homeAdmin.php');
+    die();
+}
 
 $controller = new controlCreatePosts($dbConn);
 $controller->checkCreatePost();
