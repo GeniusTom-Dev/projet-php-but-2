@@ -14,8 +14,6 @@ start_page("Recherche");
 
 require_once "enTete.php";
 
-require_once "navbarTailswind.php";
-
 require_once '../GFramework/searchBar/displaySearchResult.php';
 
 $max = getTotal($dbComments, $dbPosts, $dbTopics, $dbUsers);
@@ -25,7 +23,9 @@ if ($max % $limitRows != 0) {
     $max = (int)($max / $limitRows);
 }
 ?>
-
+<div class=" h-screen w-64 fixed left-0">
+    <?php require_once "navbarTailswind.php";?>
+</div>
 <div class="flex flex-col items-center mb-8">
     <div class="flex flex-lign items-center mb-4">
         <div class="flex flex-lign items-center mb-4">
