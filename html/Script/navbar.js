@@ -73,5 +73,3 @@ closeIcon.addEventListener('click', () => {
   closeIcon.classList.add('hidden'); // Masque l'icône de fermeture
   menuIcon.classList.remove('hidden'); // Affiche l'icône burger
 });
-
- 
