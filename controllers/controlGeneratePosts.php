@@ -10,14 +10,14 @@ class controlGeneratePosts
     private DbFollows $dbFollows;
     private DbComments $dbComments;
 
-    public function __construct($conn){
-        $this->dbComments = new DbComments($conn);
-        $this->dbFavorites = new DbFavorites($conn);
-        $this->dbFollows = new DbFollows($conn);
-        $this->dbLikes = new DbLikes($conn);
-        $this->dbPosts = new DbPosts($conn);
-        $this->dbTopics = new DbTopics($conn);
-        $this->dbUsers = new DbUsers($conn);
+    public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts,$dbTopics, $dbUsers){
+        $this->dbComments = $dbComments;
+        $this->dbFavorites = $dbFavorites;
+        $this->dbFollows =$dbFollows;
+        $this->dbLikes = $dbLikes;
+        $this->dbPosts = $dbPosts;
+        $this->dbTopics = $dbTopics;
+        $this->dbUsers = $dbUsers;
     }
 
     function getPostHTML(int $postID): string{
@@ -97,7 +97,6 @@ class controlGeneratePosts
                 <button class="cancelDeleteButton px-4 py-2 bg-[#b2a5ff] rounded-md ml-2">Annuler</button>
             </div>
         </article>
-
         <?php $post = ob_get_contents();
         ob_end_clean();
         return $post;
