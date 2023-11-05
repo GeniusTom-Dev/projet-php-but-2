@@ -82,7 +82,7 @@ class controlGenerateFullPosts
                         }?>
                     </div>
                 </div>
-                <div>
+                <div class="flex items-center">
                     <form name="LikeForm" method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbLikes->doesUserHasLikedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="dislikePost" value="<?= $postID ?>">
@@ -92,14 +92,14 @@ class controlGenerateFullPosts
                             <img src="/html/images/heart-regular.svg" alt="heart" class="heart w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
-                    <p><?= $this->dbLikes->countPostLike($postID) ?></p>
+                    <p style="font-size: large" class="font-semibold mx-4"><?= $this->dbLikes->countPostLike($postID) ?></p>
                     <form name="MarkForm" method="post">
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)){ ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
+                            <img src="/html/images/bookmark-solid.svg" alt="bookmark" class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125" onclick="submit()">
                         <?php } else {?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
-                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-8 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
+                            <img src="/html/images/bookmark-regular.svg" alt="bookmark" class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"';?>>
                         <?php } ?>
                     </form>
                 </div>
