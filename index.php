@@ -1,3 +1,5 @@
 <?php
-echo "index";
+session_start();
+header('Location: View/homepage.php');
+die();
 ?>
