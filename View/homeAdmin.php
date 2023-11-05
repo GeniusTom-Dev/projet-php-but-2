@@ -17,17 +17,15 @@ else {
 
     require_once '../GFramework/utilities/utils.inc.php';
     start_page("Gestion Admin");
+    require_once "enTete.php";
 ?>
 
-    <header class="flex flex-lign items-center mb-2 bg-purple-800 p-2">
-        <div class="w-100 h-100">
-            <img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
-        </div>
-    </header>
-
+<div class=" h-screen w-64 fixed left-0">
     <?php require 'admin_views/nav-admin.php';?>
+</div>
+    
 
-    <section>
+    <section class="h-screen w-full center flex flex-col items-center">
         <?php homeReload();?>
     </section>
 </body>
