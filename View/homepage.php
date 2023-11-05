@@ -23,7 +23,7 @@ else {
     $_GET['page'] = $_SESSION['page'];
 }
 
-$postController = new controlGeneratePosts($dbConn);
+$postController = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts,$dbTopics, $dbUsers);
 $postController->checkAllShowActions();
 
 require_once '../GFramework/utilities/utils.inc.php';

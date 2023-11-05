@@ -15,7 +15,7 @@ require_once 'searchBarFilters.php';
                 <input type="submit" value="Rechercher" id="search"
                        class="w-32 h-8 pb-1 pt-1 bg-purple-500 text-white p-2 rounded-md hover:bg-purple-700">
             </div>
-            <div id="searchFilters" class="text-gray-600" mr-3>
+            <div id="searchFilters" class="text-gray-600">
                 <?php if (!isset($_GET['tab']) || $_GET['tab'] == "categories") getTopicsFilters(true);
                 else if ($_GET['tab'] == "utilisateurs") getUsersFilters(true);
                 else if ($_GET['tab'] == "posts") getPostsFilters(true);
