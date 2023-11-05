@@ -58,14 +58,14 @@ class controlCreatePosts
                     </div>
                     <textarea name="content" placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
                     <div class="imageContainer mt-4">
-                        <form method="post" enctype="multipart/form-data">
+<!--                        <form method="post" enctype="multipart/form-data">-->
                         <button type="button" class="plusImgButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
                             <!-- Input de type "file" caché -->
                             <input type="file" id="fileInput" name="fileInput" class="fileInput" accept="image/*"  style="display: none">
                             <p id="fileUploadName"></p>
-                        </form>
+<!--                        </form>-->
                     </div>
                     <div class="galleryContainer mt-4"></div>
                     <table class="w-full">
