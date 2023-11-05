@@ -1,9 +1,13 @@
 <?php
 session_start();
+require_once "../GFramework/autoloader.php";
+
 //$_SESSION['suid'] = 1;
 //$_SESSION['isAdmin'] = true;
+$limitRows = 10;
 
-require_once "../GFramework/autoloader.php";
+checkSearch();
+restorePage();
 
 require_once '../GFramework/utilities/utils.inc.php';
 start_page("Recherche");
@@ -27,14 +31,20 @@ if ($_GET['page'] > 1) { ?>
 <div class="flex flex-col items-center mb-8">
     <h2>Resultats de la recherche :</h2>
     <table id="table">
-        <?php whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, 10, $_GET['page'], 'recent'); ?>
+        <?php whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limitRows, $_GET['page'], 'recent'); ?>
     </table>
 </div>
 
 <?php
 $max = getTotal($dbComments, $dbPosts, $dbTopics, $dbUsers);
-$max = (int)($max / 10 + $max % 10);
-var_dump("max = " . $max);
+if ($max%$limitRows != 0){
+    $max = (int)($max / $limitRows) + 1;
+}
+else{
+    $max = (int)($max / $limitRows);
+}
+//var_dump($max);
+//var_dump($_GET['page']);
 
 if ($_GET['page'] < $max) { ?>
     <div>

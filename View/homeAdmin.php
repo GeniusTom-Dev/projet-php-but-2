@@ -12,7 +12,7 @@ else {
     require_once '../autoloads/adminAutoloader.php';
     checkTab();
     checkSort();
-    checkSearch();
+    checkSearchAdmin();
     checkPage();
 
     require_once '../GFramework/utilities/utils.inc.php';

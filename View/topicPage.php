@@ -13,19 +13,10 @@ $_SESSION['suid'] = 2;
 $_SESSION['isAdmin'] = true;
 $limitNbPosts = 10;
 
-// Restore page or save
-if (isset($_GET['page'])) {
-    $_SESSION['page'] = $_GET['page'];
-}
-else {
-    if (!isset($_SESSION['page'])){
-        $_SESSION['page'] = 1;
-    }
-    $_GET['page'] = $_SESSION['page'];
-}
 // Restore selected topic or save
 if (isset($_GET['name'])) {
     $_SESSION['topicName'] = $_GET['name'];
+    $_GET['page'] = 1;
 }
 else {
     if (!isset($_SESSION['topicName'])){
@@ -34,6 +25,9 @@ else {
     }
     $_GET['name'] = $_SESSION['topicName'];
 }
+
+
+
 
 $postController = new controlGeneratePosts($dbConn);
 $postController->checkAllShowActions();

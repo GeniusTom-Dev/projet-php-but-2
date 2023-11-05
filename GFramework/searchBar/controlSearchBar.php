@@ -43,7 +43,7 @@ function getUsersResults($dbUsers, ?int $limit = null, ?int $page = null, ?strin
  * @param $dbTopics
  * @return array An array of post results matching the search criteria.
  */
-function getPostsResults($dbPosts, $dbTopics, $limit, ?int $page = null, ?string $sort = null): array
+function getPostsResults($dbPosts, $dbTopics, ?int $limit = null, ?int $page = null, ?string $sort = null): array
 {
     if (empty($_GET['searchId']) === false) {
         $results = [$dbPosts->selectById($_GET['searchId'])->getContent()];

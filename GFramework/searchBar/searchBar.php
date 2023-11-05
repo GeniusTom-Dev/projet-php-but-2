@@ -25,6 +25,7 @@ if (isset($_GET["selectDb"]) === false) {
 
 <!--div class="max-w-3xl mx-auto p-4"-->
 <form action="search.php" method="GET" id="searchForm" class="space-y-4">
+    <input type="hidden" name="newSearch" value="1">
     <div class="flex flex-col mb-2">
         <div class="flex flex-lign items-center mb-2">
             <select id="selectDb" name="selectDb"

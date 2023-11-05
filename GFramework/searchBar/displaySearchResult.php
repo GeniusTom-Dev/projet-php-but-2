@@ -2,18 +2,18 @@
 require_once __DIR__ . '/../autoloader.php';
 
 
-function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, $limit, ?int $page = null, ?string $sort = null)
+function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers, ?int $limit = null, ?int $page = null, ?string $sort = null)
 {
     $results = [];
     if (empty($_GET["selectDb"]) === false) {
         if ($_GET["selectDb"] == "Topics") {
-            $results = getTopicsResults($dbTopics);
+            $results = getTopicsResults($dbTopics, $limit, $page, $sort);
         } else if ($_GET["selectDb"] == "Users") {
-            displayUsers(getUsersResults($dbUsers), $dbFollows, $dbUsers);
+            displayUsers(getUsersResults($dbUsers, $limit, $page, $sort), $dbFollows, $dbUsers);
         } else if ($_GET["selectDb"] == "Posts") {
             displayPosts(getPostsResults($dbPosts, $dbTopics, $limit, $page, $sort), $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
         } else if ($_GET["selectDb"] == "Comments") {
-            $results = getCommentsResults($dbComments);
+            $results = getCommentsResults($dbComments, $limit, $page, $sort);
         }
     } else {
         if (!isset($_GET['selectDb'])) {

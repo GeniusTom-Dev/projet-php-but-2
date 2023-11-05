@@ -10,6 +10,16 @@ class controlGeneratePosts
     private DbFollows $dbFollows;
     private DbComments $dbComments;
 
+//    public function __construct($conn){
+//        $this->dbComments = new DbComments($conn);
+//        $this->dbFavorites = new DbFavorites($conn);
+//        $this->dbFollows =new DbFollows($conn);
+//        $this->dbLikes = new DbLikes($conn);
+//        $this->dbPosts = new DbPosts($conn);
+//        $this->dbTopics = new DbTopics($conn);
+//        $this->dbUsers = new DbUsers($conn);
+//    }
+
     public function __construct($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts,$dbTopics, $dbUsers){
         $this->dbComments = $dbComments;
         $this->dbFavorites = $dbFavorites;

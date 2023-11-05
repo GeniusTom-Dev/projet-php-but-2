@@ -44,7 +44,7 @@ function checkSort(): void{
  * If there is a new search, reset page field in GET to 1, clear the previously saved parameters in session and save the new ones depending on the current tab.
  * @return void
  */
-function checkSearch(): void{
+function checkSearchAdmin(): void{
     if (isset($_GET['newSearch'])){
         // Go back to first page
         $_GET['page'] = 1;
@@ -54,31 +54,31 @@ function checkSearch(): void{
         }
         // Repopulate session array depending on tab
         if ($_GET['tab'] == 'categories') {
-            fillSearch('session', SearchParameters::getTopicsSearchParameters());
+            fillSearchAdmin('session', SearchParameters::getTopicsSearchParameters());
         }
         else if ($_GET['tab'] == 'utilisateurs') {
-            fillSearch('session', SearchParameters::getUsersSearchParameters());
+            fillSearchAdmin('session', SearchParameters::getUsersSearchParameters());
         }
         else if ($_GET['tab'] == 'posts') {
-            fillSearch('session', SearchParameters::getPostsSearchParameters());
+            fillSearchAdmin('session', SearchParameters::getPostsSearchParameters());
         }
         else if ($_GET['tab'] == 'commentaires') {
-            fillSearch('session', SearchParameters::getCommentsSearchParameters());
+            fillSearchAdmin('session', SearchParameters::getCommentsSearchParameters());
         }
     }
     else {
         // Repopulate get array depending on tab
         if ($_GET['tab'] == 'categories') {
-            fillSearch('get', SearchParameters::getTopicsSearchParameters());
+            fillSearchAdmin('get', SearchParameters::getTopicsSearchParameters());
         }
         else if ($_GET['tab'] == 'utilisateurs') {
-            fillSearch('get', SearchParameters::getUsersSearchParameters());
+            fillSearchAdmin('get', SearchParameters::getUsersSearchParameters());
         }
         else if ($_GET['tab'] == 'posts') {
-            fillSearch('get', SearchParameters::getPostsSearchParameters());
+            fillSearchAdmin('get', SearchParameters::getPostsSearchParameters());
         }
         else if ($_GET['tab'] == 'commentaires') {
-            fillSearch('get', SearchParameters::getCommentsSearchParameters());
+            fillSearchAdmin('get', SearchParameters::getCommentsSearchParameters());
         }
     }
 }
@@ -90,7 +90,7 @@ function checkSearch(): void{
  * @param array $params The array that contains the name of the keys from a GLOBAL variable whose value are copy-pasted
  * @return void
  */
-function fillSearch(string $nameArrayToFill, array $params): void{
+function fillSearchAdmin(string $nameArrayToFill, array $params): void{
     if ($nameArrayToFill == 'get'){
         foreach ($params as $parameter){
             if (isset($_SESSION['sessionAdmin']['search'][$parameter])) {
