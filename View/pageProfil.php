@@ -2,8 +2,8 @@
 session_start();
 require_once '../GFramework/autoloader.php';
 
-$_GET['userProfile'] = "Utilisateur 4";
-$_SESSION['suid'] = 2;
+//$_GET['userProfile'] = "Utilisateur 4";
+//$_SESSION['suid'] = 2;
 //$_SESSION['isAdmin'] = true;
 
 // Restore selected userProfile or save

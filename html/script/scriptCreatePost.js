@@ -1,6 +1,6 @@
 let postCreator = document.querySelector(".postCreationInterface");
 
-let plusButton = postCreator.querySelector(".plusButton");
+let plusButton = postCreator.querySelector(".plusImgButton");
 let fileInput = postCreator.querySelector(".fileInput");
 
 let trashCan = postCreator.querySelector(".trashCan");
@@ -84,6 +84,7 @@ plusButton.addEventListener("click", () => {
 
 fileInput.addEventListener("change", (event) => {
     const selectedFile = event.target.files[0];
+    // alert(selectedFile);
 
     if (selectedFile) {
         // Créez un conteneur pour l'image et le bouton de suppression
@@ -110,10 +111,11 @@ fileInput.addEventListener("change", (event) => {
 
         // Create hidden input for image url
         const imgURLInput = document.createElement("input")
-        imgURLInput.type = "hidden";
+        imgURLInput.type = "file";
         imgURLInput.name = "img[]";
         imgURLInput.value = imgElement.src;
         imgURLInput.className = "imgURLInput";
+        imgURLInput.style.display = "none";
 
         // Ajoutez l'image et le bouton de suppression au conteneur
         imageContainer.appendChild(imgElement);

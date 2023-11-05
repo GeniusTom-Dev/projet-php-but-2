@@ -5,10 +5,12 @@ class controlCreatePosts
 
     private DbPosts $dbPosts;
     private DbTopics $dbTopics;
+    private DbPostMedia $dbPostMedia;
 
     public function __construct($conn){
         $this->dbPosts = new DbPosts($conn);
         $this->dbTopics = new DbTopics($conn);
+        $this->dbPostMedia = new DbPostMedia($conn);
     }
 
     function publishPost($title, $content, $arrayTopics = null, $arrayImg = null): void{
@@ -26,13 +28,28 @@ class controlCreatePosts
             }
         }
         // Link images to the post
+        if (!empty($arrayImg)){
+            foreach ($arrayImg as $img){
+                if ($img['error'] === UPLOAD_ERR_OK) {
+                    $fileName = $_FILES['fileInputPP']['name'];
+                    $image_source = file_get_contents($_FILES['fileInputPP']['tmp_name']);
+                    $url = $this->uploadImage($fileName, $image_source);
+                    if (!empty($url)){
+                        $this->dbPostMedia->addAnImageToPost($postID, $url);
+                    }
+                    else{
+//                        echo 'No URL for Img    ';
+                    }
+                }
+            }
+        }
     }
 
     function getCreatePost(): string {
         ob_start();?>
 
         <article class="postCreationInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6">
-            <form method="post" action="" class="postPublisher">
+            <form method="post" enctype="multipart/form-data" class="postPublisher" >
                 <input name="createPost" type="hidden" value="1">
                 <main class="max-h-60 overflow-y-auto">
                     <div class="flex flex-lign items-center mb-2">
@@ -41,7 +58,7 @@ class controlCreatePosts
                     </div>
                     <textarea name="content" placeholder="Écrivez votre contenu ici" class="content-input w-full break-words p-2 border border-[#b2a5ff] rounded-md"></textarea>
                     <div class="imageContainer mt-4">
-                        <button class="plusButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
+                        <button type="button" class="plusImgButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
                         <!-- Input de type "file" caché -->
@@ -81,16 +98,50 @@ class controlCreatePosts
     public function checkCreatePost(): void{
         if (isset($_POST['createPost'])){
             if (! (empty($_POST['title']) && empty($_POST['content']))){
-                if (empty($_POST['img'])){
-                    $_POST['img'] = null;
+//                echo 'Content valid    ';
+                if (empty($_FILES['img'])){
+                    $_FILES['img'] = null;
+//                    echo 'Img empty    ';
                 }
                 if (empty ($_POST['topics'])) {
                     $_POST['topics'] = null;
+//                    echo 'Topics empty    ';
                 }
-                $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
+                $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_FILES['img']);
             }
         }
 
+    }
+
+    public function uploadImage($fileName, $image_source) : string|null {
+        $IMGUR_CLIENT_ID = "d50e66f2514dc6e"; // client id for the website -> do not modify
+        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // check file extension
+        if (in_array($fileType, array('jpg', 'png', 'jpeg'))) {
+
+            // API post parameters
+            $postFields = array('image' => base64_encode($image_source));
+
+            // Post image to Imgur via API
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.imgur.com/3/image');
+            curl_setopt($ch, CURLOPT_POST, TRUE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $IMGUR_CLIENT_ID));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            // Convert API response to array
+            $imgurData = json_decode($response);
+
+            // Check if image has been upload successfully
+            if (!empty($imgurData->data->link)) {
+                return $imgurData->data->link;
+            }
+        }
+        return null;
     }
 
 }
