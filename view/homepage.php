@@ -31,44 +31,13 @@ require_once "enTete.php";
 
 <section class="h-screen w-full flex flex-col  items-center">
     <p class="text-gray-700 text-xl font-semibold mx-4 mt-4 mb-4">Les 5 posts les plus récents : </p>
-<?php
+    <?php
     // Affichage répétitif des posts
     $posts = $dbPosts->select_SQLResult(null, null, null, null, null, 5, 1, 'recent')->getContent();
     foreach ($posts as $post) {
         echo $postController->getPostHTML($post['POST_ID']);
         echo PHP_EOL;
-    }
-
-    // Bouton page suivante
-    $max = $dbPosts->getTotal(null, null, null, null);
-    if ($max % $limitNbPosts != 0) {
-        $max = (int)($max / $limitNbPosts) + 1;
-//        echo $max;
-    } else {
-        $max = (int)($max / $limitNbPosts);
-    }?>
-    <div class="flex flex-lign items-center mb-4">
-        <div>
-            <form method="get">
-                <button name="page" <?php if ($_GET['page'] == 1) echo "disabled" ?>
-    value="<?= $_GET['page'] - 1 ?>"
-    class="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-700 mr-2 disabled:bg-gray-500 disabled:cursor-not-allowed">
-    Page précédente
-    </button>
-    </form>
-    </div>
-    <p class="text-gray-700 text-xl font-semibold mx-4"> Page <?php echo $_GET['page'] . ' ' ?> </p>
-    <div>
-        <form method="get">
-            <button name="page" <?php if ($_GET['page'] == $max) echo "disabled" ?>
-                    value="<?= $_GET['page'] + 1 ?>"
-
-                    class="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
-                Page suivante
-            </button>
-        </form>
-    </div>
-    </div>
+    } ?>
     <script src="/html/script/scriptShowPost.js"></script>
 </section>
 

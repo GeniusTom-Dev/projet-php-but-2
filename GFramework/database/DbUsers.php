@@ -336,5 +336,43 @@ class DbUsers
         return mysqli_fetch_assoc($result)["IS_ADMIN"];
     }
 
+    public function createPasswordReloadToken(string $email, string $token): bool{
+        $date = date("Y-m-d H:i:s");
+        $date = strtotime($date) + 7200;
+        $date = date("Y-m-d H:i:s", $date);
+
+        $requestGet = "SELECT * FROM reset_password WHERE USER_EMAIL = '$email'";
+        $resultGet = $this->conn->query($requestGet);
+        $row = mysqli_fetch_assoc($resultGet);
+        if (!empty($row)) {
+            $request = "UPDATE reset_password SET RESET_TOKEN = '$token', EXPIRE_DATE = '$date' WHERE USER_EMAIL = '$email'";
+            $this->conn->query($request);
+            return true;
+        }else{
+            $request = "INSERT INTO reset_password (USER_EMAIL, RESET_TOKEN, EXPIRE_DATE) VALUES ('$email','$token','$date')";
+            $this->conn->query($request);
+            return true;
+        }
+
+    }
+
+    public function getPasswordReloadToken(string $token): bool|array|null{
+        $request = "SELECT * FROM reset_password WHERE RESET_TOKEN = '$token'";
+        $result = $this->conn->query($request);
+        return mysqli_fetch_assoc($result);
+    }
+
+    public function deletePasswordReloadToken(string $token): bool{
+        $request = "DELETE FROM reset_password WHERE RESET_TOKEN = '$token'";
+        $this->conn->query($request);
+        return true;
+    }
+
+    public function updatePassword(string $email, string $password): bool{
+        $request = "UPDATE $this->dbName SET USER_PWD = '$password' WHERE USER_EMAIL = '$email'";
+        $this->conn->query($request);
+        return true;
+    }
+
 
 }

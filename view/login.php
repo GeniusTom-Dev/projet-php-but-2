@@ -21,6 +21,7 @@ if (empty($login) === false && empty($password) === false) {
         if(password_verify($password, $savedPassword)){
             $userId = $dbUsers->getUserIDFromLogin($login, $typeConnection);
             $idAdmin = $dbUsers->isAdminFromId($userId);
+            session_start();
             $_SESSION["suid"] = $userId;
             $_SESSION["isAdmin"] = $idAdmin;
             header("Location: homepage.php");
@@ -31,7 +32,7 @@ if (empty($login) === false && empty($password) === false) {
 
 }
 require_once '../GFramework/utilities/utils.inc.php';
-start_page("Profil Utilisateur");
+start_page("Connection");
 
 ?>
 <section class="bg-[#EDE9FF] flex flex-col xl:flex-row justify-around items-center h-screen w-screen">
@@ -40,11 +41,11 @@ start_page("Profil Utilisateur");
 <form class="w-4/5 xl:w-1/3 flex flex-col items-center space-y-4" method="post">
     <h1 class="text-[#b2a5ff] text-2xl">Connection</h1>
 
-    <input name="login" type="text" placeholder="Email" class="w-full rounded-md text-lg outline-none border-2 p-1">
+    <input name="login" type="text" placeholder="Username or Email" class="w-full rounded-md text-lg outline-none border-2 p-1">
     <input name="password" type="password" placeholder="Password" class="w-full rounded-md text-lg outline-none border-2 p-1">
 
     <div class="w-full flex justify-between">
-        <button class="border-none bg-transparent text-[#b2a5ff]">Mot de passe oublié ?</button>
+        <button class="border-none bg-transparent text-[#b2a5ff]"><a href="forgetpassword.php">Mot de passe oublié ?</a></button>
         <button class="border-none bg-transparent"><a href="register.php">Inscription</a></button>
     </div>
 

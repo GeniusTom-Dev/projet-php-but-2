@@ -1,7 +1,6 @@
 <?php
 session_start();
-//$_SESSION['suid'] = 1;
-//$_SESSION['isAdmin'] = true;
+
 
 require_once "../GFramework/autoloader.php";
 

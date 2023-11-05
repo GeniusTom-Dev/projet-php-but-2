@@ -27,7 +27,7 @@ class controlGeneratePosts
         ob_start(); ?>
 
         <article
-                class="postInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
+                class="postInterface w-full h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
                 <form action="pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
@@ -50,7 +50,7 @@ class controlGeneratePosts
                     <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postID ?>">
                     <img src="/html/images/fleches.svg" alt="growArrow"
-                         class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-auto"
+                         class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-4"
                          onclick="submit()">
                 </form>
             </header>

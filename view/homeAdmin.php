@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-//$_SESSION['suid'] = 1;
-//$_SESSION['isAdmin'] = true;
 
 //unset($_SESSION['isAdmin']);
 if (! (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'])){

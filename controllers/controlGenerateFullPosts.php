@@ -130,10 +130,11 @@ class controlGenerateFullPosts
 
     public function getComment(int $commentID, int $userID, string $content): string{
         $owns = isset($_SESSION['suid']) && ( $_SESSION['isAdmin'] || $_SESSION['suid'] == $userID );
+        $username = $this->dbUsers->selectById($userID)->getContent()['USERNAME'];
         ob_start();?>
         <div class="flex items-center mb-2">
-            <a href="pageProfil.php?userProfile=<?= $userID ?>"><img src="/html/images/defaultProfilePicture.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1"></a>
-            <p>@<?= $this->dbUsers->selectById($userID)->getContent()['USERNAME'] ?></p>
+            <a href="pageProfil.php?userProfile=<?= $username ?>"><img src="/html/images/defaultProfilePicture.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1"></a>
+            <p>@<?= $username ?></p>
             <p class="w-full p-2 border border-[#b2a5ff] rounded-md"><?= $content ?></p>
             <?php if ($owns){?>
             <form name="deleteComment" method="post"><button id="delete-comment-button" name="deleteComment" class="ml-2 px-4 py-2 bg-[#b2a5ff] text-white rounded-md" onclick="submit()" value="<?= $commentID ?>">Delete</button></form>

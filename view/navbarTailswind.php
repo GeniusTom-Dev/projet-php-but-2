@@ -2,8 +2,9 @@
 require "../GFramework/autoloader.php";
 
 if (isset($_POST["deconnect"])){
-    unset($_SESSION['suid']);
-    unset($_SESSION['isAdmin']);
+    session_unset();
+    session_destroy();
+
 }
 
 ?>
@@ -91,7 +92,7 @@ if (isset($_POST["deconnect"])){
                 </li>
             <?php } else { ?>
                 <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 space-x-6 transition-bg transition-border" >
-                    <a class="block h-full w-full" href="#" >Connexion</a> <!--href="login.php">-->
+                    <a class="block h-full w-full" href="login.php" >Connexion</a> <!--href="login.php">-->
                 </li>
             <?php } ?>
           <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->

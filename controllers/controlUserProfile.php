@@ -30,7 +30,7 @@ class controlUserProfile
             <!-- Image de profil utilisateur -->
             <div class="profile-picture" id="profilePicture">
                 <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
-//                    echo '/html/images/defaultProfilePicture.png';
+                    echo '/html/images/defaultProfilePicture.png';
                 }
                 else{
                     echo $userData['USER_PROFIL_PIC'];
