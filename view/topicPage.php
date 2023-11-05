@@ -19,6 +19,15 @@ else {
     $_GET['name'] = $_SESSION['topicName'];
 }
 
+if (isset($_GET['page'])) {
+    $_SESSION['page'] = $_GET['page'];
+} else {
+    if (!isset($_SESSION['page'])) {
+        $_SESSION['page'] = 1;
+    }
+    $_GET['page'] = $_SESSION['page'];
+}
+
 $postController = new controlGeneratePosts($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
 $postController->checkAllShowActions();
 
@@ -26,6 +35,7 @@ require_once '../GFramework/utilities/utils.inc.php';
 start_page($_GET['name']);
 
 require_once "enTete.php";
+
 ?>
 <div class=" h-screen w-64 fixed left-0">
     <?php require_once "navbarTailswind.php"; ?>
