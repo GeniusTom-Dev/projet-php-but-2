@@ -8,10 +8,6 @@ if (!isset($_SESSION['suid']) || !$dbUsers->selectById($_SESSION['suid'])->getCo
     $_SESSION['isAdmin'] = true;
 }
 
-$_SESSION['suid'] = 2;
-/*$_SESSION['isAdmin'] = true;*/
-$limitNbPosts = 10;
-
 if (isset($_GET['page'])) {
     $_SESSION['page'] = $_GET['page'];
 } else {
@@ -34,10 +30,10 @@ require_once "enTete.php";
 </div>
 
 <section class="h-screen w-full flex flex-col  items-center">
-    <p>Les posts les plus récents : </p>
+    <p>Les 5 posts les plus récents : </p>
 <?php
     // Affichage répétitif des posts
-    $posts = $dbPosts->select_SQLResult(null, null, null, null, null, $limitNbPosts, $_GET['page'], 'recent')->getContent();
+    $posts = $dbPosts->select_SQLResult(null, null, null, null, null, 5, 1, 'recent')->getContent();
     foreach ($posts as $post) {
         echo $postController->getPostHTML($post['POST_ID']);
         echo PHP_EOL;
