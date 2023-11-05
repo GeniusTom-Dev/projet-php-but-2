@@ -64,8 +64,8 @@ class controlGenerateFullPosts
 
                 <div class="galleryContainer mt-4 w-25 h-auto">
                     <?php
-                        foreach ($this->dbPostMedia->getPostImages($postID) as $img) { ?>
-                            '<img src="<?= $img['IMAGE_URL'] ?>" alt="image du post" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        foreach ($this->dbPostMedia->getPostImages($postID)->getContent() as $img) {?>
+                            <img src="<?= $img['IMAGE_URL'] ?>" alt="image du post" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">;
                         <?php }
                     ?>
                 </div>
