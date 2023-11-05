@@ -9,8 +9,8 @@ require_once "../GFramework/autoloader.php";
 //    $_SESSION['isAdmin'] = true;
 //}
 
-$_SESSION['suid'] = 2;
-$_SESSION['isAdmin'] = true;
+//$_SESSION['suid'] = 2;
+//$_SESSION['isAdmin'] = true;
 $limitNbPosts = 10;
 
 // Restore selected topic or save

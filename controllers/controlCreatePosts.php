@@ -11,16 +11,18 @@ class controlCreatePosts
         $this->dbTopics = new DbTopics($conn);
     }
 
-    function publishPost($title, $content, $arrayTopics, $arrayImg = null): void{
+    function publishPost($title, $content, $arrayTopics = null, $arrayImg = null): void{
         $title = str_replace('\'', '\'\'', $title);
         $content = str_replace('\'', '\'\'', $content);
         // Publish the post
         $postID = $this->dbPosts->addPost($_SESSION['suid'], $title, $content, date('Y-m-d'));
         // Link the post to the associated topics
-        foreach ($arrayTopics as $topic){
-            $topicFound = $this->dbTopics->selectByName($topic)->getContent();
-            if ($topicFound != null){
-                $this->dbPosts->linkPostToTopic($postID, $topicFound['TOPIC_ID']);
+        if (!empty($arrayTopics)) {
+            foreach ($arrayTopics as $topic) {
+                $topicFound = $this->dbTopics->selectByName($topic)->getContent();
+                if ($topicFound != null) {
+                    $this->dbPosts->linkPostToTopic($postID, $topicFound['TOPIC_ID']);
+                }
             }
         }
         // Link images to the post
@@ -80,11 +82,12 @@ class controlCreatePosts
         if (isset($_POST['createPost'])){
             if (! (empty($_POST['title']) && empty($_POST['content']))){
                 if (empty($_POST['img'])){
-                    $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics']);
+                    $_POST['img'] = null;
                 }
-                else{
-                    $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
+                if (empty ($_POST['topics'])) {
+                    $_POST['topics'] = null;
                 }
+                $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
             }
         }
 
