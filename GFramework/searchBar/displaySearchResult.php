@@ -17,7 +17,7 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
         } else if ($_GET["selectDb"] == "Posts") {
             displayPosts(getPostsResults($dbPosts, $dbTopics, $limit, $page, $sort), $dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
         } else if ($_GET["selectDb"] == "Comments") {
-            displayComments(getCommentsResults($dbComments, $limit, $page, $sort), $dbComments, $dbPosts, $dbUsers);
+            displayComments(getCommentsResults($dbComments, $limit, $page, $sort), $dbComments, $dbPosts, $dbUsers, $dbFollows);
         }
     } else {
         if (!isset($_GET['selectDb'])) {
@@ -27,10 +27,10 @@ function whatToDisplay($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts
     }
 }
 
-function displayComments($searchResult, $dbComments, $dbPosts, $dbUsers): void
+function displayComments($searchResult, $dbComments, $dbPosts, $dbUsers, $dbFollows): void
 {
 
-    $controller = new \controllers\controlGenerateComments($dbComments, $dbPosts, $dbUsers);
+    $controller = new \controllers\controlGenerateComments($dbComments, $dbPosts, $dbUsers, $dbFollows);
     $controller->checkAllShowActions();
     $htmlCode = "";
     foreach ($searchResult as $comment) {

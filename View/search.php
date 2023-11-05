@@ -17,6 +17,13 @@ require_once "enTete.php";
 require_once "navbarTailswind.php";
 
 require_once '../GFramework/searchBar/displaySearchResult.php';
+
+$max = getTotal($dbComments, $dbPosts, $dbTopics, $dbUsers);
+if ($max % $limitRows != 0) {
+    $max = (int)($max / $limitRows) + 1;
+} else {
+    $max = (int)($max / $limitRows);
+}
 ?>
 
 <div class="flex flex-col items-center mb-8">
@@ -41,14 +48,6 @@ require_once '../GFramework/searchBar/displaySearchResult.php';
                 </form>
             </div>
         </div>
-        <?php
-        $max = getTotal($dbComments, $dbPosts, $dbTopics, $dbUsers);
-        if ($max % $limitRows != 0) {
-            $max = (int)($max / $limitRows) + 1;
-        } else {
-            $max = (int)($max / $limitRows);
-        }
-        ?>
     </div>
     <h2>Resultats de la recherche :</h2>
     <table id="table">
