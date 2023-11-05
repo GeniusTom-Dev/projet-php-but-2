@@ -234,7 +234,7 @@ class DbUsers
      *
      * @param int $userID
      * @param string $newBio
-     * @return bool True if the update was successful; false if a user with this username already exists or if the new username is empty.
+     * @return bool True if the update was successful
      */
     public function updateBio(int $userID, ?string $newBio): bool
     {
@@ -242,6 +242,20 @@ class DbUsers
         $request .= " WHERE USER_ID = $userID";
         $this->conn->query($request);
         return true;
+    }
+
+    /**
+     * Update a user's last connection in the database.
+     *
+     * @param int $userID
+     * @param string $newConnexion
+     * @return void
+     */
+    public function updateLastConnect(int $userID, string $newConnexion): void
+    {
+        $request = "UPDATE $this->dbName SET USER_LAST_CONNECTION = '$newConnexion'";
+        $request .= " WHERE USER_ID = $userID";
+        $this->conn->query($request);
     }
 
     /**
@@ -292,4 +306,6 @@ class DbUsers
         $request = "SELECT * FROM $this->dbName WHERE USER_EMAIL = '$email'";
         return !empty(mysqli_fetch_assoc($this->conn->query($request)));
     }
+
+
 }
