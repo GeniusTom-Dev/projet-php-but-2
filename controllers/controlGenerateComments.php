@@ -32,14 +32,14 @@ class controlGenerateComments
         <article
                 class="commentInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
-                <form action="../View/pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
+                <form action="pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <div class="w-100 h-100">
                         <?php
                         if (is_null($userData['USER_PROFIL_PIC'])) {
-                            echo '<img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                            echo '<img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         } else {
-                            echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                            echo '<img src="' . $userData['USER_PROFIL_PIC'] . ' onclick="submit()" " alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         }
                         ?>
                     </div>
