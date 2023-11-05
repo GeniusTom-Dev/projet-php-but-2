@@ -26,15 +26,16 @@ class controlUser
         ob_start(); ?>
         <section
                 class="userProfileSimple flex flex-lign items-center w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
-            <form action="../View/pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
-                <input type="hidden" name="userProfile" value="<?= $userData['USER_ID'] ?>">
+            <form action="../View/pageProfil.php" onclick="submit()" method="get">
+                <!-- Affichage page profil utilisateur -->
+                <input type="hidden" name="userProfile" value="<?= $userData['USER_NAME'] ?>">
                 <div class="w-100 h-100">
                     <img src="<?php if (empty($userData['USER_PROFIL_PIC'])) {
                         echo '/projet-php-but-2/html/images/profile-removebg-preview.png';
                     } else {
                         echo $userData['USER_PROFIL_PIC'];
                     }
-                    ?>" alt="Photo de profil" id="profileImage"
+                    ?>" alt="Photo de profil" id="profileImage" onclick="submit()"
                          class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">
                 </div>
             </form>
