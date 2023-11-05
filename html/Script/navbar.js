@@ -11,7 +11,7 @@ const closeIcon = document.getElementById('close-icon');
   // Ajouter un écouteur d'événements pour le clic sur "Catégorie"
   categoryBtn.addEventListener('click', () => {
     // categoryDropdown.classList.toggle('hidden');
-    categoryDropdown.style.display = "flex";
+    categoryDropdown.style.display = "block";
   });
 
   // Ajouter un écouteur d'événements pour masquer le menu déroulant lorsqu'on clique ailleurs
