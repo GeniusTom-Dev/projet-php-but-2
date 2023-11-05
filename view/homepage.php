@@ -46,7 +46,7 @@ require_once "enTete.php";
     $max = $dbPosts->getTotal(null, null, null, null);
     if ($max % $limitNbPosts != 0) {
         $max = (int)($max / $limitNbPosts) + 1;
-        echo $max;
+//        echo $max;
     } else {
         $max = (int)($max / $limitNbPosts);
     }?>
