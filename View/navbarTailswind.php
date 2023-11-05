@@ -7,7 +7,7 @@ if (isset($_POST["deconnect"])){
 }
 
 ?>
-<body id="theme-container">
+<!--<body id="theme-container">-->
   
 
   <nav class="flex left-0">
@@ -117,5 +117,5 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/html/Script/navbar.js"></script>
-  </body>
+  <script src="/projet-php-but-2/html/Script/navbar.js"></script>
+<!--  </body>-->

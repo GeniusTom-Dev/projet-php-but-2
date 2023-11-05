@@ -2,15 +2,15 @@
 session_start();
 require_once "../GFramework/autoloader.php";
 
-//if(!isset($_SESSION['suid']) || !$dbUsers->selectById($_SESSION['suid'])->getContent()['IS_ADMIN']){
-//    $_SESSION['isAdmin'] = false;
-//}
-//else{
-//    $_SESSION['isAdmin'] = true;
-//}
+if(!isset($_SESSION['suid']) || !$dbUsers->selectById($_SESSION['suid'])->getContent()['IS_ADMIN']){
+    $_SESSION['isAdmin'] = false;
+}
+else{
+    $_SESSION['isAdmin'] = true;
+}
 
-$_SESSION['suid'] = 2;
-$_SESSION['isAdmin'] = true;
+//$_SESSION['suid'] = 2;
+//$_SESSION['isAdmin'] = true;
 $limitNbPosts = 10;
 
 if (isset($_GET['page'])) {

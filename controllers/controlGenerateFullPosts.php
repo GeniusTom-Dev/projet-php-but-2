@@ -181,7 +181,8 @@ class controlGenerateFullPosts
     }
     private function checkCreateComment(): void{
         if (isset($_POST['createComment']) && isset($_POST['content'])){
-            $this->dbComments->addComment($_POST['createComment'], $_SESSION['suid'], $_POST['content'], date('Y-m-d'));
+            $content = str_replace('\'', '\'\'', $_POST['content']);
+            $this->dbComments->addComment($_POST['createComment'], $_SESSION['suid'], $content, date('Y-m-d'));
         }
     }
     private function checkDeleteComment(): void{

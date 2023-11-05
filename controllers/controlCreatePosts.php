@@ -11,14 +11,18 @@ class controlCreatePosts
         $this->dbTopics = new DbTopics($conn);
     }
 
-    function publishPost($title, $content, $arrayTopics, $arrayImg): void{
+    function publishPost($title, $content, $arrayTopics = null, $arrayImg = null): void{
+        $title = str_replace('\'', '\'\'', $title);
+        $content = str_replace('\'', '\'\'', $content);
         // Publish the post
         $postID = $this->dbPosts->addPost($_SESSION['suid'], $title, $content, date('Y-m-d'));
         // Link the post to the associated topics
-        foreach ($arrayTopics as $topic){
-            $topicFound = $this->dbTopics->selectByName($topic)->getContent();
-            if ($topicFound != null){
-                $this->dbPosts->linkPostToTopic($postID, $topicFound['TOPIC_ID']);
+        if (!empty($arrayTopics)) {
+            foreach ($arrayTopics as $topic) {
+                $topicFound = $this->dbTopics->selectByName($topic)->getContent();
+                if ($topicFound != null) {
+                    $this->dbPosts->linkPostToTopic($postID, $topicFound['TOPIC_ID']);
+                }
             }
         }
         // Link images to the post
@@ -65,6 +69,7 @@ class controlCreatePosts
                     <button class="confirmDeleteButton px-4 py-2 bg-red-500 text-white rounded-md ml-2">Confirmer</button>
                     <button class="cancelDeleteButton px-4 py-2 bg-[#b2a5ff] rounded-md ml-2">Annuler</button>
                 </div>
+            </form>
         </article>
 
 
@@ -75,7 +80,13 @@ class controlCreatePosts
 
     public function checkCreatePost(): void{
         if (isset($_POST['createPost'])){
-            if (! (empty($_POST['title']) && empty($_POST['content'])) && empty($_POST['img'])){
+            if (! (empty($_POST['title']) && empty($_POST['content']))){
+                if (empty($_POST['img'])){
+                    $_POST['img'] = null;
+                }
+                if (empty ($_POST['topics'])) {
+                    $_POST['topics'] = null;
+                }
                 $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_POST['img']);
             }
         }

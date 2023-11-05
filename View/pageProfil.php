@@ -2,11 +2,23 @@
 session_start();
 require_once '../GFramework/autoloader.php';
 
-$_GET['userProfile'] = 2;
-$_SESSION['suid'] = 2;
-$_SESSION['isAdmin'] = true;
+//$_GET['userProfile'] = 1;
+//$_SESSION['suid'] = 2;
+//$_SESSION['isAdmin'] = true;
 
-$controllerProfile = new controlUserProfile($dbConn);
+// Restore selected userProfile or save
+if (isset($_GET['userProfile'])) {
+    $_SESSION['userProfile'] = $_GET['userProfile'];
+}
+else {
+    if (!isset($_SESSION['userProfile'])){
+        header('Location: homepage.php');
+        die();
+    }
+    $_GET['userProfile'] = $_SESSION['userProfile'];
+}
+
+$controllerProfile = new controlUserProfile($dbComments, $dbFavorites, $dbFollows, $dbLikes, $dbPosts, $dbTopics, $dbUsers);
 $controllerProfile->checkNewBio();
 $controllerProfile->checkNewProfilePic();
 $controllerProfile->postController->checkAllShowActions();
@@ -46,7 +58,7 @@ require_once "enTete.php";
                     </div>
                     <!-- Affiche les publications selon vos besoins -->
                     <div>
-                        <?= $controllerProfile->getUserPosts($_GET['userProfile'], 15, 'recent') ?>
+                        <?= $controllerProfile->getUserPosts($_GET['userProfile'], 10, 'recent') ?>
                         <script src="/projet-php-but-2/html/Script/scriptShowPost.js"></script>
                     </div>
                 </section>
@@ -55,7 +67,7 @@ require_once "enTete.php";
                         <h1 class="text-2xl font-semibold">Favoris</h1>
                         <!-- Affiche les publications selon vos besoins -->
                         <div>
-                            <?= $controllerProfile->getUserBookmarks($_GET['userProfile'], 15, 'recent') ?>
+                            <?= $controllerProfile->getUserBookmarks($_GET['userProfile'], 10, 'recent') ?>
                         </div>
                     </section>
                 <?php } ?>

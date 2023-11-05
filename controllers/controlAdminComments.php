@@ -85,13 +85,13 @@ class controlAdminComments
                 ob_start();
                 foreach ($result as &$row)
                 { ?>
-            <tr>
-                <td><?= $row['COMMENT_ID']?></td>
-                <td><?= $row['CONTENT']?></td>
-                <td><?= $row['DATE_POSTED']?></td>
-                <td><?= $row['POST_ID']?></td>
-                <td><?= $row['USER_ID']?></td>
-                <td><form method="post"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
+            <tr class="border border-gray-200">
+                <td class="border border-gray-200"><?= $row['COMMENT_ID']?></td>
+                <td class="border border-gray-200"><?= $row['CONTENT']?></td>
+                <td class="border border-gray-200"><?= $row['DATE_POSTED']?></td>
+                <td class="border border-gray-200"><?= $row['POST_ID']?></td>
+                <td class="border border-gray-200"><?= $row['USER_ID']?></td>
+                <td class="border border-gray-200"><form method="post"><button name="Delete" value="<?=$row['COMMENT_ID']?>" onclick="submit()">X</button></form></td>
             </tr>
                 <?php }
             }
