@@ -11,5 +11,16 @@ start_page("Recherche");
 require_once "enTete.php";
 
 require_once "navbarTailswind.php";
+
+require_once '../GFramework/searchBar/displaySearchResult.php'
 ?>
+<div class="flex flex-col items-center mb-8">
+    <h2>Resultats de la recherche :</h2>
+       <table id="table">
+            <?php whatToDisplay(); ?>
+        </table>
+</div>
+
+<script src="/html/script/scriptShowPost.js"></script>
+
 

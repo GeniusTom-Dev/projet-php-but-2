@@ -26,9 +26,6 @@ require_once __DIR__ .'/displaySearchResult.php';
 <div class="bg-[#b2a5ff] h-screen w-64 fixed left-0"></div>
 
 <div class="flex flex-col items-center mb-8">
-    <?php
-    require '../autoloader.php';
-    ?>
     <h1>Barre de recherche</h1>
     <?php include 'searchBar.php' ?>
 
