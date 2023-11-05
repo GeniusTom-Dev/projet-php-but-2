@@ -9,6 +9,7 @@ class controlGenerateFullPosts
     private DbFavorites $dbFavorites;
     private DbFollows $dbFollows;
     private DbComments $dbComments;
+    private DbPostMedia $dbPostMedia;
 
     public function __construct($conn){
         $this->dbComments = new DbComments($conn);
@@ -18,6 +19,7 @@ class controlGenerateFullPosts
         $this->dbPosts = new DbPosts($conn);
         $this->dbTopics = new DbTopics($conn);
         $this->dbUsers = new DbUsers($conn);
+        $this->dbPostMedia = new DbPostMedia($conn);
     }
 
     function getFullPostHTML(int $postID): string{
@@ -60,8 +62,12 @@ class controlGenerateFullPosts
                 </div>
                 <p><?= $postData['CONTENT'] ?></p>
 
-                <div class="galleryContainer mt-4">
-                    <!-- Lien BD et image -->
+                <div class="galleryContainer mt-4 w-25 h-auto">
+                    <?php
+                        foreach ($this->dbPostMedia->getPostImages($postID) as $img) { ?>
+                            '<img src="<?= $img['IMAGE_URL'] ?>" alt="image du post" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                        <?php }
+                    ?>
                 </div>
                 <?php foreach ($this->dbPosts->getLinkedTopics($postID) as $topicID) { ?>
                     <button class="bg-purple-500 text-white rounded-md px-2 py-1 m-2"><?= $this->dbTopics->selectById($topicID['TOPIC_ID'])->getContent()['NAME'] ?></button>
