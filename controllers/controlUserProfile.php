@@ -30,14 +30,13 @@ class controlUserProfile
             <!-- Image de profil utilisateur -->
             <div class="profile-picture" id="profilePicture">
                 <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
-                    echo '/html/images/defaultProfilePicture.png';
+//                    echo '/html/images/defaultProfilePicture.png';
                 }
                 else{
                     echo $userData['USER_PROFIL_PIC'];
                 }
                 ?>" alt="Photo de profil" id="profileImage"  class="article-image absolute top-0 left-8 w-40 h-40 rounded-full transition-transform hover:scale-125">
             </div>
-
             <!-- Formulaire pour sélectionner un nouveau fichier de photo de profil -->
             <?php if ($owns) : ?>
             <form method="post" enctype="multipart/form-data">
@@ -45,7 +44,6 @@ class controlUserProfile
                 <input type="hidden" name="userIdPP" value="<?= $userData['USER_ID'] ?>">
             </form>
             <?php endif; ?>
-
             <!-- Informations de profil -->
             <div class="pl-64">
                 <p class="text-xl font-bold"><?= $userData['USERNAME'] ?></p>
@@ -68,7 +66,6 @@ class controlUserProfile
                     </form>
                 </div>
                 <?php if ($owns) : ?>
-
                     <!-- Bouton pour modifier la biographie -->
                     <button id="editButton">Modifier Ma Biographie</button>
                 <?php endif; ?>
@@ -81,6 +78,7 @@ class controlUserProfile
 
     public function checkNewBio(): void{
         if (isset($_POST['userIdBio'])){
+//            echo 'new Bio --------------';
             if (!isset($_POST['newBio'])){
                 $this->dbUsers->updateBio($_POST['userIdBio'], null);
             }
@@ -103,6 +101,7 @@ class controlUserProfile
     public function getUserPosts(string $username, ?int $limit, ?string $sort): string{
         $userID = $this->dbUsers->selectByUsername($username)->getContent()['USER_ID'];
         $result = $this->dbPosts->select_SQLResult(null, null, (int) $userID, null, null, $limit, 1, $sort)->getContent();
+//        var_dump($result);
         ob_start();
         foreach ($result as $post){
         ?>
@@ -112,6 +111,7 @@ class controlUserProfile
         }
         $userPosts = ob_get_contents();
         ob_end_clean();
+//        var_dump($userPosts);
         return $userPosts;
     }
 

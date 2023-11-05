@@ -46,7 +46,7 @@ class controlGeneratePosts
                     <p>Follow | <?= $this->dbFollows->countFollower($postData['USER_ID']) ?> followers</p>
                 </div>
 
-                <form action="/view/affichagePostDetails.php" method="get">
+                <form action="/View/affichagePostDetails.php" method="get">
                     <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postID ?>">
                     <img src="/html/images/fleches.svg" alt="growArrow"
@@ -90,12 +90,12 @@ class controlGeneratePosts
                         <?php if (isset($_SESSION['suid']) && $this->dbFavorites->doesUserHaveFavoritedThisPost($_SESSION['suid'], $postID)) { ?>
                             <input type="hidden" name="unmarkPost" value="<?= $postID ?>">
                             <img src="/html/images/bookmark-solid.svg" alt="bookmark"
-                                 class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2"
+                                 class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 ml-4"
                                  onclick="submit()">
                         <?php } else { ?>
                             <input type="hidden" name="markPost" value="<?= $postID ?>">
                             <img src="/html/images/bookmark-regular.svg" alt="bookmark"
-                                 class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 mr-2" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"'; ?>>
+                                 class="bookmark w-6 h-auto transition-transform duration-300 hover:scale-125 ml-4" <?php if (isset($_SESSION['suid'])) echo 'onclick="submit()"'; ?>>
                         <?php } ?>
                     </form>
                 </div>

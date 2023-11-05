@@ -45,10 +45,10 @@ require_once "enTete.php";
                     <div class="flex items-center space-x-4">
                         <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $dbUsers->selectByUsername($_GET['userProfile'])->getContent()['USER_ID']){
                             echo $controllerCreatePost->getCreatePost(); ?>
-                        <script src="/projet-php-but-2/html/Script/scriptCreatePost.js"></script>
+                        <script src="/html/script/scriptCreatePost.js"></script>
                         <button id="plusButton" class="showCreationPostButton w-4 h-auto transform transition-transform duration-300 hover:scale-125">
                             <!-- Image de bouton "plus" -->
-                            <img src="/projet-php-but-2/html/images/plus-solid.svg" alt="plus">
+                            <img src="/html/images/plus-solid.svg" alt="plus">
                         </button>
                         <?php } ?>
 
@@ -56,7 +56,7 @@ require_once "enTete.php";
                     <!-- Affiche les publications selon vos besoins -->
                     <div>
                         <?= $controllerProfile->getUserPosts($_GET['userProfile'], 10, 'recent') ?>
-                        <script src="/projet-php-but-2/html/Script/scriptShowPost.js"></script>
+                        <script src="/html/script/scriptShowPost.js"></script>
                     </div>
                 </section>
                 <?php if (isset($_SESSION['suid']) && $_SESSION['suid'] == $dbUsers->selectByUsername($_GET['userProfile'])->getContent()['USER_ID']){ ?>
@@ -74,6 +74,6 @@ require_once "enTete.php";
     </div>
 </div>
 <!-- Inclusion d'un fichier JavaScript pour gérer les fonctionnalités interactives -->
-<script src="/projet-php-but-2/html/Script/script.js"></script>
+<script src="/html/script/script.js"></script>
     </body>
 </html>
