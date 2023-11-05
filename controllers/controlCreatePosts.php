@@ -13,7 +13,7 @@ class controlCreatePosts
         $this->dbPostMedia = new DbPostMedia($conn);
     }
 
-    function publishPost($title, $content, $arrayTopics = null, $arrayImg = null): void{
+    function publishPost($title, $content, $arrayTopics = null, $arrayImg = null): int{
         $title = str_replace('\'', '\'\'', $title);
         $content = str_replace('\'', '\'\'', $content);
         // Publish the post
@@ -43,6 +43,7 @@ class controlCreatePosts
                 }
             }
         }
+        return $postID;
     }
 
     function getCreatePost(): string {
@@ -107,7 +108,9 @@ class controlCreatePosts
                     $_POST['topics'] = null;
 //                    echo 'Topics empty    ';
                 }
-                $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_FILES['img']);
+                $postID = $this->publishPost($_POST['title'], $_POST['content'], $_POST['topics'], $_FILES['img']);
+                header('Location: affichagePostDetails.php?detailsPost=' . $postID);
+                die();
             }
         }
 
