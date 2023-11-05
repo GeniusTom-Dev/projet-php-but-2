@@ -34,7 +34,7 @@ if (isset($_POST["deconnect"])){
             <?php if(isset($_SESSION['suid'])) { ?>
             <a href="pageProfil.php?userProfile=<?= $userData['USERNAME'] ?>">
                 <img src="<?php if (empty($userData['USER_PROFIL_PIC'])){
-                    echo '/projet-php-but-2/html/images/profile-removebg-preview.png'; // Default Profile Pic
+                    echo '/html/images/defaultProfilePicture.png'; // Default Profile Pic
                 }
                 else{
                     echo $userData['USER_PROFIL_PIC']; // User specific Profile Pic
@@ -46,7 +46,7 @@ if (isset($_POST["deconnect"])){
                 </div>
             </a>
             <?php } else { ?>
-            <img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="Avatar" class="block w-full rounded-full">
+            <img src="/html/images/defaultProfilePicture.png" alt="Avatar" class="block w-full rounded-full">
             <div class="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-75 text-white text-center opacity-0 hover:opacity-100 transition-opacity">
                 <div class="flex items-center justify-center h-full">
                     <div class="text-2xl">Invité</div>
@@ -117,5 +117,4 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/projet-php-but-2/html/Script/navbar.js"></script>
-<!--  </body>-->
+  <script src="/html/script/navbar.js"></script>

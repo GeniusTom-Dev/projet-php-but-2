@@ -32,12 +32,12 @@ class controlGenerateComments
         <article
                 class="commentInterface w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <header class="flex flex-lign items-center mb-2">
-                <form action="pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
+                <form action="/View/pageProfil.php" method="get"> <!-- Affichage page profil utilisateur -->
                     <input type="hidden" name="userProfile" value="<?= $userData['USERNAME'] ?>">
                     <div class="w-100 h-100">
                         <?php
                         if (is_null($userData['USER_PROFIL_PIC'])) {
-                            echo '<img src="/projet-php-but-2/html/images/profile-removebg-preview.png" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
+                            echo '<img src="/html/images/defaultProfilePicture.png" alt="Photo de profil par défaut" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         } else {
                             echo '<img src="' . $userData['USER_PROFIL_PIC'] . ' onclick="submit()" " alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         }
@@ -49,10 +49,10 @@ class controlGenerateComments
                     <p>Follow | <?= $this->dbFollows->countFollower($commentData['USER_ID']) ?> followers</p>
                 </div>
 
-                <form action="/projet-php-but-2/View/affichagePostDetails.php" method="get">
+                <form action="/View/affichagePostDetails.php" method="get">
                     <!-- Affichage page détail post -->
                     <input name="detailsPost" type="hidden" value="<?= $postData['POST_ID'] ?>">
-                    <img src="/projet-php-but-2/html/images/fleches.svg" alt="growArrow"
+                    <img src="/html/images/fleches.svg" alt="growArrow"
                          class="growArrow w-10 h-auto transition-transform duration-300 hover:scale-125 ml-auto"
                          onclick="submit()">
                 </form>

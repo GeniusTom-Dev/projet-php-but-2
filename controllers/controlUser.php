@@ -31,7 +31,7 @@ class controlUser
                 <input type="hidden" name="userProfile" value="<?= $userData['USER_NAME'] ?>">
                 <div class="w-100 h-100">
                     <img src="<?php if (empty($userData['USER_PROFIL_PIC'])) {
-                        echo '/projet-php-but-2/html/images/profile-removebg-preview.png';
+                        echo '/projet-php-but-2/html/images/defaultProfilePicture.png';
                     } else {
                         echo $userData['USER_PROFIL_PIC'];
                     }

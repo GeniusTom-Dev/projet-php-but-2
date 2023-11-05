@@ -9,7 +9,7 @@ if (!isset($_SESSION['suid']) || !$dbUsers->selectById($_SESSION['suid'])->getCo
 }
 
 $_SESSION['suid'] = 2;
-$_SESSION['isAdmin'] = true;
+/*$_SESSION['isAdmin'] = true;*/
 $limitNbPosts = 10;
 
 if (isset($_GET['page'])) {
@@ -34,15 +34,7 @@ require_once "enTete.php";
 </div>
 
 <section class="h-screen w-full flex flex-col  items-center">
-    <?php // Bouton page précédente
-    if ($_GET['page'] > 1) { ?>
-        <div>
-            <form method="get">
-                <button name="page" value="<?= $_GET['page'] - 1 ?>">Page précédente</button>
-            </form>
-        </div>
-    <?php }
-
+<?php
     // Affichage répétitif des posts
     $posts = $dbPosts->select_SQLResult(null, null, null, null, null, $limitNbPosts, $_GET['page'], 'recent')->getContent();
     foreach ($posts as $post) {
@@ -57,15 +49,30 @@ require_once "enTete.php";
         echo $max;
     } else {
         $max = (int)($max / $limitNbPosts);
-    }
-    if ($_GET['page'] < $max) { ?>
+    }?>
+    <div class="flex flex-lign items-center mb-4">
         <div>
             <form method="get">
-                <button name="page" value="<?= $_GET['page'] + 1 ?>">Page suivante</button>
-            </form>
-        </div>
-    <?php } ?>
-    <script src="/projet-php-but-2/html/script/scriptShowPost.js"></script>
+                <button name="page" <?php if ($_GET['page'] == 1) echo "disabled" ?>
+    value="<?= $_GET['page'] - 1 ?>"
+    class="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-700 mr-2 disabled:bg-gray-500 disabled:cursor-not-allowed">
+    Page précédente
+    </button>
+    </form>
+    </div>
+    <p class="text-gray-700 text-xl font-semibold mx-4"> Page <?php echo $_GET['page'] . ' ' ?> </p>
+    <div>
+        <form method="get">
+            <button name="page" <?php if ($_GET['page'] == $max) echo "disabled" ?>
+                    value="<?= $_GET['page'] + 1 ?>"
+
+                    class="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-700 disabled:bg-gray-500 disabled:cursor-not-allowed">
+                Page suivante
+            </button>
+        </form>
+    </div>
+    </div>
+    <script src="/html/script/scriptShowPost.js"></script>
 </section>
 
 </body>

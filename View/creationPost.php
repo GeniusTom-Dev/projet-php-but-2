@@ -3,7 +3,7 @@ session_start();
 require_once "../GFramework/autoloader.php";
 
 $_SESSION['suid'] = 1;
-$_SESSION['isAdmin'] = true;
+//$_SESSION['isAdmin'] = true;
 
 $controller = new controlCreatePosts($dbConn);
 $controller->checkCreatePost();
@@ -28,7 +28,7 @@ echo $controller->getCreatePost();
     </div>
 </div>
 
-<script src="/projet-php-but-2/html/script/scriptCreatePost.js"></script>
+<script src="/html/script/scriptCreatePost.js"></script>
 </body>
 </html>
 

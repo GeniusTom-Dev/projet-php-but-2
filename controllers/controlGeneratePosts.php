@@ -34,7 +34,7 @@ class controlGeneratePosts
                     <div class="w-100 h-100">
                         <?php
                         if (is_null($userData['USER_PROFIL_PIC'])) {
-                            echo '<img src="/projet-php-but-2/html/images/profile-removebg-preview.png" onclick="submit()" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
+                            echo '<img src="/projet-php-but-2/html/images/defaultProfilePicture.png" onclick="submit()" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1">';
                         } else {
                             echo '<img src="' . $userData['USER_PROFIL_PIC'] . '" alt="PP" class="w-20 h-auto transition-transform duration-300 hover:scale-125 mr-1" onclick="submit()">';
                         }
