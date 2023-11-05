@@ -6,13 +6,13 @@
  * @param $dbTopics
  * @return array An array of topic results matching the search criteria.
  */
-function getTopicsResults($dbTopics) : array
+function getTopicsResults($dbTopics, ?int $limit = null, ?int $page = null, ?string $sort = null): array
 {
     if (empty($_GET["searchId"]) === false) {
         $results = [$dbTopics->selectById($_GET["searchId"])->getContent()];
     } else {
         $nameOrDescriptionLike = (empty($_GET["searchText"]) === false) ? $_GET['searchText'] : null;
-        $results = $dbTopics->select_SQLResult($nameOrDescriptionLike)->getContent();
+        $results = $dbTopics->select_SQLResult($nameOrDescriptionLike, $limit, $page, $sort)->getContent();
     }
     return $results;
 }
@@ -23,7 +23,7 @@ function getTopicsResults($dbTopics) : array
  * @param $dbUsers
  * @return array An array of user results matching the search criteria.
  */
-function getUsersResults($dbUsers) : array
+function getUsersResults($dbUsers, ?int $limit = null, ?int $page = null, ?string $sort = null): array
 {
     if (empty($_GET["searchId"]) === false) {
         $results = [$dbUsers->selectById($_GET['searchId'])->getContent()];
@@ -31,7 +31,7 @@ function getUsersResults($dbUsers) : array
         $usernameLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
         $isAdmin = (empty($_GET['searchIsAdmin']) === false) ? $_GET['searchIsAdmin'] : null;
         $isActivate = (empty($_GET['searchIsActivate']) === false) ? $_GET['searchIsActivate'] : null;
-        $results = $dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate)->getContent();
+        $results = $dbUsers->select_SQLResult($usernameLike, $isAdmin, $isActivate, $limit, $page, $sort)->getContent();
     }
     return $results;
 }
@@ -43,7 +43,7 @@ function getUsersResults($dbUsers) : array
  * @param $dbTopics
  * @return array An array of post results matching the search criteria.
  */
-function getPostsResults($dbPosts, $dbTopics) : array
+function getPostsResults($dbPosts, $dbTopics, $limit, ?int $page = null, ?string $sort = null): array
 {
     if (empty($_GET['searchId']) === false) {
         $results = [$dbPosts->selectById($_GET['searchId'])->getContent()];
@@ -56,7 +56,9 @@ function getPostsResults($dbPosts, $dbTopics) : array
         }
         $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
         $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
-        $results = $dbPosts->select_SQLResult($topicId, $contentOrTitleLike, $user, $dateMin, $dateMax)->getContent();
+        $results = $dbPosts->select_SQLResult($topicId, $contentOrTitleLike, $user, $dateMin, $dateMax, $limit, $page, $sort)->getContent();
+        var_dump("limit = " . $limit);
+        var_dump("result : " . sizeof($results));
     }
     return $results;
 }
@@ -67,7 +69,7 @@ function getPostsResults($dbPosts, $dbTopics) : array
  * @param $dbComments
  * @return array An array of comment results matching the search criteria.
  */
-function getCommentsResults($dbComments) : array
+function getCommentsResults($dbComments, ?int $limit = null, ?int $page = null, ?string $sort = null): array
 {
     if (empty($_GET['searchId']) === false) {
         $results = [$dbComments->selectById($_GET['searchId'])->getContent()];
@@ -80,7 +82,7 @@ function getCommentsResults($dbComments) : array
         $contentLike = (empty($_GET['searchText']) === false) ? $_GET['searchText'] : null;
         $dateMin = (empty($_GET['searchDateMin']) === false) ? $_GET['searchDateMin'] : null;
         $dateMax = (empty($_GET['searchDateMax']) === false) ? $_GET['searchDateMax'] : null;
-        $results = $dbComments->select_SQLResult($post_id, $user, $contentLike, $dateMin, $dateMax)->getContent();
+        $results = $dbComments->select_SQLResult($post_id, $user, $contentLike, $dateMin, $dateMax, $limit, $page, $sort)->getContent();
     }
     return $results;
 }
