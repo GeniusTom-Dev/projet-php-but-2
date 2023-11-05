@@ -4,6 +4,8 @@ include_once "autoloader.php";
 // Init
 $layout = new \gui\Layout();
 
+define("__RACINE__", realpath(__DIR__ . "/../"));
+
 
 //Init DB
 $db = new \GFramework\database\Database('mysql-echo.alwaysdata.net', 'echo_mathieu', '130304leroux', 'echo_bd');
@@ -61,6 +63,15 @@ switch ($page){
         session_destroy();
         header("Location: /");
         break;
+
+    case "forgetPassword":
+        (new \gui\View($layout, "Mot de passe oublié | Echo", "forgetPassword.php"))->render();
+        break;
+
+    case "profile":
+        $id = $_GET['id'] ?? "";
+
+        (new \gui\views\ViewProfile($layout, "Profil | Echo", true, array("id" => $id)))->render();
     default:
         $newSearch = $_GET['newSearch'] ?? "";
         $selectOption = $_GET['selectOption'] ?? "";
