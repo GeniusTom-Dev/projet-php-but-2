@@ -95,15 +95,15 @@ if (isset($_POST["deconnect"])){
                 </li>
             <?php } ?>
           <!-- Une boucle pour afficher les différentes sections à partir des tableaux tab et lien -->
-            <li class="border border-gray-200 rounded-xl hover:bg-blue-200 hover:bg-blue-200 transition-bg transition-border" >
-                <a href="#" class="dropbtn block h-full w-full" id="categoryBtn">Catégories</a>
-                <div class="dropdown-content border border-gray-200 absolute z-64 mt-2 space-y-2 p-6 flex flex-col" style="background-color: #b2a5ff;" id="categoryDropdown">
-                  <?php
-                    foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic){ ?>
-                        <a class="border border-gray-200 rounded-xl hover:bg-blue-200 px-6 hover:bg-blue-200 transition-bg transition-border" href="topicPage.php?name=<?= $topic['NAME'] ?>"><?= $topic['NAME'] ?></a>
+          <li class="relative border border-gray-200 rounded-xl transition-bg transition-border">
+                <a class="block h-full w-full cursor-pointer" id="categoryBtn">Catégories</a>
+                <ul class="absolute left-0 w-44 max-h-full overflow-y-auto bg-[#b2a5ff] shadow-lg py-2 mt-2 space-y-2 text-black border border-gray-200 rounded-xl hidden" id="categoryDropdown">
+                    <?php
+                    foreach ($dbTopics->select_SQLResult(null, null, null, 'a-z')->getContent() as $topic) { ?>
+                        <li class="px-6 hover:bg-blue-200 cursor-pointer"><?php echo $topic['NAME']; ?></li>
                     <?php }
-                  ?>
-                </div>
+                    ?>
+                    </ul>
             </li>
         </ul>
         <!-- Bouton de changement de thème -->
@@ -117,5 +117,5 @@ if (isset($_POST["deconnect"])){
     </div>
   </nav>
 
-  <script src="/html/Script/navbar.js"></script>
+  <script src="/projet-php-but-2/html/Script/navbar.js"></script>
   </body>
