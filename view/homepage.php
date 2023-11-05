@@ -29,7 +29,7 @@ require_once "enTete.php";
     <?php require_once "navbarTailswind.php"; ?>
 </div>
 
-<section class="h-screen w-full flex flex-col  items-center">
+<section class="h-screen w-1/2 ml-[50%] -translate-x-1/2 flex flex-col  items-center">
     <p class="text-gray-700 text-xl font-semibold mx-4 mt-4 mb-4">Les 5 posts les plus récents : </p>
     <?php
     // Affichage répétitif des posts
