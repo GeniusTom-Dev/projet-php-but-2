@@ -1,16 +1,11 @@
 <?php
-
 namespace GFramework\database;
-
-
 use GFramework\utilities\GReturn;
-use mysqli;
 
 class DbBelongsTo
 {
     private string $dbName = "belongs_to";
     private mysqli $conn;
-
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -22,8 +17,7 @@ class DbBelongsTo
      * @param int $postId
      * @return GReturn
      */
-    public function getAllTopicsOfAPost(int $postId): GReturn
-    {
+    public function getAllTopicsOfAPost(int $postId) : GReturn {
         $request = "SELECT * FROM " . $this->dbName;
         $request .= " WHERE POST_ID=$postId;";
         $result = $this->conn->query($request);
@@ -37,8 +31,7 @@ class DbBelongsTo
      * @param int $topicId
      * @return void
      */
-    public function addATopicToAPost(int $postId, int $topicId): void
-    {
+    public function addATopicToAPost(int $postId, int $topicId) : void {
         $request = "INSERT INTO $this->dbName";
         $request .= " VALUES ($postId, $topicId);";
         $this->conn->query($request);
@@ -51,8 +44,7 @@ class DbBelongsTo
      * @param int $topicId
      * @return void
      */
-    public function removeATopic(int $postId, int $topicId): void
-    {
+    public function removeATopic(int $postId, int $topicId) : void {
         $query = "DELETE FROM $this->dbName WHERE POST_ID=$postId AND TOPIC_ID=$topicId";
         $this->conn->query($query);
     }

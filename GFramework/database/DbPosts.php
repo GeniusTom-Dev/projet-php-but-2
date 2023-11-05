@@ -1,5 +1,5 @@
 <?php
-
+namespace GFramework\database;
 use GFramework\utilities\GReturn;
 
 /**
@@ -46,7 +46,7 @@ class DbPosts
      * @param string|null $sort (optional)
      * @return GReturn
      */
-    public function select_SQLResult(?int $topicId = null, ?string $contentOrTitleLike = null, int|string|null $user = null, ?string $dateMin = null, ?string $dateMax = null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?int $topicId=null, ?string $contentOrTitleLike=null, int|string|null $user=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM " . $this->dbName;
         if ($topicId != null) {
@@ -70,8 +70,7 @@ class DbPosts
      * @param string|null $dateMax (optional)
      * @return string
      */
-    public function getWhereInstruction(?int $topicId, ?string $contentOrTitleLike, int|string|null $user, ?string $dateMin, ?string $dateMax): string
-    {
+    public function getWhereInstruction(?int $topicId, ?string $contentOrTitleLike, int|string|null $user, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($topicId)) {
             $conditions[] = "b.TOPIC_ID=$topicId";
@@ -92,7 +91,8 @@ class DbPosts
         }
         if (!empty($conditions)) {
             $query = " WHERE " . implode(" AND ", $conditions);
-        } else {
+        }
+        else{
             $query = "";
         }
         return $query;
@@ -126,8 +126,7 @@ class DbPosts
      * @param string|null $sort (optional)
      * @return string
      */
-    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string
-    {
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
             $request .= " " . $this->getSortInstruction($sort);
@@ -180,21 +179,18 @@ class DbPosts
      * @param int $topicID The ID of the topic the post will be linked to
      * @return void
      */
-    public function linkPostToTopic(int $postID, int $topicID): void
-    {
+    public function linkPostToTopic(int $postID, int $topicID): void{
         $query = "INSERT INTO belongs_to VALUES ($postID, $topicID)";
         $this->conn->query($query);
     }
 
-    public function getLinkedTopics(int $postID): array
-    {
+    public function getLinkedTopics(int $postID): array{
         $query = "SELECT TOPIC_ID FROM belongs_to WHERE POST_ID = $postID";
         $result = $this->conn->query($query);
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    public function getLastID(): int
-    {
+    public function getLastID(): int{
         $query = "SELECT MAX(POST_ID) AS MAXIMUM FROM " . $this->dbName;
         return $this->conn->query($query)->fetch_assoc()['MAXIMUM'];
     }
@@ -207,7 +203,7 @@ class DbPosts
      * @param string $content
      * @return bool True if the update was successful; false if the new content is empty.
      */
-    public function updateTitleAndContent(int $post_id, string $title, string $content): bool
+    public function updateTitleAndContent(int $post_id, string $title, string $content) : bool
     {
         $request = "UPDATE $this->dbName";
         if (empty($title)) {

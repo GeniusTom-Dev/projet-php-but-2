@@ -1,5 +1,5 @@
 <?php
-
+namespace GFramework\database;
 use GFramework\utilities\GReturn;
 
 /**
@@ -9,9 +9,7 @@ class DbFavorites
 {
     private string $dbName = "favorites";
     private mysqli $conn;
-
-    public function __construct($conn)
-    {
+    public function __construct($conn){
         $this->conn = $conn;
     }
 
@@ -22,8 +20,7 @@ class DbFavorites
      * @param int $post_id
      * @return bool True if the user has favorited the post, false otherwise.
      */
-    public function doesUserHaveFavoritedThisPost(int $user_id, int $post_id): bool
-    {
+    public function doesUserHaveFavoritedThisPost(int $user_id, int $post_id) : bool {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE USER_ID = $user_id AND POST_ID = $post_id;";
         $result = $this->conn->query($request);
@@ -37,8 +34,7 @@ class DbFavorites
      * @param int $post_id
      * @return bool True if the favorite association was successfully added, false if the user has already favorited the post.
      */
-    public function addFavorite(int $user_id, int $post_id): bool
-    {
+    public function addFavorite(int $user_id, int $post_id) : bool {
         if ($this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
             return false; // Modification was not made
         }
@@ -55,8 +51,7 @@ class DbFavorites
      * @param int $post_id
      * @return bool True if the favorite association was successfully removed, false if the association doesn't exist in the table.
      */
-    public function removeFavorite(int $user_id, int $post_id): bool
-    {
+    public function removeFavorite(int $user_id, int $post_id) : bool {
         if (!$this->doesUserHaveFavoritedThisPost($user_id, $post_id)) {
             return false; // This entry doesn't exist in the table
         }
@@ -65,8 +60,7 @@ class DbFavorites
         return true;
     }
 
-    public function getUserFavoritePostsID(int $userID, ?int $limit, ?int $page, ?string $sort)
-    {
+    public function getUserFavoritePostsID(int $userID, ?int $limit, ?int $page, ?string $sort){
         $request = "SELECT POST_ID FROM $this->dbName";
         $request .= " WHERE USER_ID = $userID ";
         $request .= $this->getSortAndLimit($limit, $page, $sort);
@@ -100,8 +94,7 @@ class DbFavorites
      * @param string|null $sort (optional)
      * @return string
      */
-    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string
-    {
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
             $request .= " " . $this->getSortInstruction($sort);
@@ -114,3 +107,23 @@ class DbFavorites
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

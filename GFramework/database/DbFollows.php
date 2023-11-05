@@ -1,15 +1,12 @@
 <?php
-
+namespace GFramework\database;
 /**
  * Singleton used to initialize the connection with the DbFollows table and perform queries
  */
-class DbFollows
-{
+class DbFollows {
     private string $dbName = "follows";
     private mysqli $conn;
-
-    public function __construct($conn)
-    {
+    public function __construct($conn){
         $this->conn = $conn;
     }
 
@@ -19,8 +16,7 @@ class DbFollows
      * @param int $idUser
      * @return int
      */
-    public function countFollowed(int $idUser): int
-    {
+    public function countFollowed(int $idUser) : int {
         $request = "SELECT COUNT(*) nbFollowed FROM $this->dbName WHERE ID_FOLLOWER= $idUser;";
         return intval(mysqli_fetch_assoc($this->conn->query($request))["nbFollowed"]);
     }
@@ -31,8 +27,7 @@ class DbFollows
      * @param int $idUser
      * @return int
      */
-    public function countFollower(int $idUser): int
-    {
+    public function countFollower(int $idUser) : int {
         $request = "SELECT COUNT(*) nbFollower FROM $this->dbName WHERE ID_FOLLOWED= $idUser;";
         return intval(mysqli_fetch_assoc($this->conn->query($request))["nbFollower"]);
     }
@@ -44,8 +39,7 @@ class DbFollows
      * @param int $otherUser The ID of the user who is being followed.
      * @return bool True if the connect user follows the other user, false otherwise.
      */
-    public function doesUserFollowAnotherUser(int $connectUser, int $otherUser): bool
-    {
+    public function doesUserFollowAnotherUser(int $connectUser, int $otherUser) : bool {
         $request = "SELECT * FROM $this->dbName";
         $request .= " WHERE ID_FOLLOWER = $connectUser AND ID_FOLLOWED = $otherUser;";
         $result = $this->conn->query($request);
@@ -59,8 +53,7 @@ class DbFollows
      * @param int $followed The ID of the user who is being followed.
      * @return bool True if the follow relationship was successfully added, false if the relationship already exists.
      */
-    public function addFollow(int $follower, int $followed): bool
-    {
+    public function addFollow(int $follower, int $followed) : bool {
         if ($this->doesUserFollowAnotherUser($follower, $followed)) {
             return false; // the modification was not made
         }
@@ -77,8 +70,7 @@ class DbFollows
      * @param int $otherUser The ID of the user who is currently being followed.
      * @return bool True if the follow relationship was successfully removed, false if the relationship doesn't exist in the table.
      */
-    public function removeFollow(int $connectedUser, int $otherUser): bool
-    {
+    public function removeFollow(int $connectedUser, int $otherUser) : bool {
         if (!$this->doesUserFollowAnotherUser($connectedUser, $otherUser)) {
             return false; // This entry doesn't exist in the table
         }

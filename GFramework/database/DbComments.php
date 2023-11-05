@@ -1,5 +1,5 @@
 <?php
-
+namespace GFramework\database;
 use GFramework\utilities\GReturn;
 
 /**
@@ -9,7 +9,6 @@ class DbComments
 {
     private string $dbName = "comments";
     private mysqli $conn;
-
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -25,7 +24,7 @@ class DbComments
      * @param string|null $dateMax (optional)
      * @return int
      */
-    public function getTotal(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax): int
+    public function getTotal(?int $post_id, ?int $user_id, ?string $contentLike, ?string $dateMin, ?string $dateMax) : int
     {
         $query = "SELECT COUNT(*) AS TOTAL FROM $this->dbName";
         // Filtering results
@@ -46,7 +45,7 @@ class DbComments
      * @param string|null $sort (optional)
      * @return GReturn
      */
-    public function select_SQLResult(?int $post_id = null, int|string|null $user = null, ?string $contentLike = null, ?string $dateMin = null, ?string $dateMax = null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
+    public function select_SQLResult(?int $post_id=null, int|string|null $user=null, ?string $contentLike=null, ?string $dateMin=null, ?string $dateMax=null, ?int $limit = null, ?int $page = null, ?string $sort = null): GReturn
     {
         $request = "SELECT * FROM $this->dbName";
         if (is_string($user)) {
@@ -71,8 +70,7 @@ class DbComments
      * @param string|null $dateMax (optional)
      * @return string
      */
-    public function getWhereInstruction(?int $post_id, int|string|null $user, ?string $contentLike, ?string $dateMin, ?string $dateMax): string
-    {
+    public function getWhereInstruction(?int $post_id, int|string|null $user, ?string $contentLike, ?string $dateMin, ?string $dateMax): string{
         $conditions = [];
         if (!is_null($post_id)) {
             $conditions[] = "POST_ID = $post_id";
@@ -93,7 +91,8 @@ class DbComments
         }
         if (!empty($conditions)) {
             $query = " WHERE " . implode(" AND ", $conditions);
-        } else {
+        }
+        else {
             $query = "";
         }
         return $query;
@@ -129,8 +128,7 @@ class DbComments
      * @param string|null $sort (optional)
      * @return string
      */
-    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string
-    {
+    public function getSortAndLimit(?int $limit, ?int $page, ?string $sort): string{
         $request = '';
         if ($sort != null) {
             $request .= " " . $this->getSortInstruction($sort);
