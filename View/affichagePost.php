@@ -14,8 +14,7 @@ $controller->checkAllShowActions();
 <head>
     <title>Page Post</title>
     <script src="https://cdn.tailwindcss.com"></script>
-<!--    <link rel="stylesheet" type="text/css" href="/html/styles/index.css">-->
-
+    <link rel="icon" href="/html/images/favicon.ico" type="image/x-icon">
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-200">
 

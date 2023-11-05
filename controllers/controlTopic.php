@@ -21,11 +21,11 @@ class controlTopic
         $topicData = $this->dbTopics->selectById($topicId)->getContent();
         ob_start(); ?>
         <section
-                class="topiceSimple flex flex-col items-center w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
+                class="topiceSimple flex flex-col items-left w-full md:w-1/2 lg:w-1/3 xl:w-1/2 h-auto md:h-1/3 lg:h-auto xl:h-auto bg-gray-100 rounded-lg shadow-md p-6 mb-4">
             <form action="" method="get">
                 <input type="hidden" name="topicData" value="<?= $topicData['TOPIC_ID'] ?>">
-                <p><?php echo $topicData['NAME'] ?></p>
-                <p><?php echo $topicData['DESCRIPTION'] ?></p>
+                <p style="font-size: large"><?php echo $topicData['NAME'] ?></p>
+                <p style="font-size: small"><?php echo $topicData['DESCRIPTION'] ?></p>
             </form>
         </section>
         <?php $topicHeader = ob_get_contents();
