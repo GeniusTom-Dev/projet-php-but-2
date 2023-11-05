@@ -28,4 +28,4 @@
     </form>
 </div>
 </nav>
-<script src="/projet-php-but-2/html/Script/navbarAdmin.js"></script>
+<script src="/html/script/navbarAdmin.js"></script>

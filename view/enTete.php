@@ -1,4 +1,4 @@
-<header class="flex justify-between items-center mb-2 bg-purple-800 p-2">
+<header class="w-screen flex justify-between items-center bg-purple-800 p-2">
     <div class="w-20 h-auto transition-transform duration-300 hover:scale-125 ml-1">
         <img src="/html/images/logoecho.png" alt="Logo du site web Echo">
     </div>    

@@ -6,7 +6,7 @@ function start_page($title): void
     <head>
         <title><?= $title ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="icon" href="/html/images/favicon.ico" type="image/x-icon">
         <meta charset="UTF-8">
         <meta name="description" content="Description de votre réseau social">
